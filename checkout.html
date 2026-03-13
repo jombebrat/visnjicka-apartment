@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Check-out · Višnjička Apartment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F4EF;
+    --white: #FFFFFF;
+    --dark: #1C1C1C;
+    --blue: #3B5C8A;
+    --blue-light: #6B8CB8;
+    --blue-pale: #E8EEF6;
+    --gold: #B8976A;
+    --muted: #8A8480;
+    --border: rgba(59,92,138,0.18);
+    --border-light: rgba(59,92,138,0.10);
+    --red: #c0392b;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'DM Sans',sans-serif; background:var(--white); color:var(--dark); overflow-x:hidden; }
+
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 56px;
+    background:rgba(255,255,255,0.97); backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border-light);
+    box-shadow:0 2px 24px rgba(0,0,0,0.06);
+  }
+  .nav-logo { font-family:'Cormorant Garamond',serif; font-size:1.05rem; letter-spacing:0.18em; color:var(--dark); text-transform:uppercase; text-decoration:none; }
+  .nav-back { font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase; border:1px solid var(--blue); color:var(--blue); padding:9px 22px; text-decoration:none; transition:all 0.3s; }
+  .nav-back:hover { background:var(--blue); color:var(--white); }
+  .nav-hamburger { display:none; background:none; border:none; cursor:pointer; flex-direction:column; gap:5px; padding:4px; }
+  .nav-hamburger span { display:block; width:22px; height:1.5px; background:var(--dark); }
+
+  /* HERO */
+  .hero {
+    padding:140px 56px 80px;
+    background:linear-gradient(135deg, #2a4570 0%, var(--blue) 100%);
+    position:relative; overflow:hidden;
+  }
+  .hero::before { content:''; position:absolute; top:-40%; right:-10%; width:600px; height:600px; border-radius:50%; border:1px solid rgba(255,255,255,0.06); }
+  .hero-inner { max-width:1100px; margin:0 auto; position:relative; z-index:1; }
+  .hero-tag { display:inline-flex; align-items:center; gap:10px; font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase; color:var(--gold); margin-bottom:20px; }
+  .hero-tag::before { content:''; display:block; width:28px; height:1px; background:var(--gold); }
+  .hero h1 { font-family:'Cormorant Garamond',serif; font-size:clamp(2.6rem,6vw,4.5rem); font-weight:300; color:var(--white); line-height:1.05; margin-bottom:20px; }
+  .hero h1 em { font-style:italic; color:rgba(255,255,255,0.55); }
+  .hero p { font-size:1rem; color:rgba(255,255,255,0.65); font-weight:300; max-width:520px; line-height:1.8; }
+
+  .checkout-time {
+    display:inline-flex; align-items:center; gap:16px;
+    background:rgba(255,255,255,0.12); border:1px solid rgba(255,255,255,0.2);
+    padding:16px 28px; margin-top:36px;
+  }
+  .checkout-time-label { font-size:0.68rem; letter-spacing:0.18em; text-transform:uppercase; color:rgba(255,255,255,0.5); }
+  .checkout-time-val { font-family:'Cormorant Garamond',serif; font-size:2.4rem; color:var(--white); line-height:1; }
+
+  /* STEPS */
+  section { padding:72px 56px; }
+  .section-inner { max-width:900px; margin:0 auto; }
+  .section-label { font-size:0.66rem; letter-spacing:0.25em; text-transform:uppercase; color:var(--blue); margin-bottom:12px; display:inline-flex; align-items:center; gap:12px; }
+  .section-label::after { content:''; display:block; width:32px; height:1px; background:var(--blue); opacity:0.4; }
+  .section-title { font-family:'Cormorant Garamond',serif; font-size:clamp(1.8rem,3.5vw,2.4rem); font-weight:300; line-height:1.12; margin-bottom:36px; }
+  .section-title em { font-style:italic; color:var(--blue); }
+
+  /* CHECKLIST */
+  .checklist { display:flex; flex-direction:column; gap:0; }
+  .checklist-item {
+    display:flex; align-items:flex-start; gap:20px;
+    padding:22px 0; border-bottom:1px solid var(--border-light);
+  }
+  .checklist-item:last-child { border-bottom:none; }
+  .checklist-num {
+    flex-shrink:0; width:36px; height:36px; min-width:36px; min-height:36px;
+    background:var(--blue); color:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1rem; font-weight:600; margin-top:2px;
+  }
+  .checklist-num.red { background:var(--red); }
+  .checklist-content { flex:1; min-width:0; }
+  .checklist-title { font-weight:600; font-size:0.95rem; color:var(--dark); margin-bottom:4px; }
+  .checklist-desc { font-size:0.88rem; color:#666; line-height:1.65; }
+  .checklist-desc strong { color:var(--dark); }
+
+  /* IMPORTANT BOXES */
+  .warn-box {
+    display:flex; gap:14px; align-items:flex-start;
+    padding:20px 24px; margin-bottom:16px;
+    border:1px solid rgba(192,57,43,0.3); background:rgba(192,57,43,0.05);
+    overflow:hidden; word-break:break-word;
+  }
+  .warn-icon { font-size:1.3rem; flex-shrink:0; }
+  .warn-box p { font-size:0.88rem; line-height:1.7; color:#555; }
+
+  .info-box {
+    display:flex; gap:14px; align-items:flex-start;
+    padding:20px 24px; margin-bottom:16px;
+    border:1px solid var(--border); background:var(--blue-pale);
+    overflow:hidden; word-break:break-word;
+  }
+  .info-box p { font-size:0.88rem; line-height:1.7; color:#555; }
+
+  /* LOCKBOX */
+  .lockbox-card {
+    border:2px solid var(--blue); padding:28px 32px;
+    display:flex; gap:24px; align-items:center; margin-top:8px;
+  }
+  .lockbox-icon { font-size:2.5rem; flex-shrink:0; }
+  .lockbox-title { font-family:'Cormorant Garamond',serif; font-size:1.2rem; margin-bottom:6px; }
+  .lockbox-desc { font-size:0.88rem; color:#666; line-height:1.6; }
+
+  /* REVIEW CTA */
+  .review-section { background:var(--cream); padding:72px 56px; }
+  .review-inner { max-width:680px; margin:0 auto; text-align:center; }
+  .review-inner h2 { font-family:'Cormorant Garamond',serif; font-size:2.2rem; font-weight:300; margin-bottom:14px; }
+  .review-inner h2 em { font-style:italic; color:var(--blue); }
+  .review-inner p { font-size:0.95rem; color:#666; line-height:1.8; margin-bottom:32px; font-weight:300; }
+  .review-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn-primary { background:var(--blue); color:var(--white); padding:14px 32px; text-decoration:none; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; font-weight:500; transition:all 0.3s; }
+  .btn-primary:hover { background:var(--blue-light); }
+  .btn-outline { border:1px solid var(--blue); color:var(--blue); padding:14px 32px; text-decoration:none; font-size:0.78rem; letter-spacing:0.12em; text-transform:uppercase; transition:all 0.3s; }
+  .btn-outline:hover { background:var(--blue); color:var(--white); }
+
+  footer { background:var(--dark); padding:36px 56px; display:flex; justify-content:space-between; align-items:center; border-top:3px solid var(--blue); }
+  .footer-logo { font-family:'Cormorant Garamond',serif; font-size:1rem; letter-spacing:0.18em; color:var(--white); text-transform:uppercase; }
+  .footer-copy { font-size:0.72rem; color:var(--muted); }
+  .footer-links { display:flex; gap:28px; }
+  .footer-links a { font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--muted); text-decoration:none; transition:color 0.3s; }
+  .footer-links a:hover { color:var(--blue-light); }
+
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  @media (max-width:900px) {
+    nav { padding:18px 24px; }
+    .nav-back { display:none; }
+    .nav-hamburger { display:flex; }
+    .hero { padding:110px 24px 56px; }
+    section { padding:52px 24px; }
+    .review-section { padding:52px 24px; }
+    .lockbox-card { flex-direction:column; gap:16px; padding:20px; }
+    .review-btns { flex-direction:column; align-items:center; }
+    footer { flex-direction:column; gap:16px; text-align:center; padding:28px 24px; }
+    .footer-links { justify-content:center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-logo">Višnjička · Belgrade</a>
+  <a href="index.html" class="nav-back">← Back to Apartment</a>
+  <button class="nav-hamburger" onclick="document.querySelector('.nav-back').style.display='block'" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-tag">Departure guide</div>
+    <h1>Check-out<br><em>Instructions</em></h1>
+    <p>Thank you for staying with us! Please take a few minutes to complete the check-out steps below before you leave.</p>
+    <div class="checkout-time">
+      <div>
+        <div class="checkout-time-label">Check-out time</div>
+        <div class="checkout-time-val">11:00</div>
+      </div>
+      <div style="width:1px;height:48px;background:rgba(255,255,255,0.2);"></div>
+      <div style="font-size:0.85rem;color:rgba(255,255,255,0.6);line-height:1.6;">Need a late check-out?<br>Contact the host in advance.</div>
+    </div>
+  </div>
+</div>
+
+<!-- CHECKLIST -->
+<section>
+  <div class="section-inner">
+    <span class="section-label">Before You Leave</span>
+    <h2 class="section-title reveal">Check-out <em>checklist</em></h2>
+
+    <div class="warn-box reveal">
+      <span class="warn-icon">🚭</span>
+      <p><strong style="color:var(--red);">No smoking reminder:</strong> If smoking occurred inside the apartment or building, additional cleaning fees will apply. Thank you for respecting the rules.</p>
+    </div>
+
+    <div class="warn-box reveal">
+      <span class="warn-icon">🗑️</span>
+      <p><strong>Garbage:</strong> Please take all waste outside and dispose of it in the <strong>outdoor containers</strong> next to the building. <span style="color:#c0392b;font-weight:700;font-size:1.05em;letter-spacing:0.02em;">DO NOT USE THE BINS INSIDE THE BUILDING.</span></p>
+    </div>
+
+    <div class="checklist reveal">
+      <div class="checklist-item">
+        <div class="checklist-num">1</div>
+        <div class="checklist-content">
+          <div class="checklist-title">Collect all your belongings</div>
+          <div class="checklist-desc">Check all rooms, wardrobes, bathroom, and the balcony. Don't forget chargers, toiletries, and items left to dry.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num">2</div>
+        <div class="checklist-content">
+          <div class="checklist-title">Dishes & kitchen</div>
+          <div class="checklist-desc">Please wash any used dishes, pots, and cutlery, or place them in the dishwasher. Leave the kitchen as you found it.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num">3</div>
+        <div class="checklist-content">
+          <div class="checklist-title">Take out all garbage</div>
+          <div class="checklist-desc">Collect all waste from the kitchen, bathroom, and bedrooms. Dispose of it in the <strong>outdoor containers</strong> outside the building — not in the building bins.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num">4</div>
+        <div class="checklist-content">
+          <div class="checklist-title">Turn off all lights & appliances</div>
+          <div class="checklist-desc">Switch off all lights, the TV, and AC. Make sure the stove and oven are off.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num">5</div>
+        <div class="checklist-content">
+          <div class="checklist-title">Close all windows & doors</div>
+          <div class="checklist-desc">Close and lock all windows. Lock the apartment door behind you.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num red">6</div>
+        <div class="checklist-content">
+          <div class="checklist-title" style="color:var(--red);">Return the key to the lockbox</div>
+          <div class="checklist-desc">Place the apartment key back into the <strong>lockbox on mailbox nr. 1</strong> and return the <strong>entry tag</strong> to the lockbox at the building entrance. Leave both lockboxes <strong>exactly as you found them</strong> — reset the code to <strong>0000</strong> and make sure they are properly closed.</div>
+        </div>
+      </div>
+      <div class="checklist-item">
+        <div class="checklist-num">7</div>
+        <div class="checklist-content">
+          <div class="checklist-title">That's it — safe travels! 👋</div>
+          <div class="checklist-desc">We hope you had a wonderful stay in Belgrade. We'd love to host you again!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- REVIEW -->
+<div class="review-section">
+  <div class="review-inner reveal">
+    <div style="font-size:2.4rem;margin-bottom:12px;">⭐</div>
+    <h2>Would you recommend us?</h2>
+    <p style="font-size:1.05rem;color:#444;margin-bottom:8px;">We hope you had a wonderful stay in Belgrade.</p>
+    <p style="font-size:1rem;color:#666;margin-bottom:36px;">If you enjoyed your time here, <strong>a short review means the world to us</strong> — it helps other travellers discover this apartment and takes less than 2 minutes.</p>
+
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:420px;margin:0 auto;">
+
+      <div style="background:#fff;border:1px solid #e0d9cf;border-radius:14px;padding:22px 24px;text-align:left;">
+        <div style="font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:#999;margin-bottom:6px;">Booked on Airbnb?</div>
+        <div style="font-size:1rem;color:#222;margin-bottom:14px;line-height:1.5;">Open the <strong>Airbnb app</strong> → Trips → Your stay → <strong>Leave a review</strong></div>
+        <a href="https://www.airbnb.fr/rooms/1637659167841422262" target="_blank" class="btn-primary" style="display:block;text-align:center;">Go to Airbnb listing →</a>
+      </div>
+
+      <div style="background:#fff;border:1px solid #e0d9cf;border-radius:14px;padding:22px 24px;text-align:left;">
+        <div style="font-size:0.72rem;letter-spacing:0.15em;text-transform:uppercase;color:#999;margin-bottom:6px;">Booked on Booking.com?</div>
+        <div style="font-size:1rem;color:#222;margin-bottom:14px;line-height:1.5;">Check your <strong>email from Booking.com</strong> — they'll send you a review link after check-out.</div>
+        <a href="https://www.booking.com/Share-ilXqEk" target="_blank" class="btn-outline" style="display:block;text-align:center;">Go to Booking.com listing →</a>
+      </div>
+
+    </div>
+
+    <p style="margin-top:28px;font-size:0.9rem;color:#aaa;">Thank you for staying with us — we hope to see you again! 🙏</p>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Višnjička · Belgrade</div>
+  <div class="footer-copy">© 2025 Višnjička Apartment. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="index.html">Apartment</a>
+    <a href="belgrade-guide.html">Belgrade Guide</a>
+  </div>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
