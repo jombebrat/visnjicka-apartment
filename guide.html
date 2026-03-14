@@ -1,0 +1,894 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belgrade Guest Guide · Višnjička Apartment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F4EF;
+    --white: #FFFFFF;
+    --dark: #1C1C1C;
+    --blue: #3B5C8A;
+    --blue-light: #6B8CB8;
+    --blue-pale: #E8EEF6;
+    --gold: #B8976A;
+    --muted: #8A8480;
+    --border: rgba(59,92,138,0.18);
+    --border-light: rgba(59,92,138,0.10);
+  }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { font-family:'DM Sans',sans-serif; background:var(--white); color:var(--dark); overflow-x:hidden; }
+
+  /* NAV */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:20px 56px;
+    background:rgba(255,255,255,0.97); backdrop-filter:blur(16px);
+    border-bottom:1px solid var(--border-light);
+    box-shadow:0 2px 24px rgba(0,0,0,0.06);
+  }
+  .nav-logo {
+    font-family:'Cormorant Garamond',serif; font-size:1.05rem;
+    letter-spacing:0.18em; color:var(--dark); text-transform:uppercase;
+    text-decoration:none;
+  }
+  .nav-links { display:flex; gap:36px; list-style:none; align-items:center; }
+  .nav-links a {
+    font-size:0.75rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted); text-decoration:none; transition:color 0.3s;
+  }
+  .nav-links a:hover { color:var(--blue); }
+  .nav-back {
+    font-size:0.72rem; letter-spacing:0.1em; text-transform:uppercase;
+    border:1px solid var(--blue); color:var(--blue);
+    padding:9px 22px; text-decoration:none; transition:all 0.3s;
+  }
+  .nav-back:hover { background:var(--blue); color:var(--white); }
+  .nav-hamburger {
+    display:none; background:none; border:none; cursor:pointer;
+    flex-direction:column; gap:5px; padding:4px;
+  }
+  .nav-hamburger span { display:block; width:22px; height:1.5px; background:var(--dark); }
+
+  /* MOBILE MENU */
+  .mobile-menu {
+    display:none; position:fixed; inset:0; z-index:99;
+    background:var(--white); padding:90px 40px 40px;
+    flex-direction:column; gap:28px;
+  }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a {
+    font-family:'Cormorant Garamond',serif; font-size:2rem; font-weight:300;
+    color:var(--dark); text-decoration:none;
+    border-bottom:1px solid var(--border-light); padding-bottom:16px;
+  }
+
+  /* HERO */
+  .guide-hero {
+    padding: 140px 56px 80px;
+    background: linear-gradient(135deg, var(--blue) 0%, #2a4570 100%);
+    position:relative; overflow:hidden;
+  }
+  .guide-hero::before {
+    content:''; position:absolute; top:-40%; right:-10%;
+    width:600px; height:600px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.08);
+  }
+  .guide-hero::after {
+    content:''; position:absolute; top:-20%; right:5%;
+    width:400px; height:400px; border-radius:50%;
+    border:1px solid rgba(255,255,255,0.05);
+  }
+  .guide-hero-inner { max-width:1100px; margin:0 auto; position:relative; z-index:1; }
+  .guide-hero-tag {
+    display:inline-flex; align-items:center; gap:10px;
+    font-size:0.68rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--gold); margin-bottom:20px;
+  }
+  .guide-hero-tag::before { content:''; display:block; width:28px; height:1px; background:var(--gold); }
+  .guide-hero h1 {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(2.8rem,6vw,5rem); font-weight:300;
+    color:var(--white); line-height:1.05; margin-bottom:20px;
+  }
+  .guide-hero h1 em { font-style:italic; color:rgba(255,255,255,0.6); }
+  .guide-hero p {
+    font-size:1rem; color:rgba(255,255,255,0.65);
+    font-weight:300; max-width:560px; line-height:1.8;
+  }
+  .quick-facts {
+    display:flex; gap:32px; margin-top:48px; flex-wrap:wrap;
+  }
+  .quick-fact {
+    background:rgba(255,255,255,0.1); backdrop-filter:blur(8px);
+    padding:16px 24px; border:1px solid rgba(255,255,255,0.15);
+  }
+  .quick-fact-val {
+    font-family:'Cormorant Garamond',serif; font-size:1.4rem;
+    color:var(--white); display:block; line-height:1;
+  }
+  .quick-fact-label {
+    font-size:0.65rem; letter-spacing:0.15em; text-transform:uppercase;
+    color:rgba(255,255,255,0.5); margin-top:4px; display:block;
+  }
+
+  /* SECTIONS */
+  section { padding:80px 56px; }
+  .section-inner { max-width:1100px; margin:0 auto; }
+  .section-label {
+    font-size:0.66rem; letter-spacing:0.25em; text-transform:uppercase;
+    color:var(--blue); margin-bottom:12px;
+    display:inline-flex; align-items:center; gap:12px;
+  }
+  .section-label::after { content:''; display:block; width:32px; height:1px; background:var(--blue); opacity:0.4; }
+  .section-title {
+    font-family:'Cormorant Garamond',serif;
+    font-size:clamp(1.8rem,3.5vw,2.6rem); font-weight:300;
+    line-height:1.12; margin-bottom:40px; color:var(--dark);
+  }
+  .section-title em { font-style:italic; color:var(--blue); }
+
+  /* CARDS GRID */
+  .cards-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  .card {
+    border:1px solid var(--border); padding:32px 28px;
+    transition:all 0.3s; position:relative; overflow:hidden;
+  }
+  .card::before {
+    content:''; position:absolute; top:0; left:0;
+    width:3px; height:0; background:var(--blue);
+    transition:height 0.3s;
+  }
+  .card:hover { border-color:var(--blue); box-shadow:0 8px 32px rgba(59,92,138,0.10); }
+  .card:hover::before { height:100%; }
+  .card-icon { font-size:2rem; margin-bottom:16px; display:block; }
+  .card-title {
+    font-family:'Cormorant Garamond',serif; font-size:1.3rem;
+    font-weight:400; margin-bottom:12px; color:var(--dark);
+  }
+  .card-text { font-size:0.88rem; line-height:1.75; color:#666; font-weight:300; }
+  .card-text strong { color:var(--dark); font-weight:500; }
+
+  /* TWO COL */
+  .two-col { display:grid; grid-template-columns:1fr 1fr; gap:40px; }
+
+  /* LIST ITEMS */
+  .tip-list { list-style:none; margin-top:8px; }
+  .tip-list li {
+    padding:12px 0; border-bottom:1px solid var(--border-light);
+    font-size:0.9rem; line-height:1.6; color:#555;
+    display:flex; gap:12px; align-items:flex-start;
+    overflow-wrap:break-word; word-break:break-word; min-width:0;
+  }
+  .tip-list li div { min-width:0; flex:1; }
+  .tip-list li ol { padding-left:16px; }
+  .tip-list li:last-child { border-bottom:none; }
+  .tip-list li .tip-icon { flex-shrink:0; font-size:1rem; margin-top:1px; }
+  .tip-list li strong { color:var(--dark); }
+
+  /* TRANSPORT TABLE */
+  .transport-row {
+    display:grid; grid-template-columns:1fr 1fr 1fr;
+    padding:14px 0; border-bottom:1px solid var(--border-light);
+    font-size:0.88rem;
+  }
+  .transport-row.header {
+    font-size:0.68rem; letter-spacing:0.12em; text-transform:uppercase;
+    color:var(--muted); border-bottom:2px solid var(--border);
+    padding-bottom:10px;
+  }
+  .transport-row span:last-child { color:var(--blue); font-family:'Cormorant Garamond',serif; font-size:1rem; }
+
+  /* WARNING BOX */
+  .warn-box {
+    background:rgba(184,151,106,0.08); border:1px solid rgba(184,151,106,0.3);
+    padding:20px 24px; margin-top:24px;
+    display:flex; gap:14px; align-items:flex-start;
+    overflow:hidden; word-break:break-word;
+  }
+  .warn-box .warn-icon { font-size:1.3rem; flex-shrink:0; }
+  .warn-box p { font-size:0.88rem; line-height:1.7; color:#555; }
+  .warn-box strong { color:var(--dark); }
+
+  /* INFO STRIP */
+  .info-strip {
+    background:var(--blue); padding:48px 56px;
+    display:flex; justify-content:center;
+  }
+  .info-strip-inner {
+    display:flex; gap:0; max-width:1100px; width:100%;
+  }
+  .info-item {
+    flex:1; padding:0 32px; text-align:center;
+    border-right:1px solid rgba(255,255,255,0.15);
+  }
+  .info-item:first-child { padding-left:0; }
+  .info-item:last-child { border-right:none; padding-right:0; }
+  .info-item-icon { font-size:1.6rem; margin-bottom:10px; display:block; }
+  .info-item-title {
+    font-size:0.68rem; letter-spacing:0.15em; text-transform:uppercase;
+    color:rgba(255,255,255,0.5); margin-bottom:6px; display:block;
+  }
+  .info-item-val {
+    font-family:'Cormorant Garamond',serif; font-size:1.15rem;
+    color:var(--white); line-height:1.4;
+  }
+
+  /* CTA */
+  .cta-section {
+    background:var(--cream); padding:80px 56px; text-align:center;
+  }
+  .cta-inner { max-width:560px; margin:0 auto; }
+  .cta-inner h2 {
+    font-family:'Cormorant Garamond',serif; font-size:2.4rem;
+    font-weight:300; margin-bottom:16px;
+  }
+  .cta-inner h2 em { font-style:italic; color:var(--blue); }
+  .cta-inner p { font-size:0.95rem; color:#666; margin-bottom:32px; line-height:1.8; font-weight:300; }
+  .cta-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+  .btn-primary {
+    background:var(--blue); color:var(--white); padding:14px 32px;
+    text-decoration:none; font-size:0.78rem; letter-spacing:0.12em;
+    text-transform:uppercase; font-weight:500; transition:all 0.3s;
+  }
+  .btn-primary:hover { background:var(--blue-light); }
+  .btn-outline {
+    border:1px solid var(--blue); color:var(--blue); padding:14px 32px;
+    text-decoration:none; font-size:0.78rem; letter-spacing:0.12em;
+    text-transform:uppercase; transition:all 0.3s;
+  }
+  .btn-outline:hover { background:var(--blue); color:var(--white); }
+
+  /* FOOTER */
+  footer {
+    background:var(--dark); padding:36px 56px;
+    display:flex; justify-content:space-between; align-items:center;
+    border-top:3px solid var(--blue);
+  }
+  .footer-logo {
+    font-family:'Cormorant Garamond',serif; font-size:1rem;
+    letter-spacing:0.18em; color:var(--white); text-transform:uppercase;
+  }
+  .footer-copy { font-size:0.72rem; color:var(--muted); }
+  .footer-links { display:flex; gap:28px; }
+  .footer-links a {
+    font-size:0.7rem; letter-spacing:0.1em; text-transform:uppercase;
+    color:var(--muted); text-decoration:none; transition:color 0.3s;
+  }
+  .footer-links a:hover { color:var(--blue-light); }
+
+  /* REVEAL */
+  .reveal { opacity:0; transform:translateY(20px); transition:opacity 0.65s ease, transform 0.65s ease; }
+  .reveal.visible { opacity:1; transform:none; }
+
+  /* RESPONSIVE */
+  @media (max-width:900px) {
+    nav { padding:18px 24px; }
+    .nav-links, .nav-back { display:none; }
+    .nav-hamburger { display:flex; }
+    .guide-hero { padding:120px 24px 60px; }
+    section { padding:56px 24px; }
+    .cards-grid { grid-template-columns:1fr; gap:16px; }
+    .two-col { grid-template-columns:1fr; }
+    .info-strip { padding:40px 24px; }
+    .info-strip-inner { flex-wrap:wrap; gap:32px; }
+    .info-item { min-width:40%; border-right:none; padding:0; }
+    .quick-facts { gap:16px; }
+    .cta-section { padding:60px 24px; }
+    .cta-btns { flex-direction:column; align-items:center; }
+    footer { flex-direction:column; gap:16px; text-align:center; padding:28px 24px; }
+    .footer-links { justify-content:center; }
+    .transport-row { 
+      display:flex; flex-direction:column; gap:2px;
+      padding:12px 0; border-bottom:1px solid var(--border-light);
+    }
+    .transport-row.header { display:none; }
+    .transport-row span:first-child { font-weight:500; color:var(--dark); font-size:0.88rem; }
+    .transport-row span:nth-child(2) { font-size:0.78rem; color:var(--muted); }
+    .transport-row span:last-child { font-size:0.88rem; color:var(--blue); font-family:'Cormorant Garamond',serif; }
+  }
+
+  /* CHECKIN STEPS */
+  .checkin-steps { display:flex; flex-direction:column; gap:12px; margin-top:4px; }
+  .checkin-step {
+    display:flex; gap:14px; align-items:flex-start;
+    background:var(--white); border:1px solid var(--border);
+    padding:16px; position:relative;
+  }
+  .checkin-num {
+    flex-shrink:0; width:36px; height:36px; min-width:36px; min-height:36px;
+    border-radius:0;
+    background:var(--blue); color:var(--white);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.1rem; font-weight:600; letter-spacing:0;
+    margin-top:2px; line-height:1;
+  }
+  .checkin-body { flex:1; min-width:0; }
+  .checkin-title { font-weight:600; font-size:0.9rem; color:var(--dark); margin-bottom:4px; }
+  .checkin-desc { font-size:0.85rem; color:#666; line-height:1.5; }
+  .checkin-code {
+    display:inline-block; margin-top:8px; margin-bottom:4px;
+    background:var(--blue-pale); border:1px solid var(--border);
+    padding:4px 12px; font-size:0.85rem; color:var(--dark);
+    letter-spacing:0.05em;
+  }
+  .checkin-code strong { color:#c0392b; font-size:1rem; letter-spacing:0.12em; }
+  .checkin-action { font-size:0.85rem; color:var(--blue); font-weight:500; }
+  .checkin-warn { border-color:rgba(192,57,43,0.3); background:rgba(192,57,43,0.04); }
+
+
+  /* ── LANGUAGE OVERLAY ── */
+  #lang-overlay {
+    position:fixed; inset:0; z-index:9999;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(10,10,10,0.92);
+    backdrop-filter:blur(14px); -webkit-backdrop-filter:blur(14px);
+  }
+  .lang-box {
+    background:#F7F4EF; border-radius:20px;
+    padding:44px 36px 40px; max-width:500px; width:92%;
+    text-align:center;
+    box-shadow:0 32px 80px rgba(0,0,0,0.55);
+    animation:slideUp 0.45s cubic-bezier(0.22,1,0.36,1);
+  }
+  @keyframes slideUp {
+    from{opacity:0;transform:translateY(28px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .lang-logo { font-family:'Cormorant Garamond',serif; font-size:0.95rem; letter-spacing:0.22em; text-transform:uppercase; color:#B8976A; margin-bottom:8px; }
+  .lang-title { font-family:'Cormorant Garamond',serif; font-size:1.9rem; font-weight:300; color:#1C1C1C; line-height:1.2; margin-bottom:6px; }
+  .lang-title em { font-style:italic; }
+  .lang-divider { width:40px; height:1px; background:#B8976A; margin:14px auto 18px; }
+  .lang-subtitle { font-size:0.78rem; color:#999; line-height:2.0; margin-bottom:26px; }
+  .lang-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .lang-btn {
+    display:flex; align-items:center; gap:10px; padding:13px 16px;
+    border:1.5px solid #E0D9CF; border-radius:12px;
+    background:#fff; cursor:pointer; transition:all 0.18s ease; text-align:left;
+    font-family:'DM Sans',sans-serif;
+  }
+  .lang-btn:hover { border-color:#3B5C8A; background:#f0f4f9; transform:translateY(-2px); box-shadow:0 6px 20px rgba(59,92,138,0.13); }
+  .lang-btn.full { grid-column:1 / -1; }
+  .lang-flag { font-size:1.5rem; line-height:1; flex-shrink:0; }
+  .lang-name { display:flex; flex-direction:column; gap:1px; }
+  .lang-name strong { font-size:0.88rem; font-weight:500; color:#1C1C1C; }
+  .lang-name span { font-size:0.68rem; color:#aaa; font-weight:300; }
+  .lang-other { display:flex; align-items:center; justify-content:center; gap:10px; padding-top:12px; border-top:1px solid #E8E4DE; }
+  .lang-other label { font-size:0.72rem; color:#999; letter-spacing:0.08em; text-transform:uppercase; white-space:nowrap; }
+  .lang-other select { flex:1; padding:9px 12px; border:1.5px solid #E0D9CF; border-radius:8px; background:#fff; font-family:'DM Sans',sans-serif; font-size:0.82rem; color:#1C1C1C; cursor:pointer; outline:none; }
+  .lang-other select:hover, .lang-other select:focus { border-color:#3B5C8A; }
+  .lang-other button { padding:9px 16px; background:#3B5C8A; color:#fff; border:none; border-radius:8px; cursor:pointer; font-family:'DM Sans',sans-serif; font-size:0.82rem; font-weight:500; transition:background 0.2s; white-space:nowrap; }
+  .lang-other button:hover { background:#2a4570; }
+  /* ── FIXED BOTTOM BAR ── */
+  #lang-bar {
+    position:fixed; bottom:0; left:0; right:0; z-index:200;
+    background:rgba(28,28,28,0.97); backdrop-filter:blur(10px);
+    padding:10px 24px;
+    display:flex; align-items:center; justify-content:center; gap:12px;
+    flex-wrap:wrap; border-top:1px solid rgba(184,151,106,0.3);
+  }
+  #lang-bar-label { font-size:0.68rem; color:#888; letter-spacing:0.12em; text-transform:uppercase; white-space:nowrap; }
+  .bar-btn { background:none; border:1px solid #444; color:#ccc; cursor:pointer; padding:5px 12px; font-size:0.75rem; border-radius:4px; font-family:'DM Sans',sans-serif; transition:all 0.2s; display:inline-flex; align-items:center; gap:5px; }
+  .bar-btn:hover { border-color:#B8976A; color:#B8976A; }
+  .bar-select { padding:5px 10px; background:#2a2a2a; border:1px solid #444; color:#ccc; border-radius:4px; font-family:'DM Sans',sans-serif; font-size:0.75rem; cursor:pointer; outline:none; }
+  .bar-select:hover, .bar-select:focus { border-color:#B8976A; }
+  body { padding-bottom:52px; }
+  .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame { display:none !important; }
+  body { top:0 !important; }
+  .skiptranslate { display:none !important; }
+  #google_translate_element { display:none; }
+  @media (max-width:480px) {
+    .lang-box { padding:28px 16px 24px; }
+    .lang-grid { grid-template-columns:1fr; }
+    .lang-btn.full { grid-column:1; }
+    #lang-bar { gap:8px; padding:8px 12px; }
+    #lang-bar-label { display:none; }
+  }
+
+</style>
+</head>
+<body>
+
+<div id="lang-overlay">
+  <div class="lang-box">
+    <div class="lang-logo">Visnjicka · Belgrade</div>
+    <h2 class="lang-title">Belgrade <em>Guest Guide</em></h2>
+    <div class="lang-divider"></div>
+    <div class="lang-subtitle">
+      Please select your language<br>
+      Bitte wahlen Sie Ihre Sprache<br>
+      Pozhaluysta, vyberte yazyk<br>
+      Lutfen dilinizi secin<br>
+      Molimo izaberite jezik
+    </div>
+    <div class="lang-grid">
+      <button class="lang-btn full" onclick="chooseLang('en')">
+        <span class="lang-flag">🇬🇧</span>
+        <div class="lang-name"><strong>English</strong><span>Continue in English</span></div>
+      </button>
+      <button class="lang-btn" onclick="chooseLang('de')">
+        <span class="lang-flag">🇩🇪</span>
+        <div class="lang-name"><strong>Deutsch</strong><span>German</span></div>
+      </button>
+      <button class="lang-btn" onclick="chooseLang('ru')">
+        <span class="lang-flag">🇷🇺</span>
+        <div class="lang-name"><strong>Russki</strong><span>Russian</span></div>
+      </button>
+      <button class="lang-btn" onclick="chooseLang('tr')">
+        <span class="lang-flag">🇹🇷</span>
+        <div class="lang-name"><strong>Turkce</strong><span>Turkish</span></div>
+      </button>
+      <button class="lang-btn" onclick="chooseLang('sr')">
+        <span class="lang-flag">🇷🇸</span>
+        <div class="lang-name"><strong>Srpski</strong><span>Serbian</span></div>
+      </button>
+    </div>
+    <div class="lang-other">
+      <label>Other:</label>
+      <select id="overlay-select">
+        <option value="">-- select --</option>
+        
+        <option value="sq">Albanian</option>
+        <option value="ar">Arabic</option>
+        <option value="zh-CN">Chinese</option>
+        <option value="nl">Dutch</option>
+        <option value="fi">Finnish</option>
+        <option value="fr">French</option>
+        <option value="el">Greek</option>
+        <option value="he">Hebrew</option>
+        <option value="hu">Hungarian</option>
+        <option value="it">Italian</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+        <option value="mk">Macedonian</option>
+        <option value="no">Norwegian</option>
+        <option value="fa">Persian</option>
+        <option value="pl">Polish</option>
+        <option value="pt">Portuguese</option>
+        <option value="ro">Romanian</option>
+        <option value="es">Spanish</option>
+        <option value="sv">Swedish</option>
+        <option value="uk">Ukrainian</option>
+      </select>
+      <button onclick="chooseFromSelect()">Go</button>
+    </div>
+  </div>
+</div>
+<div id="google_translate_element"></div>
+
+
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="arrival.html" onclick="closeMobile()">← Arrival Guide</a>
+  <a href="#house-rules" onclick="closeMobile()">House Rules</a>
+  <a href="#transport" onclick="closeMobile()">Transport</a>
+  <a href="#nearby" onclick="closeMobile()">Big Fashion</a>
+  <a href="#food" onclick="closeMobile()">Food & Drink</a>
+  <a href="#explore" onclick="closeMobile()">Explore</a>
+  <a href="#practical" onclick="closeMobile()">Practical Tips</a>
+</div>
+
+<nav>
+  <a href="index.html" class="nav-logo">Višnjička · Belgrade</a>
+  <ul class="nav-links">
+    <li><a href="#house-rules">House Rules</a></li>
+    <li><a href="#transport">Transport</a></li>
+    <li><a href="#nearby">Big Fashion</a></li>
+    <li><a href="#food">Food & Drink</a></li>
+    <li><a href="#explore">Explore</a></li>
+    <li><a href="#practical">Practical Tips</a></li>
+  </ul>
+  <a href="arrival.html" class="nav-back">← Arrival Guide</a>
+  <button class="nav-hamburger" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- HERO -->
+<div class="guide-hero">
+  <div class="guide-hero-inner">
+    <div class="guide-hero-tag">Your host's insider guide</div>
+    <h1>Welcome to<br><em>Belgrade</em></h1>
+    <p>Everything you need for a great stay — where to eat, what to see, how to get around, and all the practical tips.</p>
+    <div class="quick-facts">
+      <div class="quick-fact">
+        <span class="quick-fact-val">RSD</span>
+        <span class="quick-fact-label">Local currency</span>
+      </div>
+      <div class="quick-fact">
+        <span class="quick-fact-val">1€ ≈ 117 RSD</span>
+        <span class="quick-fact-label">Exchange rate (approx)</span>
+      </div>
+      <div class="quick-fact">
+        <span class="quick-fact-val">220V / EU</span>
+        <span class="quick-fact-label">Power sockets</span>
+      </div>
+      <div class="quick-fact">
+        <span class="quick-fact-val">CET / UTC+1</span>
+        <span class="quick-fact-label">Time zone</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRACTICAL STRIP -->
+<div class="info-strip">
+  <div class="info-strip-inner">
+    <div class="info-item">
+      <span class="info-item-icon">💰</span>
+      <span class="info-item-title">Currency</span>
+      <span class="info-item-val">Serbian Dinar (RSD)<br>Cards widely accepted</span>
+    </div>
+    <div class="info-item">
+      <span class="info-item-icon">🚌</span>
+      <span class="info-item-title">Public Transport</span>
+      <span class="info-item-val">All buses free<br>since Jan 2025</span>
+    </div>
+    <div class="info-item">
+      <span class="info-item-icon">🗣️</span>
+      <span class="info-item-title">Language</span>
+      <span class="info-item-val">Serbian<br>English widely spoken</span>
+    </div>
+    <div class="info-item">
+      <span class="info-item-icon">📱</span>
+      <span class="info-item-title">SIM Card</span>
+      <span class="info-item-val">Telenor / A1<br>Available at airport</span>
+    </div>
+    <div class="info-item">
+      <span class="info-item-icon">🚨</span>
+      <span class="info-item-title">Emergency</span>
+      <span class="info-item-val">Police: 192<br>Ambulance: 194</span>
+    </div>
+  </div>
+</div>
+
+<!-- HOUSE RULES -->
+<section id="house-rules">
+  <div class="section-inner">
+    <span class="section-label">Please Read</span>
+    <h2 class="section-title reveal">House <em>Rules</em></h2>
+    <div class="cards-grid reveal">
+      <div class="card">
+        <span class="card-icon">🕒</span>
+        <div class="card-title">Check-in & Check-out</div>
+        <p class="card-text">
+          <strong>Check-in:</strong> from <strong>15:00</strong> (3 PM)<br><br>
+          <strong>Check-out:</strong> by <strong>11:00</strong> (11 AM)<br><br>
+          Early check-in or late check-out may be possible — please contact the host in advance.
+        </p>
+      </div>
+      <div class="card" style="border-color:rgba(192,57,43,0.3);">
+        <span class="card-icon">🚭</span>
+        <div class="card-title" style="color:#c0392b;">No Smoking</div>
+        <p class="card-text">
+          <strong style="color:#c0392b;font-size:1rem;">Smoking is strictly forbidden</strong> anywhere inside the apartment or building.<br><br>
+          This includes cigarettes, e-cigarettes, and any other smoking products. Violation will result in additional cleaning fees.
+        </p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🗑️</span>
+        <div class="card-title">Waste & Garbage</div>
+        <p class="card-text">
+          <strong>Do not use the bins inside the building</strong> for your garbage.<br><br>
+          All waste must be disposed of in the <strong>outdoor containers</strong> located just outside the building entrance. Thank you for respecting your neighbours.
+        </p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔇</span>
+        <div class="card-title">Noise & Neighbours</div>
+        <p class="card-text">
+          Please be mindful of neighbours, especially between <strong>22:00 and 08:00</strong>. Keep music and TV at a reasonable volume. This is a residential building — treat it as your own home.
+        </p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🐾</span>
+        <div class="card-title">Pets</div>
+        <p class="card-text">
+          Pets are not allowed without prior approval from the host. Please contact us before booking if you are travelling with a pet.
+        </p>
+      </div>
+      <div class="card">
+        <span class="card-icon">👥</span>
+        <div class="card-title">Guests & Parties</div>
+        <p class="card-text">
+          The apartment is for registered guests only. Unregistered visitors are not permitted to stay overnight. Parties and events are not allowed.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LOCAL TRANSPORT -->
+<section id="transport" style="background:var(--blue-pale)">
+  <div class="section-inner">
+    <span class="section-label">Getting Around</span>
+    <h2 class="section-title reveal">Local <em>transport</em></h2>
+    <div class="cards-grid reveal">
+      <div class="card">
+        <span class="card-icon">🚌</span>
+        <div class="card-title">Public Transport — Free!</div>
+        <p class="card-text">Since January 2025, all buses, trams, trolleybuses and BG:Voz trains in Belgrade are <strong>completely free of charge</strong> for everyone. Just hop on. Bus stop "Vuka Vrčevića" is 2 min walk — line <strong>16</strong> goes directly to city center in ~15 min.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📱</span>
+        <div class="card-title">Taxi Apps</div>
+        <p class="card-text"><strong>CarGo</strong> is the main local taxi app — reliable, price shown upfront. Most rides within the city cost <strong>300–600 RSD</strong>. Always preferred over flagging a taxi on the street.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🚲</span>
+        <div class="card-title">Bike & Scooter</div>
+        <p class="card-text"><strong>NextBike</strong> bike sharing has stations around the city. Electric scooters (Bolt, Lime) are also widely available. Great for exploring Kalemegdan fortress and the riverfront.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BIG FASHION -->
+<section id="nearby" style="background:var(--cream)">
+  <div class="section-inner">
+    <span class="section-label">Right Next Door</span>
+    <h2 class="section-title reveal">Big Fashion <em>Shopping Mall</em></h2>
+    <p class="reveal" style="font-size:0.95rem;color:#666;max-width:680px;margin-bottom:40px;line-height:1.8;font-weight:300;">
+      One of Belgrade's biggest and most popular shopping malls is practically on your doorstep — <strong>Big Fashion is a 10-minute walk</strong> along Višnjička street, or one bus stop on lines 16, 23, or 25.
+    </p>
+    <div class="cards-grid reveal">
+      <div class="card">
+        <span class="card-icon">🛍️</span>
+        <div class="card-title">Shopping</div>
+        <p class="card-text">Over 100 stores including <strong>Zara, H&M, Reserved, Pull&Bear, Bershka, Mango, New Yorker, Sport Vision</strong> and many more. Open daily <strong>10:00–22:00</strong>. Great for a rainy day.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🍽️</span>
+        <div class="card-title">Food & Cafés</div>
+        <p class="card-text">Large food court on the top floor with fast food and sit-down options. <strong>Kafeterija</strong> specialty coffee inside the mall is excellent. Also <strong>IDEA supermarket</strong> on the lower level — open 9:00–22:00.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎬</span>
+        <div class="card-title">Entertainment</div>
+        <p class="card-text"><strong>Cinema, bookstores, game stores</strong> and a kids play area. <strong>Lidl supermarket</strong> is just next door (Višnjička 94), and <strong>Maxi supermarket</strong> is a 5 min walk behind the mall.</p>
+      </div>
+    </div>
+    <div class="reveal" style="margin-top:32px;background:var(--blue-pale);border:1px solid var(--border);padding:20px 24px;display:flex;gap:14px;align-items:flex-start;">
+      <span style="font-size:1.4rem;">🍷</span>
+      <p style="font-size:0.9rem;color:#555;line-height:1.7;">
+        <strong>Ada Huja riverfront (5 min walk):</strong> Right behind Big Fashion, along the Danube, you'll find <strong>Caffe Restaurant X</strong> and <strong>Caffe Dilema</strong> — both rated 4.4–4.5★, great food, beautiful river views. Perfect for lunch, dinner, or evening drinks. A true local gem most tourists miss.
+      </p>
+    </div>
+  </div>
+</section>
+
+
+<!-- FOOD & DRINK -->
+<section id="food">
+  <div class="section-inner">
+    <span class="section-label">Food & Drink</span>
+    <h2 class="section-title reveal">Where to <em>eat & drink</em></h2>
+    <div class="cards-grid reveal">
+      <div class="card">
+        <span class="card-icon">🥩</span>
+        <div class="card-title">Serbian Classics</div>
+        <p class="card-text">Don't miss <strong>ćevapi</strong> (grilled minced meat), <strong>pljeskavica</strong> (Serbian burger), and <strong>burek</strong> (flaky pastry with meat or cheese). <strong>Skadarlija</strong> street has the best traditional kafanas — try Tri Šešira or Dva Jelena.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">☕</span>
+        <div class="card-title">Coffee Culture</div>
+        <p class="card-text">Belgrade has a vibrant café scene. <strong>Savamala</strong> district is the creative hub with specialty coffee shops. Locally, try the cafés along <strong>Ada Huja</strong> riverbank — great views, relaxed atmosphere, 5 min from the apartment.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🍺</span>
+        <div class="card-title">Nightlife</div>
+        <p class="card-text">Belgrade is famous for its nightlife. <strong>Savamala</strong> for bars and clubs, <strong>Skadarlija</strong> for a bohemian night out. River clubs ("splavovi") on the Sava are uniquely Belgrade. Most places open late and stay open very late.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🛒</span>
+        <div class="card-title">Groceries Nearby</div>
+        <p class="card-text"><strong>Maxi supermarket</strong> is the closest large store, about 10 min walk. <strong>Idea</strong> and <strong>Lidl</strong> are also nearby. For fresh produce, the <strong>Karaburma pijaca</strong> (market) is a great local experience.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌅</span>
+        <div class="card-title">Ada Huja (5 min away)</div>
+        <p class="card-text">Your closest riverside escape. Outdoor cafés, a go-kart track, tennis courts, and a beach area in summer. Perfect for a morning walk or an afternoon coffee. Locals love this spot.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">💡</span>
+        <div class="card-title">Good to Know</div>
+        <p class="card-text">Tipping is common — <strong>10% is standard</strong>. Most places accept cards but smaller kafanas may be cash only. Lunch is typically 12–15h, dinner from 19h onwards. Restaurants are open late.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPLORE -->
+<section id="explore" style="background:var(--cream)">
+  <div class="section-inner">
+    <span class="section-label">Sightseeing</span>
+    <h2 class="section-title reveal">What to <em>see & do</em></h2>
+    <div class="two-col reveal">
+      <div>
+        <ul class="tip-list">
+          <li><span class="tip-icon">🏰</span><div><strong>Kalemegdan Fortress</strong> — Belgrade's most iconic landmark. Free entry, stunning views over the Danube and Sava rivers. Best at sunset. ~20 min by bus.</div></li>
+          <li><span class="tip-icon">🎭</span><div><strong>Skadarlija</strong> — The bohemian quarter. Cobblestone street lined with kafanas, live music, and street artists. Best experienced in the evening. ~15 min by bus.</div></li>
+          <li><span class="tip-icon">🚶</span><div><strong>Knez Mihailova Street</strong> — The main pedestrian zone. Shopping, cafés, street performers. Free open-air museum of 19th century architecture. ~15 min by bus.</div></li>
+          <li><span class="tip-icon">🎨</span><div><strong>Savamala District</strong> — The creative hub. Street art, galleries, design studios, and the best bars in the city. Comes alive on weekends.</div></li>
+          <li><span class="tip-icon">⛪</span><div><strong>Saint Sava Temple</strong> — One of the largest Orthodox churches in the world. Impressive interior, free entry. Worth visiting even if not religious.</div></li>
+        </ul>
+      </div>
+      <div>
+        <ul class="tip-list">
+          <li><span class="tip-icon">🏊</span><div><strong>Ada Ciganlija</strong> — Belgrade's river island beach. Swimming, cycling, sports in summer. Very popular with locals. ~25 min by bus.</div></li>
+          <li><span class="tip-icon">🏛️</span><div><strong>National Museum</strong> — Reopened after renovation, excellent collection of Serbian and European art. Republic Square. ~15 min by bus.</div></li>
+          <li><span class="tip-icon">🌿</span><div><strong>Topčider Park</strong> — Beautiful 19th century park, perfect for a relaxed afternoon. Horse stables, cafés, peaceful walks.</div></li>
+          <li><span class="tip-icon">🌉</span><div><strong>Brankov Bridge walk</strong> — Walk across for great views of both rivers meeting. Best at golden hour.</div></li>
+          <li><span class="tip-icon">🎪</span><div><strong>Zemun</strong> — Historic town now part of Belgrade. Austro-Hungarian architecture, riverside promenade, excellent fish restaurants.</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRACTICAL TIPS -->
+<section id="practical">
+  <div class="section-inner">
+    <span class="section-label">Practical Info</span>
+    <h2 class="section-title reveal">Good to <em>know</em></h2>
+    <div class="cards-grid reveal">
+      <div class="card">
+        <span class="card-icon">💳</span>
+        <div class="card-title">Money & Payments</div>
+        <p class="card-text">Currency is <strong>Serbian Dinar (RSD)</strong>. 1€ ≈ 117 RSD, $1 ≈ 108 RSD. Exchange at banks or official exchange offices — avoid hotel exchanges. ATMs are widely available. Cards accepted almost everywhere except small local markets.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">📶</span>
+        <div class="card-title">Internet & SIM</div>
+        <p class="card-text">The apartment WiFi is <strong>300 Mbps</strong> — more than enough for video calls and streaming. If you need mobile data, buy a prepaid SIM from <strong>Telenor</strong> or <strong>A1</strong> at the airport or any phone shop. 10GB for ~500 RSD.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏥</span>
+        <div class="card-title">Health & Safety</div>
+        <p class="card-text">Belgrade is generally <strong>very safe</strong>. Normal city precautions apply. Nearest pharmacy: within 5 min walk. Emergency number: <strong>194</strong>.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🗣️</span>
+        <div class="card-title">Language</div>
+        <p class="card-text">Serbian is the official language. <strong>English is widely spoken</strong> in restaurants, shops, and by younger generations. Google Translate works well for menus. A few words locals appreciate: <em>Hvala</em> (Thank you), <em>Molim</em> (Please/You're welcome).</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌤️</span>
+        <div class="card-title">Weather</div>
+        <p class="card-text"><strong>Spring (Apr–May):</strong> 15–22°C, mild and lovely. <strong>Summer (Jun–Aug):</strong> 25–38°C, hot. <strong>Autumn (Sep–Oct):</strong> 15–25°C, golden and pleasant. <strong>Winter (Nov–Mar):</strong> 0–8°C, can snow. The apartment has AC and heating for all seasons.</p>
+      </div>
+      <div class="card">
+        <span class="card-icon">🕐</span>
+        <div class="card-title">Belgrade Timing</div>
+        <p class="card-text">Belgrade runs on its own schedule — <strong>lunch is 13–15h, dinner rarely before 20h</strong>. Nightlife doesn't start until midnight. Shops open late (~10h) and many are open on Sundays. Banks close at 17h on weekdays.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- CTA -->
+<div class="cta-section">
+  <div class="cta-inner reveal">
+    <h2>Ready to <em>book your stay?</em></h2>
+    <p>The apartment is waiting for you — self check-in, free parking, and everything you need for a great Belgrade experience.</p>
+    <div class="cta-btns">
+      <a href="https://www.airbnb.fr/rooms/1637659167841422262" target="_blank" class="btn-primary">Book on Airbnb</a>
+      <a href="https://www.booking.com/Share-ilXqEk" target="_blank" class="btn-outline">Book on Booking.com</a>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <div class="footer-logo">Višnjička · Belgrade</div>
+  <div class="footer-copy">© 2025 Višnjička Apartment. All rights reserved.</div>
+  <div class="footer-links">
+    <a href="index.html">Apartment</a>
+    <a href="arrival.html">Arrival</a>
+    <a href="checkout.html">Check-out</a>
+    <a href="#food">Food</a>
+    <a href="#explore">Explore</a>
+  </div>
+</footer>
+
+<div id="lang-bar">
+  <span id="lang-bar-label">Change language:</span>
+  <button class="bar-btn" onclick="chooseLang('en')">🇬🇧 EN</button>
+  <button class="bar-btn" onclick="chooseLang('de')">🇩🇪 DE</button>
+  <button class="bar-btn" onclick="chooseLang('ru')">🇷🇺 RU</button>
+  <button class="bar-btn" onclick="chooseLang('tr')">🇹🇷 TR</button>
+  <button class="bar-btn" onclick="chooseLang('sr')">🇷🇸 SR</button>
+  <select class="bar-select" onchange="if(this.value){chooseLang(this.value);this.value='';}">
+    <option value="">Other...</option>
+    
+        <option value="sq">Albanian</option>
+        <option value="ar">Arabic</option>
+        <option value="zh-CN">Chinese</option>
+        <option value="nl">Dutch</option>
+        <option value="fi">Finnish</option>
+        <option value="fr">French</option>
+        <option value="el">Greek</option>
+        <option value="he">Hebrew</option>
+        <option value="hu">Hungarian</option>
+        <option value="it">Italian</option>
+        <option value="ja">Japanese</option>
+        <option value="ko">Korean</option>
+        <option value="mk">Macedonian</option>
+        <option value="no">Norwegian</option>
+        <option value="fa">Persian</option>
+        <option value="pl">Polish</option>
+        <option value="pt">Portuguese</option>
+        <option value="ro">Romanian</option>
+        <option value="es">Spanish</option>
+        <option value="sv">Swedish</option>
+        <option value="uk">Ukrainian</option>
+  </select>
+</div>
+
+
+<script>
+  function toggleMobile() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
+</script>
+
+<script>
+function googleTranslateElementInit() {
+  new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element');
+}
+
+function chooseLang(langCode) {
+  var overlay = document.getElementById('lang-overlay');
+  if (overlay) {
+    overlay.style.transition = 'opacity 0.3s ease';
+    overlay.style.opacity = '0';
+    setTimeout(function() { overlay.style.display = 'none'; }, 300);
+  }
+  try { sessionStorage.setItem('chosenLang', langCode); } catch(e) {}
+  var attempts = 0;
+  var t = setInterval(function() {
+    attempts++;
+    var combo = document.querySelector('.goog-te-combo');
+    if (combo) {
+      clearInterval(t);
+      combo.value = langCode;
+      combo.dispatchEvent(new Event('change'));
+    }
+    if (attempts > 60) clearInterval(t);
+  }, 100);
+}
+
+function chooseFromSelect() {
+  var val = document.getElementById('overlay-select').value;
+  if (val) chooseLang(val);
+}
+
+window.addEventListener('load', function() {
+  var saved = null;
+  try { saved = sessionStorage.getItem('chosenLang'); } catch(e) {}
+  if (saved) {
+    var overlay = document.getElementById('lang-overlay');
+    if (overlay) overlay.style.display = 'none';
+    chooseLang(saved);
+  }
+});
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+</body>
+</html>
