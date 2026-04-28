@@ -1,0 +1,974 @@
+<!DOCTYPE html><html lang="en"><head><meta name="x-poe-datastore-behavior" content="local_only"><meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' 'unsafe-eval' data: blob: https://cdnjs.cloudflare.com https://cdn.jsdelivr.net https://code.jquery.com https://unpkg.com https://d3js.org https://threejs.org https://cdn.plot.ly https://stackpath.bootstrapcdn.com https://maps.googleapis.com https://cdn.tailwindcss.com https://ajax.googleapis.com https://kit.fontawesome.com https://cdn.datatables.net https://maxcdn.bootstrapcdn.com https://code.highcharts.com https://tako-static-assets-production.s3.amazonaws.com https://www.youtube.com https://fonts.googleapis.com https://fonts.gstatic.com https://pfst.cf2.poecdn.net https://puc.poecdn.net https://i.imgur.com https://wikimedia.org https://*.icons8.com https://*.giphy.com https://picsum.photos https://images.unsplash.com; frame-src 'self' https://www.youtube.com https://trytako.com; child-src 'self'; manifest-src 'self'; worker-src 'self'; upgrade-insecure-requests; block-all-mixed-content;">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Belgrade Guest Guide · Višnjička Apartment</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;1,9..144,300;1,9..144,400&amp;family=Inter:wght@300;400;500;600&amp;display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0A0A0B;
+    --bg-soft: #111114;
+    --surface: #16161A;
+    --surface-2: #1C1C22;
+    --cream: #F7F4EF;
+    --white: #FFFFFF;
+    --ink: #0E0E10;
+    --text: #E8E6E1;
+    --text-soft: #9A9892;
+    --text-mute: #6B6963;
+    --accent: #E8C99B;
+    --accent-2: #B8976A;
+    --blue: #6B8CB8;
+    --blue-deep: #3B5C8A;
+    --line: rgba(255,255,255,0.08);
+    --line-strong: rgba(255,255,255,0.14);
+  }
+
+  * { margin:0; padding:0; box-sizing:border-box; }
+  *::selection { background:var(--accent); color:var(--ink); }
+  html { scroll-behavior:smooth; }
+  body {
+    font-family:'Inter', system-ui, sans-serif;
+    background:var(--bg); color:var(--text);
+    overflow-x:hidden; -webkit-font-smoothing:antialiased;
+    font-feature-settings:"ss01","cv11";
+    line-height:1.6;
+  }
+
+  /* ─── CUSTOM CURSOR ─── */
+  .cursor-dot, .cursor-ring {
+    position:fixed; top:0; left:0; pointer-events:none; z-index:9998;
+    border-radius:50%; transform:translate(-50%,-50%);
+    transition:opacity 0.3s, transform 0.15s ease-out;
+    mix-blend-mode:difference;
+  }
+  .cursor-dot { width:6px; height:6px; background:#fff; }
+  .cursor-ring {
+    width:36px; height:36px; border:1px solid rgba(255,255,255,0.4);
+    transition:transform 0.25s cubic-bezier(.2,.8,.2,1), width .25s, height .25s, border-color .25s;
+  }
+  .cursor-ring.hover { width:64px; height:64px; border-color:var(--accent); }
+  @media (hover:none),(max-width:900px){ .cursor-dot,.cursor-ring{display:none;} }
+
+  /* ─── PROGRESS BAR ─── */
+  .progress {
+    position:fixed; top:0; left:0; height:2px; width:0%;
+    background:linear-gradient(90deg, var(--accent), var(--blue));
+    z-index:200; transition:width 0.1s linear;
+  }
+
+  /* ─── NAV ─── */
+  nav {
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    display:flex; justify-content:space-between; align-items:center;
+    padding:22px 48px;
+    background:rgba(10,10,11,0.6);
+    backdrop-filter:blur(24px) saturate(180%);
+    -webkit-backdrop-filter:blur(24px) saturate(180%);
+    border-bottom:1px solid var(--line);
+    transition:padding 0.4s cubic-bezier(.2,.8,.2,1);
+  }
+  nav.shrunk { padding:14px 48px; background:rgba(10,10,11,0.85); }
+  .nav-logo {
+    font-family:'Fraunces',serif; font-size:1rem; font-weight:400;
+    letter-spacing:0.22em; color:var(--text); text-transform:uppercase;
+    text-decoration:none; display:flex; align-items:center; gap:10px;
+  }
+  .nav-logo::before {
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 12px var(--accent);
+    animation:pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1;transform:scale(1);} 50%{opacity:0.5;transform:scale(0.8);} }
+  .nav-links { display:flex; gap:34px; list-style:none; align-items:center; }
+  .nav-links a {
+    font-size:0.78rem; letter-spacing:0.04em; color:var(--text-soft);
+    text-decoration:none; transition:color 0.3s; position:relative;
+  }
+  .nav-links a::after {
+    content:''; position:absolute; bottom:-6px; left:0; width:0; height:1px;
+    background:var(--accent); transition:width 0.3s ease;
+  }
+  .nav-links a:hover { color:var(--text); }
+  .nav-links a:hover::after { width:100%; }
+  .nav-back {
+    font-size:0.74rem; letter-spacing:0.06em; color:var(--ink);
+    background:var(--accent); padding:11px 22px; border-radius:100px;
+    text-decoration:none; font-weight:500; transition:all 0.3s ease;
+    display:inline-flex; align-items:center; gap:8px;
+  }
+  .nav-back:hover { background:var(--white); transform:translateY(-1px); box-shadow:0 8px 24px rgba(232,201,155,0.2); }
+  .nav-hamburger { display:none; background:none; border:none; cursor:pointer; flex-direction:column; gap:5px; padding:6px; }
+  .nav-hamburger span { display:block; width:22px; height:1.5px; background:var(--text); transition:0.3s; }
+
+  .mobile-menu {
+    display:none; position:fixed; inset:0; z-index:99;
+    background:var(--bg); padding:100px 32px 40px;
+    flex-direction:column; gap:8px;
+  }
+  .mobile-menu.open { display:flex; }
+  .mobile-menu a {
+    font-family:'Fraunces',serif; font-size:1.8rem; font-weight:300;
+    color:var(--text); text-decoration:none;
+    border-bottom:1px solid var(--line); padding:18px 0;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height:100vh; position:relative; overflow:hidden;
+    display:flex; align-items:center; padding:140px 48px 100px;
+    background:radial-gradient(ellipse at 70% 20%, rgba(107,140,184,0.18), transparent 60%),
+               radial-gradient(ellipse at 20% 80%, rgba(184,151,106,0.12), transparent 55%),
+               var(--bg);
+  }
+  .hero-grid {
+    position:absolute; inset:0; pointer-events:none; opacity:0.4;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:80px 80px;
+    mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%);
+    -webkit-mask-image:radial-gradient(ellipse at center, black 30%, transparent 70%);
+  }
+  .hero-orb {
+    position:absolute; border-radius:50%; filter:blur(80px);
+    pointer-events:none; will-change:transform;
+  }
+  .hero-orb.a { width:520px; height:520px; background:rgba(107,140,184,0.35); top:-15%; right:-10%; animation:floatA 18s ease-in-out infinite; }
+  .hero-orb.b { width:420px; height:420px; background:rgba(232,201,155,0.18); bottom:-10%; left:-8%; animation:floatB 22s ease-in-out infinite; }
+  @keyframes floatA { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(-40px,30px) scale(1.1);} }
+  @keyframes floatB { 0%,100%{transform:translate(0,0) scale(1);} 50%{transform:translate(50px,-40px) scale(1.08);} }
+
+  .hero-inner { max-width:1200px; margin:0 auto; width:100%; position:relative; z-index:2; }
+  .hero-eyebrow {
+    display:inline-flex; align-items:center; gap:12px;
+    font-size:0.72rem; letter-spacing:0.24em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:28px;
+    padding:8px 16px; border:1px solid rgba(232,201,155,0.25);
+    border-radius:100px; background:rgba(232,201,155,0.05);
+    backdrop-filter:blur(8px);
+    opacity:0; animation:fadeUp 1s 0.2s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .hero-eyebrow::before {
+    content:''; width:6px; height:6px; border-radius:50%;
+    background:var(--accent); box-shadow:0 0 8px var(--accent);
+  }
+  .hero h1 {
+    font-family:'Fraunces',serif;
+    font-size:clamp(3rem, 9vw, 8rem); font-weight:300;
+    line-height:0.96; letter-spacing:-0.03em;
+    color:var(--text); margin-bottom:32px;
+  }
+  .hero h1 .word {
+    display:inline-block; opacity:0; transform:translateY(40px);
+    animation:fadeUp 1.2s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .hero h1 .word.italic { font-style:italic; font-weight:300; color:var(--accent); }
+  @keyframes fadeUp { to { opacity:1; transform:translateY(0); } }
+  .hero p {
+    font-size:1.1rem; color:var(--text-soft); font-weight:300;
+    max-width:540px; line-height:1.75; margin-bottom:48px;
+    opacity:0; animation:fadeUp 1s 1s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .hero-cta {
+    display:flex; gap:14px; flex-wrap:wrap;
+    opacity:0; animation:fadeUp 1s 1.2s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .btn {
+    display:inline-flex; align-items:center; gap:10px;
+    padding:15px 28px; border-radius:100px; font-size:0.85rem;
+    text-decoration:none; font-weight:500; letter-spacing:0.02em;
+    transition:all 0.4s cubic-bezier(.2,.8,.2,1); cursor:pointer;
+    border:none; font-family:inherit;
+  }
+  .btn-fill { background:var(--white); color:var(--ink); }
+  .btn-fill:hover { background:var(--accent); transform:translateY(-2px); box-shadow:0 12px 32px rgba(232,201,155,0.25); }
+  .btn-ghost { background:rgba(255,255,255,0.06); color:var(--text); border:1px solid var(--line-strong); backdrop-filter:blur(8px); }
+  .btn-ghost:hover { background:rgba(255,255,255,0.12); transform:translateY(-2px); }
+  .btn .arrow { transition:transform 0.4s; }
+  .btn:hover .arrow { transform:translateX(4px); }
+
+  /* HERO META STRIP */
+  .hero-meta {
+    margin-top:80px; display:grid; grid-template-columns:repeat(4,1fr);
+    gap:32px; padding-top:36px; border-top:1px solid var(--line);
+    opacity:0; animation:fadeUp 1s 1.4s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .meta-item .meta-label {
+    font-size:0.66rem; letter-spacing:0.18em; text-transform:uppercase;
+    color:var(--text-mute); margin-bottom:10px; display:block;
+  }
+  .meta-item .meta-val {
+    font-family:'Fraunces',serif; font-size:1.4rem; font-weight:400;
+    color:var(--text); display:block; line-height:1.1;
+  }
+  .meta-item .meta-val em { font-style:italic; color:var(--accent); }
+
+  .scroll-hint {
+    position:absolute; bottom:32px; left:50%; transform:translateX(-50%);
+    display:flex; flex-direction:column; align-items:center; gap:10px;
+    font-size:0.65rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--text-mute);
+    opacity:0; animation:fadeUp 1s 2s cubic-bezier(.2,.8,.2,1) forwards;
+  }
+  .scroll-hint::after {
+    content:''; width:1px; height:40px;
+    background:linear-gradient(180deg, var(--text-mute), transparent);
+    animation:scrollLine 2s ease-in-out infinite;
+  }
+  @keyframes scrollLine { 0%,100%{transform:scaleY(1);opacity:1;} 50%{transform:scaleY(0.4) translateY(20px);opacity:0.3;} }
+
+  /* ─── SECTION BASE ─── */
+  section { padding:140px 48px; position:relative; }
+  .container { max-width:1200px; margin:0 auto; }
+  .section-head { margin-bottom:80px; max-width:800px; }
+  .section-eyebrow {
+    display:inline-flex; align-items:center; gap:12px;
+    font-size:0.7rem; letter-spacing:0.22em; text-transform:uppercase;
+    color:var(--accent); margin-bottom:20px;
+  }
+  .section-eyebrow::before { content:''; width:24px; height:1px; background:var(--accent); }
+  .section-title {
+    font-family:'Fraunces',serif;
+    font-size:clamp(2.2rem, 5vw, 4rem); font-weight:300;
+    line-height:1.05; letter-spacing:-0.02em; color:var(--text);
+  }
+  .section-title em { font-style:italic; color:var(--accent); }
+  .section-sub {
+    font-size:1.05rem; color:var(--text-soft); margin-top:24px;
+    line-height:1.75; font-weight:300; max-width:620px;
+  }
+
+  /* ─── INFO STRIP ─── */
+  .info-strip {
+    background:linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    padding:60px 48px;
+  }
+  .info-strip-grid {
+    max-width:1200px; margin:0 auto;
+    display:grid; grid-template-columns:repeat(5,1fr); gap:0;
+  }
+  .info-cell {
+    padding:0 28px; text-align:center;
+    border-right:1px solid var(--line);
+    transition:transform 0.4s ease;
+  }
+  .info-cell:hover { transform:translateY(-4px); }
+  .info-cell:first-child { padding-left:0; }
+  .info-cell:last-child { border-right:none; padding-right:0; }
+  .info-icon {
+    width:48px; height:48px; margin:0 auto 14px;
+    display:flex; align-items:center; justify-content:center;
+    border-radius:50%; background:rgba(232,201,155,0.08);
+    border:1px solid rgba(232,201,155,0.2); font-size:1.1rem;
+  }
+  .info-label { font-size:0.66rem; letter-spacing:0.16em; text-transform:uppercase; color:var(--text-mute); margin-bottom:8px; display:block; }
+  .info-val { font-family:'Fraunces',serif; font-size:1rem; color:var(--text); line-height:1.5; }
+
+  /* ─── CARD GRID ─── */
+  .grid-3 { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; }
+  .grid-2 { display:grid; grid-template-columns:1fr 1fr; gap:48px; }
+
+  .card {
+    background:var(--surface); border:1px solid var(--line);
+    border-radius:24px; padding:40px 32px;
+    position:relative; overflow:hidden; transition:all 0.5s cubic-bezier(.2,.8,.2,1);
+  }
+  .card::before {
+    content:''; position:absolute; top:0; left:0; right:0; height:1px;
+    background:linear-gradient(90deg, transparent, var(--accent), transparent);
+    opacity:0; transition:opacity 0.5s;
+  }
+  .card::after {
+    content:''; position:absolute; inset:0; border-radius:24px;
+    background:radial-gradient(400px circle at var(--mx,50%) var(--my,50%), rgba(232,201,155,0.08), transparent 40%);
+    opacity:0; transition:opacity 0.4s; pointer-events:none;
+  }
+  .card:hover { border-color:var(--line-strong); transform:translateY(-4px); }
+  .card:hover::before { opacity:1; }
+  .card:hover::after { opacity:1; }
+  .card.warn { border-color:rgba(232,99,84,0.25); }
+  .card.warn .card-icon-wrap { background:rgba(232,99,84,0.1); border-color:rgba(232,99,84,0.3); }
+  .card.warn .card-title { color:#f0a89c; }
+
+  .card-icon-wrap {
+    width:52px; height:52px; border-radius:14px;
+    background:rgba(232,201,155,0.08);
+    border:1px solid rgba(232,201,155,0.18);
+    display:flex; align-items:center; justify-content:center;
+    font-size:1.3rem; margin-bottom:24px;
+    transition:transform 0.4s ease;
+  }
+  .card:hover .card-icon-wrap { transform:scale(1.05) rotate(-3deg); }
+  .card-title {
+    font-family:'Fraunces',serif; font-size:1.4rem; font-weight:400;
+    line-height:1.25; margin-bottom:14px; color:var(--text);
+    letter-spacing:-0.01em;
+  }
+  .card-text {
+    font-size:0.92rem; line-height:1.75; color:var(--text-soft);
+    font-weight:300;
+  }
+  .card-text strong { color:var(--text); font-weight:500; }
+
+  /* ─── LIST ─── */
+  .list { list-style:none; }
+  .list li {
+    display:flex; gap:16px; padding:20px 0;
+    border-bottom:1px solid var(--line);
+    transition:padding 0.3s ease;
+  }
+  .list li:hover { padding-left:8px; }
+  .list li:last-child { border-bottom:none; }
+  .list-icon {
+    flex-shrink:0; width:40px; height:40px; border-radius:12px;
+    background:rgba(107,140,184,0.1); border:1px solid rgba(107,140,184,0.2);
+    display:flex; align-items:center; justify-content:center; font-size:1.05rem;
+  }
+  .list-content { flex:1; min-width:0; }
+  .list-content strong { color:var(--text); display:block; margin-bottom:4px; font-weight:500; font-size:0.95rem; }
+  .list-content { font-size:0.88rem; color:var(--text-soft); line-height:1.65; font-weight:300; }
+
+  /* ─── FEATURE NEARBY ─── */
+  .feature-row {
+    background:linear-gradient(135deg, var(--surface) 0%, var(--surface-2) 100%);
+    border:1px solid var(--line); border-radius:32px;
+    padding:48px; margin-top:40px;
+    display:grid; grid-template-columns:60px 1fr; gap:24px; align-items:flex-start;
+  }
+  .feature-row .feature-icon {
+    width:56px; height:56px; border-radius:16px;
+    background:linear-gradient(135deg, rgba(232,201,155,0.15), rgba(232,201,155,0.05));
+    border:1px solid rgba(232,201,155,0.25);
+    display:flex; align-items:center; justify-content:center; font-size:1.5rem;
+  }
+  .feature-row p { font-size:0.95rem; color:var(--text-soft); line-height:1.8; font-weight:300; }
+  .feature-row strong { color:var(--text); font-weight:500; }
+
+  /* ─── CTA ─── */
+  .cta {
+    padding:160px 48px;
+    background:radial-gradient(ellipse at center top, rgba(232,201,155,0.12), transparent 60%),
+               linear-gradient(180deg, var(--bg), var(--bg-soft));
+    text-align:center; position:relative; overflow:hidden;
+  }
+  .cta::before {
+    content:''; position:absolute; inset:0;
+    background:radial-gradient(circle at 50% 50%, rgba(107,140,184,0.06), transparent 70%);
+    pointer-events:none;
+  }
+  .cta-inner { max-width:680px; margin:0 auto; position:relative; z-index:1; }
+  .cta h2 {
+    font-family:'Fraunces',serif; font-size:clamp(2.4rem,5vw,4.5rem);
+    font-weight:300; line-height:1.05; letter-spacing:-0.025em;
+    margin-bottom:24px; color:var(--text);
+  }
+  .cta h2 em { font-style:italic; color:var(--accent); }
+  .cta p { font-size:1.05rem; color:var(--text-soft); margin-bottom:40px; line-height:1.75; font-weight:300; }
+  .cta-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background:var(--bg-soft); padding:60px 48px 40px;
+    border-top:1px solid var(--line);
+  }
+  .footer-inner {
+    max-width:1200px; margin:0 auto;
+    display:grid; grid-template-columns:1fr auto 1fr; gap:32px; align-items:center;
+  }
+  .footer-logo { font-family:'Fraunces',serif; font-size:1rem; letter-spacing:0.2em; text-transform:uppercase; color:var(--text); }
+  .footer-links { display:flex; gap:28px; justify-content:center; }
+  .footer-links a {
+    font-size:0.78rem; color:var(--text-mute); text-decoration:none; transition:color 0.3s;
+  }
+  .footer-links a:hover { color:var(--accent); }
+  .footer-copy { font-size:0.74rem; color:var(--text-mute); text-align:right; }
+
+  /* ─── REVEAL ─── */
+  .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.9s cubic-bezier(.2,.8,.2,1), transform 0.9s cubic-bezier(.2,.8,.2,1); }
+  .reveal.visible { opacity:1; transform:none; }
+  .reveal.delay-1 { transition-delay:0.1s; }
+  .reveal.delay-2 { transition-delay:0.2s; }
+  .reveal.delay-3 { transition-delay:0.3s; }
+
+  /* ─── LANG OVERLAY ─── */
+  #lang-overlay {
+    position:fixed; inset:0; z-index:9999;
+    display:flex; align-items:center; justify-content:center;
+    background:rgba(8,8,10,0.85); backdrop-filter:blur(24px);
+  }
+  .lang-box {
+    background:linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border:1px solid var(--line-strong); border-radius:28px;
+    padding:48px 36px 36px; max-width:520px; width:92%;
+    text-align:center;
+    box-shadow:0 40px 100px rgba(0,0,0,0.6), 0 0 80px rgba(232,201,155,0.05);
+    animation:slideUp 0.6s cubic-bezier(.2,.8,.2,1);
+  }
+  @keyframes slideUp { from{opacity:0;transform:translateY(40px) scale(0.96);} to{opacity:1;transform:translateY(0) scale(1);} }
+  .lang-logo { font-family:'Fraunces',serif; font-size:0.85rem; letter-spacing:0.24em; text-transform:uppercase; color:var(--accent); margin-bottom:14px; }
+  .lang-title { font-family:'Fraunces',serif; font-size:2rem; font-weight:300; color:var(--text); line-height:1.15; }
+  .lang-title em { font-style:italic; color:var(--accent); }
+  .lang-divider { width:32px; height:1px; background:var(--accent); margin:18px auto 18px; opacity:0.6; }
+  .lang-subtitle { font-size:0.78rem; color:var(--text-mute); line-height:2.0; margin-bottom:30px; font-weight:300; }
+  .lang-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:14px; }
+  .lang-btn {
+    display:flex; align-items:center; gap:12px; padding:14px 16px;
+    border:1px solid var(--line); border-radius:14px;
+    background:rgba(255,255,255,0.02); cursor:pointer;
+    transition:all 0.3s ease; text-align:left;
+    font-family:'Inter',sans-serif; color:var(--text);
+  }
+  .lang-btn:hover { border-color:var(--accent); background:rgba(232,201,155,0.06); transform:translateY(-2px); }
+  .lang-btn.full { grid-column:1 / -1; background:rgba(232,201,155,0.08); border-color:rgba(232,201,155,0.3); }
+  .lang-flag { font-size:1.4rem; line-height:1; flex-shrink:0; }
+  .lang-name { display:flex; flex-direction:column; gap:1px; }
+  .lang-name strong { font-size:0.88rem; font-weight:500; color:var(--text); }
+  .lang-name span { font-size:0.7rem; color:var(--text-mute); font-weight:300; }
+  .lang-other { display:flex; align-items:center; gap:10px; padding-top:14px; border-top:1px solid var(--line); }
+  .lang-other label { font-size:0.7rem; color:var(--text-mute); letter-spacing:0.1em; text-transform:uppercase; white-space:nowrap; }
+  .lang-other select { flex:1; padding:10px 12px; border:1px solid var(--line); border-radius:10px; background:var(--surface-2); color:var(--text); font-family:inherit; font-size:0.82rem; cursor:pointer; outline:none; }
+  .lang-other select:hover, .lang-other select:focus { border-color:var(--accent); }
+  .lang-other button { padding:10px 18px; background:var(--accent); color:var(--ink); border:none; border-radius:10px; cursor:pointer; font-family:inherit; font-size:0.82rem; font-weight:500; transition:background 0.2s; }
+  .lang-other button:hover { background:var(--white); }
+
+  /* ─── LANG BAR ─── */
+  #lang-bar {
+    position:fixed; bottom:0; left:0; right:0; z-index:90;
+    background:rgba(10,10,11,0.85); backdrop-filter:blur(20px);
+    padding:10px 24px;
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    flex-wrap:wrap; border-top:1px solid var(--line);
+  }
+  #lang-bar-label { font-size:0.66rem; color:var(--text-mute); letter-spacing:0.14em; text-transform:uppercase; }
+  .bar-btn { background:rgba(255,255,255,0.04); border:1px solid var(--line); color:var(--text-soft); cursor:pointer; padding:6px 12px; font-size:0.74rem; border-radius:100px; font-family:inherit; transition:all 0.3s; display:inline-flex; align-items:center; gap:6px; }
+  .bar-btn:hover { border-color:var(--accent); color:var(--accent); }
+  .bar-select { padding:6px 10px; background:var(--surface-2); border:1px solid var(--line); color:var(--text-soft); border-radius:100px; font-family:inherit; font-size:0.74rem; cursor:pointer; outline:none; }
+  .bar-select:hover { border-color:var(--accent); }
+  body { padding-bottom:54px; }
+  .goog-te-banner-frame, #goog-gt-tt, .goog-te-balloon-frame { display:none !important; }
+  body { top:0 !important; }
+  .skiptranslate { display:none !important; }
+  #google_translate_element { display:none; }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width:1024px) {
+    .grid-3 { grid-template-columns:repeat(2,1fr); }
+    .info-strip-grid { grid-template-columns:repeat(3,1fr); gap:24px 0; }
+    .info-cell:nth-child(3n) { border-right:none; }
+  }
+  @media (max-width:768px) {
+    nav { padding:18px 24px; }
+    nav.shrunk { padding:14px 24px; }
+    .nav-links, .nav-back { display:none; }
+    .nav-hamburger { display:flex; }
+    .hero { padding:120px 24px 80px; }
+    .hero-meta { grid-template-columns:repeat(2,1fr); gap:24px; }
+    section { padding:90px 24px; }
+    .grid-3, .grid-2 { grid-template-columns:1fr; gap:16px; }
+    .info-strip { padding:48px 24px; }
+    .info-strip-grid { grid-template-columns:repeat(2,1fr); gap:32px 16px; }
+    .info-cell { border-right:none !important; padding:0 !important; }
+    .feature-row { padding:28px; grid-template-columns:1fr; }
+    .cta { padding:100px 24px; }
+    footer { padding:48px 24px 32px; }
+    .footer-inner { grid-template-columns:1fr; text-align:center; gap:24px; }
+    .footer-copy { text-align:center; }
+    .footer-links { flex-wrap:wrap; }
+    .lang-grid { grid-template-columns:1fr; }
+    .lang-btn.full { grid-column:1; }
+    #lang-bar-label { display:none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+<div class="progress" id="progress"></div>
+
+<!-- ─── LANG OVERLAY ─── -->
+<div id="lang-overlay">
+  <div class="lang-box">
+    <div class="lang-logo">Višnjička · Belgrade</div>
+    <h2 class="lang-title">Belgrade <em>Guest Guide</em></h2>
+    <div class="lang-divider"></div>
+    <div class="lang-subtitle">
+      Please select your language<br>
+      Bitte wählen Sie Ihre Sprache<br>
+      Пожалуйста, выберите язык<br>
+      Lütfen dilinizi seçin<br>
+      Molimo izaberite jezik
+    </div>
+    <div class="lang-grid">
+      <button class="lang-btn full" onclick="chooseLang('en')">
+        <span class="lang-flag">🇬🇧</span>
+        <div class="lang-name"><strong>English</strong><span>Continue in English</span></div>
+      </button>
+      <button class="lang-btn" onclick="chooseLang('de')"><span class="lang-flag">🇩🇪</span><div class="lang-name"><strong>Deutsch</strong><span>German</span></div></button>
+      <button class="lang-btn" onclick="chooseLang('ru')"><span class="lang-flag">🇷🇺</span><div class="lang-name"><strong>Русский</strong><span>Russian</span></div></button>
+      <button class="lang-btn" onclick="chooseLang('tr')"><span class="lang-flag">🇹🇷</span><div class="lang-name"><strong>Türkçe</strong><span>Turkish</span></div></button>
+      <button class="lang-btn" onclick="chooseLang('sr')"><span class="lang-flag">🇷🇸</span><div class="lang-name"><strong>Srpski</strong><span>Serbian</span></div></button>
+    </div>
+    <div class="lang-other">
+      <label>Other:</label>
+      <select id="overlay-select">
+        <option value="">— select —</option>
+        <option value="sq">Albanian</option><option value="ar">Arabic</option><option value="zh-CN">Chinese</option>
+        <option value="nl">Dutch</option><option value="fi">Finnish</option><option value="fr">French</option>
+        <option value="el">Greek</option><option value="he">Hebrew</option><option value="hu">Hungarian</option>
+        <option value="it">Italian</option><option value="ja">Japanese</option><option value="ko">Korean</option>
+        <option value="mk">Macedonian</option><option value="no">Norwegian</option><option value="fa">Persian</option>
+        <option value="pl">Polish</option><option value="pt">Portuguese</option><option value="ro">Romanian</option>
+        <option value="es">Spanish</option><option value="sv">Swedish</option><option value="uk">Ukrainian</option>
+      </select>
+      <button onclick="chooseFromSelect()">Go</button>
+    </div>
+  </div>
+</div>
+<div id="google_translate_element"></div>
+
+<!-- ─── MOBILE MENU ─── -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="arrival.html" onclick="closeMobile()">← Arrival Guide</a>
+  <a href="#house-rules" onclick="closeMobile()">House Rules</a>
+  <a href="#transport" onclick="closeMobile()">Transport</a>
+  <a href="#nearby" onclick="closeMobile()">Big Fashion</a>
+  <a href="#food" onclick="closeMobile()">Food &amp; Drink</a>
+  <a href="#explore" onclick="closeMobile()">Explore</a>
+  <a href="#practical" onclick="closeMobile()">Practical</a>
+</div>
+
+<!-- ─── NAV ─── -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">Višnjička</a>
+  <ul class="nav-links">
+    <li><a href="#house-rules">House Rules</a></li>
+    <li><a href="#transport">Transport</a></li>
+    <li><a href="#nearby">Nearby</a></li>
+    <li><a href="#food">Food</a></li>
+    <li><a href="#explore">Explore</a></li>
+    <li><a href="#practical">Practical</a></li>
+  </ul>
+  <a href="arrival.html" class="nav-back">Arrival Guide <span class="arrow">→</span></a>
+  <button class="nav-hamburger" onclick="toggleMobile()" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-orb a"></div>
+  <div class="hero-orb b"></div>
+  <div class="hero-inner">
+    <div class="hero-eyebrow">Your host's insider guide</div>
+    <h1 id="heroTitle">
+      <span class="word" style="animation-delay:0.4s">Welcome</span>
+      <span class="word" style="animation-delay:0.5s">to</span><br>
+      <span class="word italic" style="animation-delay:0.7s">Belgrade.</span>
+    </h1>
+    <p>Everything you need for a great stay — where to eat, what to see, how to get around, and all the small things that make a city feel like home.</p>
+    <div class="hero-cta">
+      <a href="#house-rules" class="btn btn-fill">Start the guide <span class="arrow">→</span></a>
+      <a href="arrival.html" class="btn btn-ghost">Arrival details</a>
+    </div>
+    <div class="hero-meta">
+      <div class="meta-item"><span class="meta-label">Currency</span><span class="meta-val">RSD <em>·</em> 1€ ≈ 117</span></div>
+      <div class="meta-item"><span class="meta-label">Power</span><span class="meta-val">220V <em>/</em> EU</span></div>
+      <div class="meta-item"><span class="meta-label">Time zone</span><span class="meta-val">CET <em>·</em> UTC+1</span></div>
+      <div class="meta-item"><span class="meta-label">Language</span><span class="meta-val">Serbian <em>+</em> EN</span></div>
+    </div>
+  </div>
+  <div class="scroll-hint">Scroll</div>
+</section>
+
+<!-- ─── INFO STRIP ─── -->
+<div class="info-strip">
+  <div class="info-strip-grid">
+    <div class="info-cell"><div class="info-icon">💰</div><span class="info-label">Currency</span><div class="info-val">Serbian Dinar<br>Cards accepted</div></div>
+    <div class="info-cell"><div class="info-icon">🚌</div><span class="info-label">Transport</span><div class="info-val">All buses free<br>since Jan 2025</div></div>
+    <div class="info-cell"><div class="info-icon">🗣️</div><span class="info-label">Language</span><div class="info-val">Serbian<br>EN widely spoken</div></div>
+    <div class="info-cell"><div class="info-icon">📱</div><span class="info-label">SIM Card</span><div class="info-val">Telenor / A1<br>At airport</div></div>
+    <div class="info-cell"><div class="info-icon">🚨</div><span class="info-label">Emergency</span><div class="info-val">Police: 192<br>Ambulance: 194</div></div>
+  </div>
+</div>
+
+<!-- ─── HOUSE RULES ─── -->
+<section id="house-rules">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Please Read</div>
+      <h2 class="section-title">House <em>rules.</em></h2>
+      <p class="section-sub">A few simple things to keep the apartment — and the building — happy.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon-wrap">🕒</div>
+        <h3 class="card-title">Check-in &amp; out</h3>
+        <p class="card-text"><strong>Check-in:</strong> from <strong>15:00</strong><br><strong>Check-out:</strong> by <strong>11:00</strong><br><br>Early check-in or late check-out may be possible — please contact the host in advance.</p>
+      </div>
+      <div class="card warn reveal delay-1">
+        <div class="card-icon-wrap">🚭</div>
+        <h3 class="card-title">No Smoking</h3>
+        <p class="card-text"><strong>Smoking is strictly forbidden</strong> anywhere inside the apartment or building — including cigarettes and e-cigarettes. Violation will result in additional cleaning fees.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <div class="card-icon-wrap">🗑️</div>
+        <h3 class="card-title">Waste</h3>
+        <p class="card-text"><strong>Do not use the bins inside the building.</strong> All waste must be disposed of in the <strong>outdoor containers</strong> just outside the building entrance. Thank you for respecting your neighbours.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon-wrap">🔇</div>
+        <h3 class="card-title">Neighbours</h3>
+        <p class="card-text">Please be mindful, especially between <strong>22:00 and 08:00</strong>. Keep music and TV at a reasonable volume. This is a residential building — treat it as your own home.</p>
+      </div>
+      <div class="card reveal delay-1">
+        <div class="card-icon-wrap">🐾</div>
+        <h3 class="card-title">Pets</h3>
+        <p class="card-text">Pets are not allowed without prior approval from the host. Please contact us before booking if you are travelling with a pet.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <div class="card-icon-wrap">👥</div>
+        <h3 class="card-title">Guests &amp; Parties</h3>
+        <p class="card-text">The apartment is for registered guests only. Unregistered visitors are not permitted to stay overnight. Parties and events are not allowed.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TRANSPORT ─── -->
+<section id="transport">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Getting around</div>
+      <h2 class="section-title">Local <em>transport.</em></h2>
+      <p class="section-sub">Belgrade is one of the easiest European capitals to navigate — and as of 2025, public transport is completely free.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon-wrap">🚌</div>
+        <h3 class="card-title">Public transport — free</h3>
+        <p class="card-text">Since January 2025, all buses, trams, trolleybuses and BG:Voz trains are <strong>completely free</strong>. Just hop on. Bus stop "Vuka Vrčevića" is 2 min away — line <strong>16</strong> goes to the centre in ~15 min.</p>
+      </div>
+      <div class="card reveal delay-1">
+        <div class="card-icon-wrap">📱</div>
+        <h3 class="card-title">Taxi apps</h3>
+        <p class="card-text"><strong>CarGo</strong> is the main local taxi app — reliable, with the price shown upfront. Most rides within the city cost <strong>300–600 RSD</strong>. Always preferred over flagging a taxi on the street.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <div class="card-icon-wrap">🚲</div>
+        <h3 class="card-title">Bike &amp; scooter</h3>
+        <p class="card-text"><strong>NextBike</strong> bike sharing has stations across the city. Electric scooters (Bolt, Lime) are widely available too. Ideal for Kalemegdan fortress and the riverfront.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── NEARBY / BIG FASHION ─── -->
+<section id="nearby" style="background:linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Right next door</div>
+      <h2 class="section-title">Big Fashion <em>shopping mall.</em></h2>
+      <p class="section-sub">One of Belgrade's biggest malls is practically on your doorstep — a <strong style="color:var(--text);">10-minute walk</strong> along Višnjička, or one bus stop on lines 16, 23, or 25.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon-wrap">🛍️</div>
+        <h3 class="card-title">Shopping</h3>
+        <p class="card-text">Over 100 stores including <strong>Zara, H&amp;M, Reserved, Pull&amp;Bear, Bershka, Mango, New Yorker, Sport Vision</strong> and more. Open daily <strong>10:00–22:00</strong>.</p>
+      </div>
+      <div class="card reveal delay-1">
+        <div class="card-icon-wrap">🍽️</div>
+        <h3 class="card-title">Food &amp; cafés</h3>
+        <p class="card-text">Large food court on the top floor with fast food and sit-down options. <strong>Kafeterija</strong> specialty coffee inside is excellent. <strong>IDEA supermarket</strong> on the lower level — open 9:00–22:00.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <div class="card-icon-wrap">🎬</div>
+        <h3 class="card-title">Entertainment</h3>
+        <p class="card-text"><strong>Cinema, bookstores, game stores</strong> and a kids play area. <strong>Lidl</strong> is just next door (Višnjička 94), and <strong>Maxi</strong> is a 5 min walk behind the mall.</p>
+      </div>
+    </div>
+    <div class="feature-row reveal">
+      <div class="feature-icon">🍷</div>
+      <p><strong>Ada Huja riverfront (5 min walk):</strong> Right behind Big Fashion, along the Danube, you'll find <strong>Caffe Restaurant X</strong> and <strong>Caffe Dilema</strong> — both rated 4.4–4.5★, with great food and beautiful river views. Perfect for lunch, dinner, or evening drinks. A true local gem most tourists miss.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOD ─── -->
+<section id="food">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Food &amp; Drink</div>
+      <h2 class="section-title">Where to <em>eat &amp; drink.</em></h2>
+      <p class="section-sub">From traditional kafanas to specialty coffee, here's how to eat like a local.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon-wrap">🥩</div>
+        <h3 class="card-title">Serbian classics</h3>
+        <p class="card-text">Don't miss <strong>ćevapi</strong> (grilled minced meat), <strong>pljeskavica</strong> (Serbian burger), and <strong>burek</strong> (flaky pastry). <strong>Skadarlija</strong> has the best traditional kafanas — try Tri Šešira or Dva Jelena.</p>
+      </div>
+      <div class="card reveal delay-1">
+        <div class="card-icon-wrap">☕</div>
+        <h3 class="card-title">Coffee culture</h3>
+        <p class="card-text">Belgrade has a vibrant café scene. <strong>Savamala</strong> is the creative hub with specialty coffee. Locally, try the cafés along <strong>Ada Huja</strong> riverbank — great views, 5 min from the apartment.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <div class="card-icon-wrap">🍺</div>
+        <h3 class="card-title">Nightlife</h3>
+        <p class="card-text">Belgrade is famous for nightlife. <strong>Savamala</strong> for bars and clubs, <strong>Skadarlija</strong> for bohemian. River clubs ("splavovi") on the Sava are uniquely Belgrade. Most places stay open very late.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon-wrap">🛒</div>
+        <h3 class="card-title">Groceries nearby</h3>
+        <p class="card-text"><strong>Maxi</strong> is the closest large store — about 10 min walk. <strong>Idea</strong> and <strong>Lidl</strong> are also nearby. For fresh produce, the <strong>Karaburma pijaca</strong> market is a great local experience.</p>
+      </div>
+      <div class="card reveal delay-1">
+        <div class="card-icon-wrap">🌅</div>
+        <h3 class="card-title">Ada Huja</h3>
+        <p class="card-text">Your closest riverside escape. Outdoor cafés, a go-kart track, tennis courts, and a beach area in summer. Perfect for a morning walk or afternoon coffee. Locals love it.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <div class="card-icon-wrap">💡</div>
+        <h3 class="card-title">Good to know</h3>
+        <p class="card-text">Tipping is common — <strong>10% is standard</strong>. Most places accept cards but smaller kafanas may be cash only. Lunch is typically 12–15h, dinner from 19h onwards.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── EXPLORE ─── -->
+<section id="explore" style="background:var(--bg-soft);">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Sightseeing</div>
+      <h2 class="section-title">What to <em>see &amp; do.</em></h2>
+      <p class="section-sub">A handpicked list — from icons to local secrets.</p>
+    </div>
+    <div class="grid-2">
+      <div class="reveal">
+        <ul class="list">
+          <li><div class="list-icon">🏰</div><div class="list-content"><strong>Kalemegdan Fortress</strong>Belgrade's most iconic landmark. Free entry, stunning views over the Danube and Sava. Best at sunset. ~20 min by bus.</div></li>
+          <li><div class="list-icon">🎭</div><div class="list-content"><strong>Skadarlija</strong>The bohemian quarter. Cobblestone street lined with kafanas, live music, and street artists. Best in the evening.</div></li>
+          <li><div class="list-icon">🚶</div><div class="list-content"><strong>Knez Mihailova</strong>The main pedestrian street. Shopping, cafés, performers — a free open-air museum of 19th century architecture.</div></li>
+          <li><div class="list-icon">🎨</div><div class="list-content"><strong>Savamala</strong>The creative hub. Street art, galleries, design studios, and the best bars in the city. Comes alive on weekends.</div></li>
+          <li><div class="list-icon">⛪</div><div class="list-content"><strong>Saint Sava Temple</strong>One of the largest Orthodox churches in the world. Impressive interior, free entry.</div></li>
+        </ul>
+      </div>
+      <div class="reveal delay-1">
+        <ul class="list">
+          <li><div class="list-icon">🏊</div><div class="list-content"><strong>Ada Ciganlija</strong>Belgrade's river island beach. Swimming, cycling, sports in summer. Very popular with locals.</div></li>
+          <li><div class="list-icon">🏛️</div><div class="list-content"><strong>National Museum</strong>Reopened after renovation, with an excellent collection of Serbian and European art. Republic Square.</div></li>
+          <li><div class="list-icon">🌿</div><div class="list-content"><strong>Topčider Park</strong>Beautiful 19th century park. Horse stables, cafés, peaceful walks.</div></li>
+          <li><div class="list-icon">🌉</div><div class="list-content"><strong>Brankov Bridge walk</strong>Walk across for great views of both rivers meeting. Best at golden hour.</div></li>
+          <li><div class="list-icon">🎪</div><div class="list-content"><strong>Zemun</strong>Historic town now part of Belgrade. Austro-Hungarian architecture, riverside promenade, excellent fish restaurants.</div></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRACTICAL ─── -->
+<section id="practical">
+  <div class="container">
+    <div class="section-head reveal">
+      <div class="section-eyebrow">Practical info</div>
+      <h2 class="section-title">Good to <em>know.</em></h2>
+      <p class="section-sub">Small details that make a big difference.</p>
+    </div>
+    <div class="grid-3">
+      <div class="card reveal">
+        <div class="card-icon-wrap">💳</div>
+        <h3 class="card-title">Money &amp; payments</h3>
+        <p class="card-text">Currency is <strong>Serbian Dinar (RSD)</strong>. 1€ ≈ 117 RSD. Exchange at banks or official offices — avoid hotel exchanges. Cards accepted almost everywhere.</p>
+      </div>
+      <div class="card reveal delay-1">
+        <div class="card-icon-wrap">📶</div>
+        <h3 class="card-title">Internet &amp; SIM</h3>
+        <p class="card-text">Apartment WiFi is <strong>300 Mbps</strong> — more than enough for video calls and streaming. Prepaid SIMs from <strong>Telenor</strong> or <strong>A1</strong>: 10GB for ~500 RSD.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <div class="card-icon-wrap">🏥</div>
+        <h3 class="card-title">Health &amp; safety</h3>
+        <p class="card-text">Belgrade is generally <strong>very safe</strong>. Normal city precautions apply. Nearest pharmacy: within 5 min walk. Emergency: <strong>194</strong>.</p>
+      </div>
+      <div class="card reveal">
+        <div class="card-icon-wrap">🗣️</div>
+        <h3 class="card-title">Language</h3>
+        <p class="card-text">Serbian is official. <strong>English is widely spoken</strong> in restaurants, shops, and by younger generations. Words locals appreciate: <em>Hvala</em> (Thank you), <em>Molim</em> (Please).</p>
+      </div>
+      <div class="card reveal delay-1">
+        <div class="card-icon-wrap">🌤️</div>
+        <h3 class="card-title">Weather</h3>
+        <p class="card-text"><strong>Spring:</strong> 15–22°C. <strong>Summer:</strong> 25–38°C. <strong>Autumn:</strong> 15–25°C. <strong>Winter:</strong> 0–8°C. The apartment has AC and heating.</p>
+      </div>
+      <div class="card reveal delay-2">
+        <div class="card-icon-wrap">🕐</div>
+        <h3 class="card-title">Belgrade timing</h3>
+        <p class="card-text">Belgrade runs on its own schedule — <strong>lunch is 13–15h, dinner rarely before 20h</strong>. Nightlife starts at midnight. Shops open ~10h, often Sundays too.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CTA ─── -->
+<section class="cta">
+  <div class="cta-inner reveal">
+    <h2>Ready to <em>book your stay?</em></h2>
+    <p>The apartment is waiting for you — self check-in, free parking, and everything you need for a great Belgrade experience.</p>
+    <div class="cta-btns">
+      <a href="https://www.airbnb.fr/rooms/1637659167841422262" target="_blank" class="btn btn-fill">Book on Airbnb <span class="arrow">→</span></a>
+      <a href="https://www.booking.com/Share-ilXqEk" target="_blank" class="btn btn-ghost">Book on Booking.com</a>
+    </div>
+  </div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-logo">Višnjička · Belgrade</div>
+    <div class="footer-links">
+      <a href="index.html">Apartment</a>
+      <a href="arrival.html">Arrival</a>
+      <a href="checkout.html">Check-out</a>
+      <a href="#food">Food</a>
+      <a href="#explore">Explore</a>
+    </div>
+    <div class="footer-copy">© 2025 Višnjička Apartment</div>
+  </div>
+</footer>
+
+<!-- ─── LANG BAR ─── -->
+<div id="lang-bar">
+  <span id="lang-bar-label">Language:</span>
+  <button class="bar-btn" onclick="chooseLang('en')">🇬🇧 EN</button>
+  <button class="bar-btn" onclick="chooseLang('de')">🇩🇪 DE</button>
+  <button class="bar-btn" onclick="chooseLang('ru')">🇷🇺 RU</button>
+  <button class="bar-btn" onclick="chooseLang('tr')">🇹🇷 TR</button>
+  <button class="bar-btn" onclick="chooseLang('sr')">🇷🇸 SR</button>
+  <select class="bar-select" onchange="if(this.value){chooseLang(this.value);this.value='';}">
+    <option value="">Other…</option>
+    <option value="sq">Albanian</option><option value="ar">Arabic</option><option value="zh-CN">Chinese</option>
+    <option value="nl">Dutch</option><option value="fi">Finnish</option><option value="fr">French</option>
+    <option value="el">Greek</option><option value="he">Hebrew</option><option value="hu">Hungarian</option>
+    <option value="it">Italian</option><option value="ja">Japanese</option><option value="ko">Korean</option>
+    <option value="mk">Macedonian</option><option value="no">Norwegian</option><option value="fa">Persian</option>
+    <option value="pl">Polish</option><option value="pt">Portuguese</option><option value="ro">Romanian</option>
+    <option value="es">Spanish</option><option value="sv">Swedish</option><option value="uk">Ukrainian</option>
+  </select>
+</div>
+
+<script>
+  // Mobile menu
+  function toggleMobile() { document.getElementById('mobileMenu').classList.toggle('open'); }
+  function closeMobile() { document.getElementById('mobileMenu').classList.remove('open'); }
+
+  // Custom cursor
+  const dot = document.querySelector('.cursor-dot');
+  const ring = document.querySelector('.cursor-ring');
+  let mx=0, my=0, rx=0, ry=0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    dot.style.transform = `translate(${mx}px, ${my}px) translate(-50%,-50%)`;
+  });
+  function animateRing() {
+    rx += (mx - rx) * 0.18;
+    ry += (my - ry) * 0.18;
+    ring.style.transform = `translate(${rx}px, ${ry}px) translate(-50%,-50%)`;
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+  document.querySelectorAll('a, button, .card').forEach(el => {
+    el.addEventListener('mouseenter', () => ring.classList.add('hover'));
+    el.addEventListener('mouseleave', () => ring.classList.remove('hover'));
+  });
+
+  // Card spotlight
+  document.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', (e.clientX - r.left) + 'px');
+      card.style.setProperty('--my', (e.clientY - r.top) + 'px');
+    });
+  });
+
+  // Nav shrink
+  const nav = document.getElementById('nav');
+  const progress = document.getElementById('progress');
+  window.addEventListener('scroll', () => {
+    const s = window.scrollY;
+    if (s > 40) nav.classList.add('shrunk'); else nav.classList.remove('shrunk');
+    const h = document.documentElement.scrollHeight - window.innerHeight;
+    progress.style.width = (s / h * 100) + '%';
+  });
+
+  // Reveal on scroll
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -60px 0px' });
+  reveals.forEach(el => observer.observe(el));
+
+  // Parallax orbs
+  const orbA = document.querySelector('.hero-orb.a');
+  const orbB = document.querySelector('.hero-orb.b');
+  document.addEventListener('mousemove', e => {
+    const x = (e.clientX / window.innerWidth - 0.5) * 30;
+    const y = (e.clientY / window.innerHeight - 0.5) * 30;
+    if (orbA) orbA.style.transform = `translate(${x}px, ${y}px)`;
+    if (orbB) orbB.style.transform = `translate(${-x}px, ${-y}px)`;
+  });
+
+  // Translate
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'en', autoDisplay: false }, 'google_translate_element');
+  }
+  function chooseLang(langCode) {
+    var overlay = document.getElementById('lang-overlay');
+    if (overlay) {
+      overlay.style.transition = 'opacity 0.4s ease';
+      overlay.style.opacity = '0';
+      setTimeout(function() { overlay.style.display = 'none'; }, 400);
+    }
+    try { sessionStorage.setItem('chosenLang', langCode); } catch(e) {}
+    var attempts = 0;
+    var t = setInterval(function() {
+      attempts++;
+      var combo = document.querySelector('.goog-te-combo');
+      if (combo) {
+        clearInterval(t);
+        combo.value = langCode;
+        combo.dispatchEvent(new Event('change'));
+      }
+      if (attempts > 60) clearInterval(t);
+    }, 100);
+  }
+  function chooseFromSelect() {
+    var val = document.getElementById('overlay-select').value;
+    if (val) chooseLang(val);
+  }
+  window.addEventListener('load', function() {
+    var saved = null;
+    try { saved = sessionStorage.getItem('chosenLang'); } catch(e) {}
+    if (saved) {
+      var overlay = document.getElementById('lang-overlay');
+      if (overlay) overlay.style.display = 'none';
+      chooseLang(saved);
+    }
+  });
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
+
+
+
+</body></html>
