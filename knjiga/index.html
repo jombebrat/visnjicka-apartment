@@ -472,7 +472,7 @@ html, body { margin: 0; }
         <label class="field"><span class="vh">Mejl partnera</span><input type="email" id="m-email" placeholder="Mejl za pristup, npr. Katarinin" autocomplete="off" inputmode="email"></label>
         <button type="submit" class="btn primary press" style="align-self:end">Dodaj</button>
       </form>
-      <p class="hint">Osoba koju dodaš otvara ovu stranicu, bira „Novi nalog“ i pravi lozinku sa tim mejlom. Može da gleda sve i da upisuje u kovertu, a rezervacije menjaš samo ti.</p>
+      <p class="hint">Osoba koju dodaš otvara ovu stranicu, bira „Novi nalog“ i pravi lozinku sa tim mejlom. Može da gleda sve, da upisuje u kovertu i da označi kad uzme svoj deo. Rezervacije menjaš samo ti.</p>
     </div>
     <p class="sec-h">Nalog</p>
     <p class="hint" id="acctLine"></p>
@@ -632,7 +632,7 @@ html, body { margin: 0; }
     $$('.tab').forEach(function (t) { if (t.dataset.go === state.view) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current'); });
     $$('.view').forEach(function (v) { v.hidden = v.id !== 'v-' + state.view; });
     var banner = $('#banner');
-    if (state.loaded && !state.canWrite) { banner.hidden = false; banner.className = 'notice'; banner.textContent = state.canCash ? 'Rezervacije menja vlasnik. Ti možeš da upisuješ u kovertu.' : 'Možeš da pregledaš podatke, ali ne i da ih menjaš.'; }
+    if (state.loaded && !state.canWrite) { banner.hidden = false; banner.className = 'notice'; banner.textContent = state.canCash ? 'Rezervacije menja vlasnik. Ti možeš da upisuješ u kovertu i da označiš kad uzmeš svoj deo.' : 'Možeš da pregledaš podatke, ali ne i da ih menjaš.'; }
     else banner.hidden = true;
     if (state.view === 'pregled') renderOverview();
     if (state.view === 'rezervacije') renderList();
@@ -830,10 +830,10 @@ html, body { margin: 0; }
     var dueSum = sum(due, 'katTotal');
     var html = '<div class="panel k-hero"><p class="hero-l">Za isplatu ' + esc(partnerGen()) + '</p><p class="hero-n num">' + eur(dueSum) + '</p>' +
       '<p class="hero-s">' + (due.length ? 'za ' + boravak(due.length) + ' koji su završeni' : 'Sve završene isplate su izmirene.') + '</p>';
-    if (due.length && state.canWrite) {
+    if (due.length && state.canCash) {
       html += state.confirmPay
         ? '<p class="hint" style="margin-bottom:10px">Označiti ' + boravak(due.length) + ' kao isplaćene danas, ukupno <b class="num">' + eur(dueSum) + '</b>? Iznos se skida iz koverte.</p><div class="k-actions"><button type="button" class="btn kat press" id="payYes">' + icon('check') + 'Potvrdi isplatu</button><button type="button" class="btn press" id="payNo">Odustani</button></div>'
-        : '<div class="k-actions"><button type="button" class="btn kat press" id="payAll">' + icon('hand-coins') + 'Označi kao isplaćeno</button></div>';
+        : '<div class="k-actions"><button type="button" class="btn kat press" id="payAll">' + icon('hand-coins') + (state.role === 'partner' ? 'Označi da sam uzela' : 'Označi kao isplaćeno') + '</button></div>';
     }
     html += '</div>';
     var todo = B.filter(incomplete).length;
@@ -907,7 +907,7 @@ html, body { margin: 0; }
   }
   function renderDetail() {
     var b = findB(detailId); if (!b) { closeSheet(); return; }
-    var c = calc(b), P = esc(partner()), dis = state.canWrite ? '' : ' disabled';
+    var c = calc(b), P = esc(partner()), dis = state.canWrite ? '' : ' disabled', disK = state.canCash ? '' : ' disabled';
     $('#detT').textContent = guestName(b);
     var sub = [];
     if (c.n) sub.push(noci(c.n));
@@ -922,7 +922,7 @@ html, body { margin: 0; }
     if (b.note) html += '<p class="d-note">' + esc(b.note) + '</p>';
     if (!b.cancelled && valid(b)) {
       html += '<button type="button" class="switch-row" role="switch" id="d-status" aria-checked="' + (b.status === 'naplaceno') + '"' + dis + '><span class="rx"><span class="rt">Naplaćeno</span><span class="rs">' + (b.status === 'naplaceno' ? 'Gotovina je u koverti' : 'Kad gost plati, uključi i iznos ulazi u kovertu') + '</span></span><span class="sw"></span></button>';
-      html += '<button type="button" class="switch-row k" role="switch" id="d-kat" aria-checked="' + !!b.katPaid + '"' + dis + '><span class="rx"><span class="rt">Isplaćeno ' + esc(partnerGen()) + '</span><span class="rs">' + (b.katPaid ? (b.katPaidAt ? longDate(b.katPaidAt) + (b.katPaidCur === 'RSD' ? ', u dinarima' : ', u evrima') + ', iz koverte' : 'Pre aplikacije') : eur(c.katTotal) + ' za isplatu iz koverte') + '</span></span><span class="sw"></span></button>';
+      html += '<button type="button" class="switch-row k" role="switch" id="d-kat" aria-checked="' + !!b.katPaid + '"' + disK + '><span class="rx"><span class="rt">Isplaćeno ' + esc(partnerGen()) + '</span><span class="rs">' + (b.katPaid ? (b.katPaidAt ? longDate(b.katPaidAt) + (b.katPaidCur === 'RSD' ? ', u dinarima' : ', u evrima') + ', iz koverte' : 'Pre aplikacije') : eur(c.katTotal) + ' za isplatu iz koverte') + '</span></span><span class="sw"></span></button>';
     }
     if (state.canWrite) {
       if (confirmDel) html += '<p class="warn">Obrisati ovu rezervaciju? Ovo ne može da se vrati.</p><div class="d-actions"><button type="button" class="btn danger press" id="d-delYes">' + icon('trash-2') + 'Obriši</button><button type="button" class="btn press" id="d-delNo">Odustani</button></div>';
@@ -930,10 +930,14 @@ html, body { margin: 0; }
       else html += '<div class="d-actions"><button type="button" class="btn ' + (incomplete(b) || b.review ? 'primary ' : '') + 'press" id="d-edit">' + icon('pencil') + (incomplete(b) ? 'Dopuni' : 'Izmeni') + '</button><button type="button" class="btn danger press" id="d-del">' + icon('trash-2') + 'Obriši</button></div>';
     }
     var el = $('#det'); el.innerHTML = html;
+    var kt = $('#d-kat', el);
+    if (kt && state.canCash) kt.addEventListener('click', function () {
+      if (b.katPaid) write(sb.rpc('unmark_partner_paid', { p_id: b.id }), 'Isplata poništena i vraćena u kovertu', null, { cash: true });
+      else openPay([b]);
+    });
     if (!state.canWrite) return;
-    var st = $('#d-status', el), kt = $('#d-kat', el);
+    var st = $('#d-status', el);
     if (st) st.addEventListener('click', function () { patch(b.id, { status: b.status === 'naplaceno' ? 'ceka' : 'naplaceno' }); });
-    if (kt) kt.addEventListener('click', function () { if (b.katPaid) patch(b.id, { kat_paid: false, kat_paid_at: null, kat_paid_currency: 'EUR', kat_paid_rate: null }); else openPay([b]); });
     var e1 = $('#d-edit', el); if (e1) e1.addEventListener('click', function () { openForm(b); });
     var rs = $('#d-restore', el); if (rs) rs.addEventListener('click', function () { patch(b.id, { cancelled: false }); });
     var d1 = $('#d-del', el); if (d1) d1.addEventListener('click', function () { confirmDel = true; renderDetail(); });
@@ -1324,7 +1328,8 @@ html, body { margin: 0; }
   function openPay(list) {
     payList = list.slice();
     if (!payList.length) return;
-    $('#payT').textContent = 'Isplata ' + partnerGen();
+    $('#payT').textContent = state.role === 'partner' ? 'Uzimam svoj deo' : 'Isplata ' + partnerGen();
+    $('#p-save').textContent = state.role === 'partner' ? 'Potvrdi da sam uzela' : 'Potvrdi isplatu';
     $('#p-what').textContent = payList.length === 1
       ? guestName(payList[0]) + ', ' + dayLbl(payList[0].checkIn) + (validDate(payList[0].checkOut) ? ' – ' + dayLbl(payList[0].checkOut) : '')
       : boravak(payList.length) + ', od ' + dayLbl(payList[0].checkIn) + ' do ' + dayLbl(payList[payList.length - 1].checkIn);
@@ -1357,11 +1362,9 @@ html, body { margin: 0; }
     if (payCur === 'RSD' && !(rate > 50 && rate < 500)) { $('#w-prate').classList.add('err'); toast('Upiši kurs, npr. 117,20', false); return; }
     var btn = $('#p-save'); btn.disabled = true;
     var ids = payList.map(function (b) { return b.id; });
-    var row = { kat_paid: true, kat_paid_at: today(), kat_paid_currency: payCur, kat_paid_rate: payCur === 'RSD' ? Math.round(rate * 10000) / 10000 : null };
-    write(sb.from('bookings').update(row).in('id', ids), 'Isplata upisana i skinuta iz koverte', function () {
-      closeSheet();
-      if (payCur === 'RSD' && Math.abs(rate - S.eurRsd) > 0.0001) sb.from('settings').update({ eur_rsd: Math.round(rate * 10000) / 10000 }).eq('id', 1).then(function () {});
-    }).then(function () { btn.disabled = false; });
+    var args = { p_ids: ids, p_currency: payCur, p_rate: payCur === 'RSD' ? Math.round(rate * 10000) / 10000 : null, p_date: today() };
+    write(sb.rpc('mark_partner_paid', args), 'Isplata upisana i skinuta iz koverte', function () { closeSheet(); }, { cash: true })
+      .then(function () { btn.disabled = false; });
   });
 
   /* ───── CSV ───── */
