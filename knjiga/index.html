@@ -314,6 +314,12 @@ html, body { margin: 0; }
 .add-member { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
 .sec-h { font-size: 13px; font-weight: 600; color: var(--muted); margin-top: 6px; }
 .sh-body > * { flex-shrink: 0; }
+.stats { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 0; }
+.stats > div + div { border-left: 0; }
+.stats > div:nth-child(even) { border-left: 1px solid var(--line); }
+.stats > div:nth-child(n+3) { border-top: 1px solid var(--line); }
+.stats dd.st-you { color: var(--you); }
+.stats dt { white-space: normal; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
@@ -597,6 +603,18 @@ html, body { margin: 0; }
       occTxt = Math.round(tn / td * 100) + '<small>%</small>';
       occSub = 'od ' + MONG[first];
     }
+    // Average monthly earnings: from the first month with a booking up to the current month
+    // (or the last booked month for other years), so future bookings don't dilute the average.
+    var booked = months.filter(function (x) { return x.list.length; });
+    var avgTxt = '–', avgSub = 'nema podataka';
+    if (booked.length) {
+      var fm = booked[0].m, lm = booked[booked.length - 1].m, nowY = new Date().getFullYear(), nowM = new Date().getMonth();
+      if (state.year === nowY) lm = Math.max(fm, nowM);
+      var span = lm - fm + 1, inSpan = 0;
+      for (var j = fm; j <= lm; j++) inSpan += months[j].mine;
+      avgTxt = eur0(inSpan / span);
+      avgSub = 'prosek ' + (span === 1 ? MON[fm] : MON[fm] + '–' + MON[lm]) + ' (' + plural(span, 'mesec', 'meseca', 'meseci') + ')';
+    }
     var html = todoHtml();
     html += '<div class="panel hero"><p class="hero-l">Tvoja zarada u ' + state.year + '.</p>' +
       '<p class="hero-n num">' + eur(mine) + '</p>' +
@@ -608,7 +626,8 @@ html, body { margin: 0; }
     html += '<dl class="panel stats">' +
       '<div><dt>Noćenja</dt><dd class="num">' + nights + '</dd><dd class="st-sub">' + boravak(list.length) + '</dd></div>' +
       '<div><dt>Popunjenost</dt><dd class="num">' + occTxt + '</dd><dd class="st-sub">' + esc(occSub) + '</dd></div>' +
-      '<div><dt>Bruto po noći</dt><dd class="num">' + (nights ? eur0(G / nights) : '–') + '</dd><dd class="st-sub">prosek</dd></div></dl>';
+      '<div><dt>Bruto po noći</dt><dd class="num">' + (nights ? eur0(G / nights) : '–') + '</dd><dd class="st-sub">prosek</dd></div>' +
+      '<div><dt>Mesečna zarada</dt><dd class="num st-you">' + avgTxt + '</dd><dd class="st-sub">' + esc(avgSub) + '</dd></div></dl>';
     html += '<div class="panel chart"><div class="chart-h"><h3>Po mesecima</h3><span>bruto po mesecu dolaska</span></div><div id="chartBox"></div></div>';
     html += '<ul class="panel rows">' + months.filter(function (x) { return x.list.length; }).reverse().map(function (x) {
       var occ = Math.round(x.nights / x.days * 100);
