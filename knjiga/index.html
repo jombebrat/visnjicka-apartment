@@ -1,0 +1,1147 @@
+<!DOCTYPE html>
+<html lang="sr-Latn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Višnjička knjiga</title>
+<meta name="robots" content="noindex, nofollow">
+<meta name="theme-color" content="#edf0f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0c1322" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="light dark">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Knjiga">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232e5288'/%3E%3Crect x='14' y='40' width='8' height='12' rx='2' fill='%23fff'/%3E%3Crect x='28' y='28' width='8' height='24' rx='2' fill='%23fff'/%3E%3Crect x='42' y='16' width='8' height='36' rx='2' fill='%23dcab62'/%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAB5klEQVR42u3csRGCMBiA0cA5CyXugpWTuAJOQqW72DqNC1gIiSQk7+tD7vzfRWjSjdMcpG/1fgLBITgEh+AQHIJDcAgOwSE4JDgEh+AQHIJDcAgOwSE4BIcEh+AQHIJDcAgOwSE4BIfgkE5+gn16Xt9rl0zL4OQgI+UqOOqXUYIPOMqVkd0HHEXLyOsDDsEhOASH4BAcgkNwCA7BITgkOASH4BAcgkNwCA7BITgEhwSH4BAcgkNwCA7BITgEh+CQWr0T7PW4rV1yvtydHGSkXAVH/TLa9NGTwQccyebajg9fK4JDcAgOwSE4BIfgEByCQ3BIcAgOwSE4BIfgEByCQ3AIDgkOwSE4BIfgEByCQ3AIDsEhlXEnmBu6nBzJZIQmb+hqDocbuuD413T5qBOHG7rgEByCQ3BIcAgOwSE4BIfgEByCQ3AIDsEhwSE4BIfgEByCQ3AIDsEhOCQ4BIfgUHU4Ut2+8vtz9t9xWoYkO6Z6zpFOjvhprX3C/jvGzzWXjPx/KzHT2rZ2/x1jpptRRhHvHEeZccyO22acV0YIoRun2ZuXfK0IDsEhOASH4BAcgkNwCA4JDsEhOASH4BAcgkNwCA7BIcEhOASH4BAcgkNwCA7BITgEhwSH4BAcgkNwCA7BoSr6AAhQVH1zP1rwAAAAAElFTkSuQmCC">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
+<style>
+
+/* Layout: a phone ledger. Sticky year bar, one column of grouped rows, bottom tabs with a central add button.
+   Every booking is drawn as a split of its gross: Booking fee, Katarina (cleaning + share), yours. */
+:root {
+  --bg: #edf0f5;
+  --surface: #ffffff;
+  --surface-2: #f3f5f9;
+  --ink: #16213a;
+  --muted: #5c6880;
+  --line: rgba(22, 33, 58, .09);
+  --line-2: rgba(22, 33, 58, .17);
+  --you: #2e5288;
+  --you-tint: #e4ebf5;
+  --on-you: #ffffff;
+  --kat: #b67d31;
+  --kat-ink: #8a5a17;
+  --kat-tint: #f6ecdc;
+  --fee: #a7b1c2;
+  --ok: #2b7655;
+  --ok-tint: #e1f0e8;
+  --wait: #93620d;
+  --wait-tint: #fbefd6;
+  --danger: #b0233b;
+  --danger-tint: #fbe8eb;
+  --scrim: rgba(10, 16, 32, .42);
+  --font: 'Onest', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ease: cubic-bezier(.22, 1, .36, 1);
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0c1322; --surface: #141d30; --surface-2: #1b263b; --ink: #e5eaf3; --muted: #96a2b9;
+    --line: rgba(255, 255, 255, .07); --line-2: rgba(255, 255, 255, .15);
+    --you: #8fb3e8; --you-tint: rgba(143, 179, 232, .14); --on-you: #0c1322;
+    --kat: #dcab62; --kat-ink: #e6bd7e; --kat-tint: rgba(220, 171, 98, .13); --fee: #56637a;
+    --ok: #7dcca4; --ok-tint: rgba(125, 204, 164, .13); --wait: #e8bd67; --wait-tint: rgba(232, 189, 103, .13);
+    --danger: #f08b9b; --danger-tint: rgba(240, 139, 155, .13); --scrim: rgba(0, 0, 0, .55);
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0c1322; --surface: #141d30; --surface-2: #1b263b; --ink: #e5eaf3; --muted: #96a2b9;
+  --line: rgba(255, 255, 255, .07); --line-2: rgba(255, 255, 255, .15);
+  --you: #8fb3e8; --you-tint: rgba(143, 179, 232, .14); --on-you: #0c1322;
+  --kat: #dcab62; --kat-ink: #e6bd7e; --kat-tint: rgba(220, 171, 98, .13); --fee: #56637a;
+  --ok: #7dcca4; --ok-tint: rgba(125, 204, 164, .13); --wait: #e8bd67; --wait-tint: rgba(232, 189, 103, .13);
+  --danger: #f08b9b; --danger-tint: rgba(240, 139, 155, .13); --scrim: rgba(0, 0, 0, .55);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink); font: 400 15px/1.45 var(--font);
+  -webkit-font-smoothing: antialiased; -webkit-tap-highlight-color: transparent;
+  font-variant-numeric: tabular-nums;
+}
+body::before { content: ""; position: fixed; inset: 0 0 auto; height: env(safe-area-inset-top, 0px); z-index: 10; background: var(--bg); }
+h1, h2, h3, p { margin: 0; }
+button { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; text-align: inherit; }
+input, select, textarea { font: inherit; color: inherit; }
+svg.i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor; stroke-width: 1.9; stroke-linecap: round; stroke-linejoin: round; }
+:focus-visible { outline: 2.5px solid var(--you); outline-offset: 2px; border-radius: 10px; }
+.num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.wrap { max-width: 560px; margin: 0 auto; padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+
+/* Top bar */
+.bar { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5; background: color-mix(in srgb, var(--bg) 88%, transparent); -webkit-backdrop-filter: saturate(1.6) blur(16px); backdrop-filter: saturate(1.6) blur(16px); }
+.bar .wrap { display: flex; align-items: center; gap: 8px; height: 56px; }
+.brand { flex: 1; min-width: 0; font-weight: 600; font-size: 16px; letter-spacing: -.01em; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.brand small { display: block; font-size: 12px; font-weight: 400; color: var(--muted); letter-spacing: 0; }
+.year { display: flex; align-items: center; background: var(--surface); border-radius: 999px; height: 38px; box-shadow: inset 0 0 0 1px var(--line); }
+.year button { width: 36px; height: 38px; display: grid; place-items: center; color: var(--muted); border-radius: 999px; }
+.year button:disabled { opacity: .3; cursor: default; }
+.year span { min-width: 44px; text-align: center; font-weight: 600; font-size: 15px; }
+.year svg.i { width: 18px; height: 18px; }
+.icon-btn { width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); }
+
+main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
+.view { padding-block: 6px 12px; display: flex; flex-direction: column; gap: 12px; }
+.h2 { font-size: 13px; font-weight: 600; color: var(--muted); margin: 14px 4px -4px; }
+.panel { background: var(--surface); border-radius: 20px; }
+.notice { padding: 14px 16px; border-radius: 16px; background: var(--wait-tint); color: var(--ink); font-size: 14px; }
+.empty { padding: 28px 18px; text-align: center; color: var(--muted); font-size: 14px; }
+.empty b { display: block; color: var(--ink); font-size: 16px; margin-bottom: 4px; }
+
+/* Split bar: the signature element */
+.split { display: flex; height: 12px; border-radius: 6px; overflow: hidden; background: var(--surface-2); gap: 2px; }
+.split i { display: block; height: 100%; min-width: 0; }
+.split .s-you { background: var(--you); }
+.split .s-kat { background: var(--kat); }
+.split .s-fee { background: var(--fee); }
+.split.mini { height: 5px; border-radius: 3px; gap: 1.5px; margin-top: 8px; }
+
+/* Overview hero */
+.hero { padding: 20px 18px 18px; }
+.hero-l { font-size: 14px; color: var(--muted); }
+.hero-n { font-size: clamp(38px, 11vw, 48px); font-weight: 600; letter-spacing: -.03em; line-height: 1.05; margin: 4px 0 6px; color: var(--you); }
+.hero-s { font-size: 14px; color: var(--muted); margin-bottom: 16px; }
+.hero-s b { color: var(--ink); font-weight: 500; }
+.legend { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin-top: 12px; }
+.legend div { min-width: 0; }
+.legend dt { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.legend dt::before { content: ""; width: 8px; height: 8px; border-radius: 2px; background: var(--c); flex: none; }
+.legend dd { margin: 2px 0 0; font-weight: 600; font-size: 15px; white-space: nowrap; }
+dl { margin: 0; }
+
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); padding: 4px 0; }
+.stats > div { padding: 12px 14px; min-width: 0; }
+.stats > div + div { border-left: 1px solid var(--line); }
+.stats dt { font-size: 12.5px; color: var(--muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.stats dd { margin: 2px 0 0; font-size: 20px; font-weight: 600; letter-spacing: -.01em; white-space: nowrap; }
+.stats dd small { font-size: 13px; font-weight: 500; color: var(--muted); }
+.stats dd.st-sub { font-size: 12.5px; font-weight: 400; color: var(--muted); margin-top: 0; letter-spacing: 0; }
+
+.chart { padding: 16px 12px 8px; }
+.chart-h { display: flex; justify-content: space-between; align-items: baseline; padding: 0 4px 6px; }
+.chart-h h3 { font-size: 16px; font-weight: 600; }
+.chart-h span { font-size: 12.5px; color: var(--muted); }
+.chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+.chart .grid { stroke: var(--line); stroke-width: 1; }
+.chart .ylab, .chart .xlab { fill: var(--muted); font: 500 10.5px var(--font); }
+.chart .xlab.cur { fill: var(--ink); font-weight: 700; }
+.chart .hit { fill: transparent; cursor: pointer; }
+.chart .hit:hover + g rect, .chart .hit:focus + g rect { filter: brightness(1.08); }
+.chart .b-you { fill: var(--you); } .chart .b-kat { fill: var(--kat); } .chart .b-fee { fill: var(--fee); }
+
+/* Rows */
+.rows { list-style: none; margin: 0; padding: 0; }
+.row { display: flex; align-items: center; gap: 12px; width: 100%; padding: 13px 16px; }
+.rows > li + li .row, .rows > li + li > .row { border-top: 1px solid var(--line); }
+button.row:active { background: var(--surface-2); }
+.row .rx { flex: 1; min-width: 0; }
+.row .rt { display: block; font-weight: 600; font-size: 15.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.row .rs { display: block; font-size: 13.5px; color: var(--muted); margin-top: 1px; }
+.row .ra { text-align: right; flex: none; }
+.row .ra b { display: block; font-weight: 600; font-size: 15.5px; white-space: nowrap; }
+.row .ra small { display: block; font-size: 12.5px; color: var(--muted); white-space: nowrap; margin-top: 1px; }
+.row .you { color: var(--you); }
+.row .katc { color: var(--kat-ink); }
+.chev { color: var(--line-2); width: 18px !important; height: 18px !important; }
+
+.bk-date { flex: none; width: 52px; display: flex; flex-direction: column; align-items: flex-start; }
+.bk-date b { font-size: 15px; font-weight: 600; line-height: 1.15; white-space: nowrap; }
+.bk-date small { font-size: 12.5px; color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 6px; }
+.chip { display: inline-flex; align-items: center; gap: 4px; height: 22px; padding: 0 8px; border-radius: 999px; font-size: 12px; font-weight: 500; white-space: nowrap; }
+.chip.wait { background: var(--wait-tint); color: var(--wait); }
+.chip.kat { background: var(--kat-tint); color: var(--kat-ink); }
+.chip.soon { background: var(--you-tint); color: var(--you); }
+.chip.ok { background: var(--ok-tint); color: var(--ok); }
+.chip svg.i { width: 13px; height: 13px; stroke-width: 2.2; }
+
+.group-h { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; margin: 14px 4px -4px; }
+.group-h h3 { font-size: 13px; font-weight: 600; color: var(--muted); }
+.group-h span { font-size: 12.5px; color: var(--muted); white-space: nowrap; }
+.group-h span b { color: var(--you); font-weight: 600; }
+
+.seg { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--surface); border-radius: 14px; padding: 4px; box-shadow: inset 0 0 0 1px var(--line); }
+.seg button { height: 36px; border-radius: 10px; font-size: 14px; font-weight: 500; color: var(--muted); text-align: center; white-space: nowrap; }
+.seg button[aria-pressed="true"] { background: var(--you); color: var(--on-you); }
+.filter-chip { display: inline-flex; align-self: flex-start; align-items: center; gap: 6px; height: 34px; padding: 0 8px 0 14px; border-radius: 999px; background: var(--you-tint); color: var(--you); font-weight: 600; font-size: 14px; }
+.filter-chip svg.i { width: 16px; height: 16px; }
+
+/* Katarina */
+.k-hero { padding: 20px 18px 18px; background: var(--kat-tint); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kat) 30%, transparent); }
+.k-hero .hero-n { color: var(--kat-ink); }
+.k-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+
+/* Buttons */
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; height: 46px; padding: 0 18px; border-radius: 14px; font-weight: 600; font-size: 15px; background: var(--surface-2); white-space: nowrap; }
+.btn.primary { background: var(--you); color: var(--on-you); }
+.btn.kat { background: var(--kat); color: #fff; }
+.btn.danger { background: var(--danger-tint); color: var(--danger); }
+.btn.wide { width: 100%; }
+.btn:disabled { opacity: .45; cursor: default; }
+.btn svg.i { width: 18px; height: 18px; }
+.press { transition: transform .18s var(--ease); }
+.press:active { transform: scale(.97); }
+
+/* Tab bar */
+.tabs {
+  position: fixed; z-index: 8; left: 0; right: 0; bottom: 0;
+  padding: 6px max(10px, env(safe-area-inset-right, 0px)) calc(6px + env(safe-area-inset-bottom, 0px)) max(10px, env(safe-area-inset-left, 0px));
+  background: color-mix(in srgb, var(--surface) 86%, transparent); -webkit-backdrop-filter: saturate(1.7) blur(20px); backdrop-filter: saturate(1.7) blur(20px);
+  box-shadow: 0 -1px 0 var(--line);
+}
+.tabs-in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; align-items: center; }
+.tab { height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11.5px; font-weight: 500; color: var(--muted); }
+.tab svg.i { width: 23px; height: 23px; stroke-width: 1.8; }
+.tab[aria-current="page"] { color: var(--you); }
+.tab[aria-current="page"] svg.i { stroke-width: 2.1; }
+.add { justify-self: center; height: 46px; padding: 0 16px 0 12px; border-radius: 16px; background: var(--you); color: var(--on-you); display: inline-flex; align-items: center; gap: 6px; font-weight: 600; font-size: 14.5px; box-shadow: 0 6px 18px color-mix(in srgb, var(--you) 35%, transparent); white-space: nowrap; }
+.add svg.i { width: 20px; height: 20px; stroke-width: 2.4; }
+
+/* Sheets */
+.scrim { position: fixed; inset: 0; z-index: 20; background: var(--scrim); opacity: 0; pointer-events: none; transition: opacity .3s; }
+.scrim.on { opacity: 1; pointer-events: auto; }
+.sheet {
+  position: fixed; z-index: 21; left: 0; right: 0; bottom: 0; margin: 0 auto; max-width: 560px; max-height: 92%;
+  display: flex; flex-direction: column; background: var(--surface); border-radius: 24px 24px 0 0;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, .18); transform: translateY(104%); transition: transform .42s var(--ease);
+}
+.sheet.on { transform: none; }
+.sh-head { display: flex; align-items: center; gap: 10px; padding: 14px max(16px, env(safe-area-inset-right, 0px)) 10px max(18px, env(safe-area-inset-left, 0px)); border-bottom: 1px solid var(--line); }
+.sh-head h2 { flex: 1; font-size: 18px; font-weight: 600; letter-spacing: -.01em; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.sh-body { overflow-y: auto; overscroll-behavior: contain; padding: 14px max(18px, env(safe-area-inset-right, 0px)) calc(18px + env(safe-area-inset-bottom, 0px)) max(18px, env(safe-area-inset-left, 0px)); display: flex; flex-direction: column; gap: 14px; }
+.sh-x { width: 36px; height: 36px; border-radius: 999px; display: grid; place-items: center; background: var(--surface-2); color: var(--muted); }
+
+/* Form */
+.field { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+.field > span { font-size: 13px; font-weight: 500; color: var(--muted); }
+.field input, .field select, .field textarea {
+  width: 100%; min-width: 0; height: 48px; padding: 0 14px; border-radius: 13px; border: 0; outline: 0;
+  background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); font-size: 16px;
+}
+.field textarea { height: 72px; padding: 12px 14px; resize: vertical; }
+.field input:focus, .field textarea:focus { box-shadow: inset 0 0 0 2px var(--you); }
+.field.err input { box-shadow: inset 0 0 0 2px var(--danger); }
+.two { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.money { position: relative; display: block; }
+.money input { padding-right: 36px; font-size: 20px; font-weight: 600; height: 54px; }
+.money em { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); font-style: normal; color: var(--muted); font-weight: 600; }
+.opts { display: flex; flex-wrap: wrap; gap: 6px; }
+.opt { height: 38px; padding: 0 14px; border-radius: 999px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); font-size: 14px; font-weight: 500; white-space: nowrap; }
+.opt[aria-pressed="true"] { background: var(--you); color: var(--on-you); box-shadow: none; }
+.hint { font-size: 13px; color: var(--muted); }
+.warn { font-size: 13.5px; color: var(--danger); }
+.stepper { display: flex; align-items: center; height: 48px; border-radius: 13px; background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--line); }
+.stepper button { width: 46px; height: 48px; display: grid; place-items: center; font-size: 22px; color: var(--you); font-weight: 500; }
+.stepper output { flex: 1; text-align: center; font-weight: 600; font-size: 16px; }
+
+.calc { background: var(--surface-2); border-radius: 16px; padding: 14px; }
+.calc table { width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 14.5px; }
+.calc td { padding: 5px 0; }
+.calc td:last-child { text-align: right; font-weight: 500; white-space: nowrap; }
+.calc tr.sub td { color: var(--muted); }
+.calc tr.tot td { border-top: 1px solid var(--line-2); padding-top: 9px; font-weight: 600; font-size: 16px; color: var(--you); }
+.calc tr.k td { color: var(--kat-ink); }
+.calc .dot { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 7px; vertical-align: 1px; }
+
+.switch-row { display: flex; align-items: center; gap: 12px; padding: 12px 14px; border-radius: 14px; background: var(--surface-2); width: 100%; }
+.switch-row .rx { flex: 1; min-width: 0; }
+.switch-row .rt { display: block; font-weight: 600; font-size: 15px; }
+.switch-row .rs { display: block; font-size: 13px; color: var(--muted); }
+.sw { flex: none; width: 46px; height: 28px; border-radius: 999px; background: var(--line-2); position: relative; transition: background .25s; }
+.sw::after { content: ""; position: absolute; top: 3px; left: 3px; width: 22px; height: 22px; border-radius: 50%; background: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, .25); transition: transform .3s var(--ease); }
+[aria-checked="true"] .sw { background: var(--ok); }
+[aria-checked="true"] .sw::after { transform: translateX(18px); }
+.switch-row.k[aria-checked="true"] .sw { background: var(--kat); }
+
+.d-head { display: flex; flex-direction: column; gap: 2px; }
+.d-dates { font-size: 22px; font-weight: 600; letter-spacing: -.02em; }
+.d-sub { color: var(--muted); font-size: 14px; }
+.d-note { font-size: 14px; color: var(--muted); background: var(--surface-2); border-radius: 12px; padding: 10px 12px; white-space: pre-wrap; overflow-wrap: anywhere; }
+.d-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.toast {
+  position: fixed; z-index: 30; left: 50%; bottom: calc(84px + env(safe-area-inset-bottom, 0px));
+  display: flex; align-items: center; gap: 8px; max-width: calc(100% - 32px); padding: 11px 16px 11px 13px; border-radius: 999px;
+  background: var(--ink); color: var(--bg); font-size: 14.5px; font-weight: 500; box-shadow: 0 10px 30px rgba(0, 0, 0, .22);
+  transform: translate(-50%, 16px); opacity: 0; pointer-events: none; transition: transform .4s var(--ease), opacity .25s;
+}
+.toast.on { transform: translate(-50%, 0); opacity: 1; }
+.toast svg.i { width: 18px; height: 18px; }
+
+@media (min-width: 600px) { .sheet { bottom: 24px; border-radius: 24px; max-height: calc(100% - 48px); } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+
+:root { padding-top: env(safe-area-inset-top, 0px); }
+[hidden] { display: none !important; }
+html, body { margin: 0; }
+
+/* Sign-in */
+.gate { min-height: 100svh; display: grid; place-items: center; padding-block: 40px; }
+.gate-card { width: 100%; max-width: 400px; background: var(--surface); border-radius: 24px; padding: 26px 22px 22px; display: flex; flex-direction: column; gap: 14px; }
+.gate-mark { width: 48px; height: 48px; border-radius: 14px; background: var(--you); display: grid; place-items: center; }
+.gate-mark svg { width: 26px; height: 26px; }
+.gate h1 { font-size: 24px; font-weight: 600; letter-spacing: -.02em; margin: 4px 0 0; }
+.gate p { color: var(--muted); font-size: 14.5px; }
+.gate .seg { grid-template-columns: 1fr 1fr; }
+.gate .msg { font-size: 14px; padding: 10px 12px; border-radius: 12px; background: var(--wait-tint); color: var(--ink); }
+.gate .msg.err { background: var(--danger-tint); color: var(--danger); }
+.gate .fine { font-size: 12.5px; color: var(--muted); text-align: center; }
+
+.chip.muted { background: var(--surface-2); color: var(--muted); }
+.row.is-cancelled .rt { text-decoration: line-through; color: var(--muted); }
+.todo { background: var(--wait-tint); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--wait) 25%, transparent); }
+.todo .h { padding: 14px 16px 2px; font-weight: 600; font-size: 15px; color: var(--wait); }
+.todo .rows > li + li .row { border-top-color: color-mix(in srgb, var(--wait) 18%, transparent); }
+.member { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 12px; background: var(--surface-2); }
+.member span { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14.5px; }
+.member small { color: var(--muted); font-size: 12.5px; }
+.member button { width: 32px; height: 32px; border-radius: 999px; display: grid; place-items: center; color: var(--danger); }
+.add-member { display: grid; grid-template-columns: 1fr auto; gap: 8px; }
+.sec-h { font-size: 13px; font-weight: 600; color: var(--muted); margin-top: 6px; }
+.sh-body > * { flex-shrink: 0; }
+.vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+</style>
+</head>
+<body>
+<!-- Icons: Lucide (ISC license) --><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-calendar-days" viewBox="0 0 24 24"><path d="M8 2v3" /><path d="M16 2v3" /><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M8 13h.01" /><path d="M12 13h.01" /><path d="M16 13h.01" /><path d="M8 17h.01" /><path d="M12 17h.01" /><path d="M16 17h.01" /></symbol><symbol id="i-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /></symbol><symbol id="i-hand-coins" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" /><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /><path d="m2 16 6 6" /><circle cx="16" cy="9" r="2.9" /><circle cx="6" cy="5" r="3" /></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="M12 5v14" /></symbol><symbol id="i-rotate-ccw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></symbol><symbol id="i-trash-2" viewBox="0 0 24 24"><path d="M10 11v6" /><path d="M14 11v6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol></svg>
+
+<section class="gate wrap" id="gate" hidden>
+  <form class="gate-card" id="gateForm" novalidate>
+    <span class="gate-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"><path d="M5 20V14M12 20V9M19 20V4"/></svg></span>
+    <h1>Višnjička knjiga</h1>
+    <p id="gateLead">Prijavi se da vidiš rezervacije i podelu zarade.</p>
+    <div class="seg" role="group" aria-label="Prijava ili novi nalog">
+      <button type="button" data-mode="login" aria-pressed="true">Prijava</button>
+      <button type="button" data-mode="signup" aria-pressed="false">Novi nalog</button>
+    </div>
+    <label class="field"><span>Mejl</span><input type="email" id="g-email" autocomplete="email" inputmode="email" required></label>
+    <label class="field"><span>Lozinka</span><input type="password" id="g-pass" autocomplete="current-password" required minlength="8"></label>
+    <p class="msg" id="gateMsg" hidden></p>
+    <button type="submit" class="btn primary wide press" id="gateBtn">Prijavi se</button>
+    <p class="fine" id="gateFine">Pristup imaju samo nalozi koje je vlasnik dodao.</p>
+  </form>
+</section>
+
+<section class="gate wrap" id="denied" hidden>
+  <div class="gate-card">
+    <h1>Nemaš pristup</h1>
+    <p>Nalog <b id="deniedEmail"></b> nije dodat u aplikaciju. Zamoli vlasnika da te doda pod Podešavanja, pa se ponovo prijavi.</p>
+    <button type="button" class="btn wide press" id="deniedOut">Odjavi se</button>
+  </div>
+</section>
+
+<div id="appShell" hidden>
+<header class="bar">
+  <div class="wrap">
+    <div class="brand">Višnjička knjiga<small id="whoami">Rezervacije i podela zarade</small></div>
+    <div class="year" role="group" aria-label="Godina">
+      <button type="button" id="yPrev" aria-label="Prethodna godina"><svg class="i"><use href="#i-chevron-left"/></svg></button>
+      <span id="yLbl">2026</span>
+      <button type="button" id="yNext" aria-label="Sledeća godina"><svg class="i"><use href="#i-chevron-right"/></svg></button>
+    </div>
+    <button type="button" class="icon-btn press" id="openSet" aria-label="Podešavanja"><svg class="i"><use href="#i-settings"/></svg></button>
+  </div>
+</header>
+
+<main class="wrap">
+  <div id="banner" hidden></div>
+  <section class="view" id="v-pregled" aria-label="Pregled"></section>
+  <section class="view" id="v-rezervacije" aria-label="Rezervacije" hidden></section>
+  <section class="view" id="v-katarina" aria-label="Katarina" hidden></section>
+</main>
+
+<nav class="tabs" aria-label="Delovi aplikacije">
+  <div class="tabs-in">
+    <button type="button" class="tab" data-go="pregled" aria-current="page"><svg class="i"><use href="#i-chart-column"/></svg>Pregled</button>
+    <button type="button" class="tab" data-go="rezervacije"><svg class="i"><use href="#i-calendar-days"/></svg>Rezervacije</button>
+    <button type="button" class="add press" id="addBtn"><svg class="i"><use href="#i-plus"/></svg>Nova</button>
+    <button type="button" class="tab" data-go="katarina"><svg class="i"><use href="#i-hand-coins"/></svg><span id="tabPartner">Katarina</span></button>
+  </div>
+</nav>
+</div>
+
+<div class="scrim" id="scrim"></div>
+
+<div class="sheet" id="sh-form" role="dialog" aria-modal="true" aria-labelledby="formT" hidden>
+  <div class="sh-head"><h2 id="formT">Nova rezervacija</h2><button type="button" class="sh-x" data-close aria-label="Zatvori"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <form class="sh-body" id="form" novalidate>
+    <label class="field"><span>Gost</span><input id="f-guest" autocomplete="off" placeholder="Ime i prezime"></label>
+    <div class="two">
+      <label class="field" id="w-in"><span>Check-in</span><input type="date" id="f-in" required></label>
+      <label class="field" id="w-out"><span>Check-out</span><input type="date" id="f-out" required></label>
+    </div>
+    <p class="hint" id="f-nights">Izaberi datume dolaska i odlaska.</p>
+    <p class="warn" id="f-overlap" hidden></p>
+    <div class="two">
+      <label class="field" id="w-gross"><span>Bruto iznos</span><span class="money"><input id="f-gross" inputmode="decimal" autocomplete="off" placeholder="0,00"><em>€</em></span></label>
+      <div class="field"><span>Gostiju</span>
+        <div class="stepper"><button type="button" id="g-minus" aria-label="Manje gostiju">−</button><output id="f-guests">–</output><button type="button" id="g-plus" aria-label="Više gostiju">+</button></div>
+      </div>
+    </div>
+    <div class="field"><span>Kanal</span>
+      <div class="opts" id="f-channel">
+        <button type="button" class="opt" data-v="booking" aria-pressed="true">Booking</button>
+        <button type="button" class="opt" data-v="airbnb" aria-pressed="false">Airbnb</button>
+        <button type="button" class="opt" data-v="direct" aria-pressed="false">Direktno</button>
+      </div>
+    </div>
+    <div class="two">
+      <label class="field"><span>Provizija kanala (%)</span><input id="f-pct" inputmode="decimal" autocomplete="off"></label>
+      <label class="field"><span>Broj rezervacije</span><input id="f-res" inputmode="numeric" autocomplete="off" placeholder="Nije obavezno"></label>
+    </div>
+    <div class="field"><span>Naplata</span>
+      <div class="opts" id="f-status">
+        <button type="button" class="opt" data-v="ceka" aria-pressed="true">Čeka naplatu</button>
+        <button type="button" class="opt" data-v="naplaceno" aria-pressed="false">Naplaćeno</button>
+      </div>
+    </div>
+    <div class="calc" id="f-calc"></div>
+    <label class="field"><span>Napomena</span><textarea id="f-note" placeholder="Nije obavezno"></textarea></label>
+    <button type="submit" class="btn primary wide press" id="f-save">Sačuvaj rezervaciju</button>
+  </form>
+</div>
+
+<div class="sheet" id="sh-detail" role="dialog" aria-modal="true" aria-labelledby="detT" hidden>
+  <div class="sh-head"><h2 id="detT"></h2><button type="button" class="sh-x" data-close aria-label="Zatvori"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sh-body" id="det"></div>
+</div>
+
+<div class="sheet" id="sh-set" role="dialog" aria-modal="true" aria-labelledby="setT" hidden>
+  <div class="sh-head"><h2 id="setT">Podešavanja</h2><button type="button" class="sh-x" data-close aria-label="Zatvori"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sh-body">
+    <form id="setForm" novalidate style="display:flex;flex-direction:column;gap:14px">
+      <p class="hint">Promene važe za nove rezervacije. Već unete zadržavaju svoja pravila.</p>
+      <div class="two">
+        <label class="field"><span>Booking provizija (%)</span><input id="s-booking" inputmode="decimal"></label>
+        <label class="field"><span>Airbnb provizija (%)</span><input id="s-airbnb" inputmode="decimal"></label>
+      </div>
+      <div class="two">
+        <label class="field"><span>Partner</span><input id="s-partner" autocomplete="off"></label>
+        <label class="field"><span>Partnerov deo (%)</span><input id="s-kat" inputmode="decimal"></label>
+      </div>
+      <label class="field"><span>Čišćenje po boravku (€)</span><input id="s-clean" inputmode="decimal"></label>
+      <p class="hint">Partnerov deo se računa od neta umanjenog za čišćenje. Partner dobija i čišćenje.</p>
+      <button type="submit" class="btn primary wide press" id="s-save">Sačuvaj podešavanja</button>
+    </form>
+    <div id="accessBox" style="display:flex;flex-direction:column;gap:10px">
+      <p class="sec-h">Pristup aplikaciji</p>
+      <div id="memberList" style="display:flex;flex-direction:column;gap:6px"></div>
+      <form class="add-member" id="memberForm" novalidate>
+        <label class="field"><span class="vh">Mejl partnera</span><input type="email" id="m-email" placeholder="Mejl za pristup, npr. Katarinin" autocomplete="off" inputmode="email"></label>
+        <button type="submit" class="btn primary press" style="align-self:end">Dodaj</button>
+      </form>
+      <p class="hint">Osoba koju dodaš otvara ovu stranicu, bira „Novi nalog“ i pravi lozinku sa tim mejlom. Može da gleda sve, ali ne i da menja.</p>
+    </div>
+    <p class="sec-h">Nalog</p>
+    <p class="hint" id="acctLine"></p>
+    <button type="button" class="btn wide press" id="s-export"><svg class="i"><use href="#i-download"/></svg>Preuzmi tabelu (CSV)</button>
+    <button type="button" class="btn wide press" id="s-logout">Odjavi se</button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"><svg class="i"><use href="#i-check"/></svg><span></span></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
+<script>
+/* icons used from script: #i-clock #i-trash-2 #i-pencil #i-chevron-right #i-hand-coins #i-x #i-check #i-triangle-alert #i-rotate-ccw */
+(function () {
+  'use strict';
+  var SUPA_URL = 'https://cegbafuyqsdiltlvwweu.supabase.co';
+  var SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImNlZ2JhZnV5cXNkaWx0bHZ3d2V1Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTI2NzE2ODUsImV4cCI6MjEwODI0NzY4NX0.fjH_p4-Nf3GuG5q8zP0vfMMWJATN_yKIWN-28mIhmuE';
+
+  var $ = function (s, r) { return (r || document).querySelector(s); };
+  var $$ = function (s, r) { return Array.prototype.slice.call((r || document).querySelectorAll(s)); };
+
+  var MON = ['jan', 'feb', 'mar', 'apr', 'maj', 'jun', 'jul', 'avg', 'sep', 'okt', 'nov', 'dec'];
+  var MONF = ['januar', 'februar', 'mart', 'april', 'maj', 'jun', 'jul', 'avgust', 'septembar', 'oktobar', 'novembar', 'decembar'];
+  var MONG = ['januara', 'februara', 'marta', 'aprila', 'maja', 'juna', 'jula', 'avgusta', 'septembra', 'oktobra', 'novembra', 'decembra'];
+  var CH = { booking: 'Booking', airbnb: 'Airbnb', direct: 'Direktno' };
+  var DEF = { commission: { booking: 12, airbnb: 15.5, direct: 0 }, katPct: 20, cleaning: 35, partner: 'Katarina' };
+
+  var S = JSON.parse(JSON.stringify(DEF));
+  var B = [];
+  var state = { loaded: false, canWrite: false, role: null, email: '', year: new Date().getFullYear(), view: 'pregled', month: null, filter: 'sve', confirmPay: false };
+  var sb = null;
+
+  /* ───── helpers ───── */
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function grp(n) { return String(n).replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+  var NB = String.fromCharCode(160);
+  function eur(c) { c = Math.round(c || 0); var neg = c < 0; c = Math.abs(c); return (neg ? '−' : '') + grp(Math.floor(c / 100)) + ',' + String(c % 100).padStart(2, '0') + NB + '€'; }
+  function eur0(c) { var v = Math.round((c || 0) / 100); return (v < 0 ? '−' : '') + grp(Math.abs(v)) + NB + '€'; }
+  function pctTxt(p) { return String(p).replace('.', ',') + '%'; }
+  function parseNum(s) { if (s == null) return NaN; s = String(s).trim().replace(/\s/g, ''); if (/,\d{1,2}$/.test(s)) s = s.replace(/\./g, '').replace(',', '.'); else s = s.replace(/,/g, ''); return s === '' ? NaN : Number(s); }
+  function iso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+  function today() { return iso(new Date()); }
+  function dn(s) { var p = s.split('-'); return Date.UTC(+p[0], +p[1] - 1, +p[2]) / 864e5; }
+  function fromDn(n) { var d = new Date(n * 864e5); return d.getUTCFullYear() + '-' + String(d.getUTCMonth() + 1).padStart(2, '0') + '-' + String(d.getUTCDate()).padStart(2, '0'); }
+  function validDate(s) { return typeof s === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(s); }
+  function nightsOf(b) { return validDate(b.checkIn) && validDate(b.checkOut) ? Math.max(0, dn(b.checkOut) - dn(b.checkIn)) : 0; }
+  function ym(s) { return s.slice(0, 7); }
+  function dayLbl(s) { var p = s.split('-'); return (+p[2]) + '. ' + MON[+p[1] - 1]; }
+  function longDate(s) { var p = s.split('-'); return (+p[2]) + '. ' + MONG[+p[1] - 1] + ' ' + p[0] + '.'; }
+  function range(b) {
+    var a = b.checkIn.split('-');
+    if (!validDate(b.checkOut)) return { top: (+a[2]) + '.', bot: MON[+a[1] - 1] };
+    var z = b.checkOut.split('-');
+    if (a[1] === z[1] && a[0] === z[0]) return { top: (+a[2]) + '.–' + (+z[2]) + '.', bot: MON[+a[1] - 1] };
+    return { top: (+a[2]) + '.–' + (+z[2]) + '.', bot: MON[+a[1] - 1] + '–' + MON[+z[1] - 1] };
+  }
+  function plural(n, one, few, many) { var m10 = n % 10, m100 = n % 100; if (m10 === 1 && m100 !== 11) return n + ' ' + one; if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return n + ' ' + few; return n + ' ' + many; }
+  function noci(n) { return plural(n, 'noć', 'noći', 'noći'); }
+  function rez(n) { return plural(n, 'rezervacija', 'rezervacije', 'rezervacija'); }
+  function boravak(n) { return plural(n, 'boravak', 'boravka', 'boravaka'); }
+  function partner() { return (S.partner || 'Katarina').trim() || 'Katarina'; }
+  function partnerGen() { var p = partner(); return /a$/i.test(p) ? p.slice(0, -1) + 'i' : p + 'u'; }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function icon(n, extra) { return '<svg class="i ' + (extra || '') + '"><use href="#i-' + n + '"/></svg>'; }
+
+  function calc(b) {
+    var G = Math.round((+b.gross || 0) * 100);
+    var pct = +b.commissionPct || 0, kp = +b.katPct || 0, C = Math.round((+b.cleaning || 0) * 100);
+    var fee = Math.round(G * pct / 100), net = G - fee, kat = Math.round((net - C) * kp / 100), mine = net - kat - C;
+    return { G: G, fee: fee, net: net, kat: kat, C: C, mine: mine, katTotal: C + kat, n: nightsOf(b) };
+  }
+  function splitHtml(c, cls) {
+    var t = Math.max(1, c.G), y = Math.max(0, c.mine), k = Math.max(0, c.katTotal), f = Math.max(0, c.fee);
+    return '<span class="split ' + (cls || '') + '" aria-hidden="true"><i class="s-you" style="flex:' + y / t + '"></i><i class="s-kat" style="flex:' + k / t + '"></i><i class="s-fee" style="flex:' + f / t + '"></i></span>';
+  }
+  function guestName(b) { return (b.guest || '').trim() || 'Gost nepoznat'; }
+  function incomplete(b) { return !b.cancelled && (!validDate(b.checkOut) || b.gross == null); }
+  function valid(b) { return !b.cancelled && !incomplete(b); }
+  function missing(b) { var m = []; if (b.gross == null) m.push('iznos'); if (!validDate(b.checkOut)) m.push('datum odlaska'); if (!(b.guest || '').trim()) m.push('ime gosta'); return m; }
+
+  function inYear(b) { return validDate(b.checkIn) && +b.checkIn.slice(0, 4) === state.year; }
+  function sorted(list, dir) { return list.slice().sort(function (a, b) { var r = a.checkIn < b.checkIn ? -1 : a.checkIn > b.checkIn ? 1 : (a.n || 0) - (b.n || 0); return dir === 'asc' ? r : -r; }); }
+  function sum(list, key) { return list.reduce(function (s, b) { return s + calc(b)[key]; }, 0); }
+  function nightsByMonth(list) {
+    var m = {};
+    list.forEach(function (b) { if (!validDate(b.checkOut)) return; var a = dn(b.checkIn), z = dn(b.checkOut); for (var d = a; d < z; d++) { var k = ym(fromDn(d)); m[k] = (m[k] || 0) + 1; } });
+    return m;
+  }
+  function daysIn(y, mo) { return new Date(Date.UTC(y, mo + 1, 0)).getUTCDate(); }
+
+  function fromRow(r) {
+    return {
+      id: r.id, n: r.n, resNumber: r.res_number || '', guest: r.guest || '', checkIn: r.check_in, checkOut: r.check_out || null,
+      guests: r.guests, gross: r.gross == null ? null : Number(r.gross), channel: r.channel || 'booking',
+      commissionPct: Number(r.commission_pct), katPct: Number(r.kat_pct), cleaning: Number(r.cleaning),
+      status: r.status, payment: r.payment, cancelled: !!r.cancelled, review: !!r.review,
+      katPaid: !!r.kat_paid, katPaidAt: r.kat_paid_at, note: r.note || '', source: r.source
+    };
+  }
+
+  /* ───── render ───── */
+  function render() {
+    $('#yLbl').textContent = state.year;
+    $('#tabPartner').textContent = partner();
+    $('#addBtn').hidden = !state.canWrite;
+    $$('.tab').forEach(function (t) { if (t.dataset.go === state.view) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current'); });
+    $$('.view').forEach(function (v) { v.hidden = v.id !== 'v-' + state.view; });
+    var banner = $('#banner');
+    if (state.loaded && !state.canWrite) { banner.hidden = false; banner.className = 'notice'; banner.textContent = 'Možeš da pregledaš podatke, ali ne i da ih menjaš.'; }
+    else banner.hidden = true;
+    if (state.view === 'pregled') renderOverview();
+    if (state.view === 'rezervacije') renderList();
+    if (state.view === 'katarina') renderPartner();
+  }
+
+  function loadingHtml() { return '<div class="panel empty"><b>Učitavam rezervacije…</b>Pregled zarade, noćenja i isplata pojaviće se za trenutak.</div>'; }
+
+  function todoHtml() {
+    var list = sorted(B.filter(incomplete), 'asc');
+    if (!list.length) return '';
+    return '<div class="panel todo"><p class="h">' + icon('triangle-alert') + ' Za dopunu: ' + rez(list.length) + '</p><ul class="rows">' +
+      list.map(function (b) { return rowHtml(b, 'Nedostaje: ' + missing(b).join(', '), { chips: false, todo: true }); }).join('') + '</ul></div>';
+  }
+
+  function renderOverview() {
+    var el = $('#v-pregled');
+    if (!state.loaded) { el.innerHTML = loadingHtml(); return; }
+    var list = B.filter(function (b) { return inYear(b) && valid(b); });
+    if (!list.length) {
+      el.innerHTML = todoHtml() + '<div class="panel empty"><b>Nema rezervacija u ' + state.year + '.</b>' + (state.canWrite ? 'Dodaj prvu dugmetom „Nova“ ispod.' : '') + '</div>' + upcomingHtml();
+      bindRows(el); return;
+    }
+    var G = sum(list, 'G'), fee = sum(list, 'fee'), kat = sum(list, 'katTotal'), mine = sum(list, 'mine');
+    var nights = list.reduce(function (s, b) { return s + nightsOf(b); }, 0);
+    var nbm = nightsByMonth(B.filter(valid));
+    var months = [];
+    for (var m = 0; m < 12; m++) {
+      var key = state.year + '-' + String(m + 1).padStart(2, '0');
+      var ml = list.filter(function (b) { return ym(b.checkIn) === key; });
+      months.push({ m: m, key: key, list: ml, G: sum(ml, 'G'), fee: sum(ml, 'fee'), kat: sum(ml, 'katTotal'), mine: sum(ml, 'mine'), nights: nbm[key] || 0, days: daysIn(state.year, m) });
+    }
+    var withN = months.filter(function (x) { return x.nights > 0; });
+    var occTxt = '–', occSub = 'nema noćenja';
+    if (withN.length) {
+      var first = withN[0].m, last = withN[withN.length - 1].m, now = new Date();
+      if (now.getFullYear() === state.year) last = Math.max(last, now.getMonth());
+      var tn = 0, td = 0;
+      for (var i = first; i <= last; i++) { tn += months[i].nights; td += months[i].days; }
+      occTxt = Math.round(tn / td * 100) + '<small>%</small>';
+      occSub = 'od ' + MONG[first];
+    }
+    var html = todoHtml();
+    html += '<div class="panel hero"><p class="hero-l">Tvoja zarada u ' + state.year + '.</p>' +
+      '<p class="hero-n num">' + eur(mine) + '</p>' +
+      '<p class="hero-s">od <b class="num">' + eur(G) + '</b> bruto, ' + rez(list.length) + '</p>' +
+      splitHtml({ G: G, mine: mine, katTotal: kat, fee: fee }) +
+      '<dl class="legend"><div style="--c:var(--you)"><dt>Tvoje</dt><dd class="num">' + eur0(mine) + '</dd></div>' +
+      '<div style="--c:var(--kat)"><dt>' + esc(partner()) + '</dt><dd class="num">' + eur0(kat) + '</dd></div>' +
+      '<div style="--c:var(--fee)"><dt>Provizija</dt><dd class="num">' + eur0(fee) + '</dd></div></dl></div>';
+    html += '<dl class="panel stats">' +
+      '<div><dt>Noćenja</dt><dd class="num">' + nights + '</dd><dd class="st-sub">' + boravak(list.length) + '</dd></div>' +
+      '<div><dt>Popunjenost</dt><dd class="num">' + occTxt + '</dd><dd class="st-sub">' + esc(occSub) + '</dd></div>' +
+      '<div><dt>Bruto po noći</dt><dd class="num">' + (nights ? eur0(G / nights) : '–') + '</dd><dd class="st-sub">prosek</dd></div></dl>';
+    html += '<div class="panel chart"><div class="chart-h"><h3>Po mesecima</h3><span>bruto po mesecu dolaska</span></div><div id="chartBox"></div></div>';
+    html += '<ul class="panel rows">' + months.filter(function (x) { return x.list.length; }).reverse().map(function (x) {
+      var occ = Math.round(x.nights / x.days * 100);
+      return '<li><button type="button" class="row press" data-month="' + x.key + '"><span class="rx"><span class="rt">' + cap(MONF[x.m]) + '</span>' +
+        '<span class="rs">' + rez(x.list.length) + ', ' + noci(x.nights) + ', ' + occ + '% popunjeno</span>' +
+        splitHtml({ G: x.G, mine: x.mine, katTotal: x.kat, fee: x.fee }, 'mini') + '</span>' +
+        '<span class="ra"><b class="you num">' + eur(x.mine) + '</b><small class="num">' + eur(x.G) + ' bruto</small></span>' + icon('chevron-right', 'chev') + '</button></li>';
+    }).join('') + '</ul>';
+    html += upcomingHtml();
+    el.innerHTML = html;
+    drawChart(months);
+    $$('[data-month]', el).forEach(function (b) { b.addEventListener('click', function () { openMonth(b.dataset.month); }); });
+    bindRows(el);
+  }
+
+  function upcomingHtml() {
+    var t = today();
+    var live = B.filter(function (b) { return !b.cancelled; });
+    var now = live.filter(function (b) { return b.checkIn <= t && validDate(b.checkOut) && b.checkOut > t; });
+    var next = sorted(live.filter(function (b) { return b.checkIn > t; }), 'asc').slice(0, 3);
+    if (!now.length && !next.length) return '';
+    var items = now.map(function (b) { return rowHtml(b, 'U stanu sada, odlazi ' + dayLbl(b.checkOut)); })
+      .concat(next.map(function (b) { var d = dn(b.checkIn) - dn(t); return rowHtml(b, d === 1 ? 'Dolazi sutra' : 'Dolazi za ' + d + ' dana'); }));
+    return '<h2 class="h2">Sledeći gosti</h2><ul class="panel rows">' + items.join('') + '</ul>';
+  }
+
+  function drawChart(months) {
+    var box = $('#chartBox'); if (!box) return;
+    var W = Math.max(280, box.clientWidth || 320), H = 176, L = 34, R = 4, T = 8, Bm = 22;
+    var max = Math.max.apply(null, months.map(function (x) { return x.G; }).concat([1]));
+    var steps = [5000, 10000, 20000, 25000, 50000, 100000, 200000, 250000, 500000];
+    var step = steps.find(function (s) { return max / s <= 4; }) || 1000000;
+    var top = Math.ceil(max / step) * step;
+    var y = function (v) { return T + (H - T - Bm) * (1 - v / top); };
+    var slot = (W - L - R) / 12, bw = Math.min(18, slot * .58), curKey = iso(new Date()).slice(0, 7);
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Bruto po mesecima za ' + state.year + '.">';
+    for (var v = 0; v <= top; v += step) {
+      s += '<line class="grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '"/>';
+      s += '<text class="ylab" x="' + (L - 6) + '" y="' + (y(v) + 3.5).toFixed(1) + '" text-anchor="end">' + grp(v / 100) + '</text>';
+    }
+    months.forEach(function (x) {
+      var cx = L + slot * x.m + slot / 2, x0 = cx - bw / 2, you = Math.max(0, x.mine), kat = Math.max(0, x.kat), fee = Math.max(0, x.fee);
+      s += '<text class="' + (x.key === curKey ? 'xlab cur' : 'xlab') + '" x="' + cx.toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle">' + MON[x.m] + '</text>';
+      if (!x.G) return;
+      s += '<rect class="hit" x="' + (L + slot * x.m).toFixed(1) + '" y="' + T + '" width="' + slot.toFixed(1) + '" height="' + (H - T - Bm) + '" data-key="' + x.key + '" tabindex="0" role="button" aria-label="' + MONF[x.m] + ': ' + eur(x.G) + ' bruto, tvoje ' + eur(x.mine) + '"/>';
+      s += '<g pointer-events="none"><rect class="b-fee" x="' + x0.toFixed(1) + '" y="' + y(you + kat + fee).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (y(0) - y(you + kat + fee)).toFixed(1) + '" rx="3"/>' +
+        '<rect class="b-kat" x="' + x0.toFixed(1) + '" y="' + y(you + kat).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (y(0) - y(you + kat)).toFixed(1) + '"/>' +
+        '<rect class="b-you" x="' + x0.toFixed(1) + '" y="' + y(you).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (y(0) - y(you)).toFixed(1) + '"/></g>';
+    });
+    box.innerHTML = s + '</svg>';
+    $$('.hit', box).forEach(function (r) {
+      r.addEventListener('click', function () { openMonth(r.dataset.key); });
+      r.addEventListener('keydown', function (e) { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openMonth(r.dataset.key); } });
+    });
+  }
+
+  function openMonth(key) { state.month = key; state.filter = 'sve'; go('rezervacije'); window.scrollTo(0, 0); }
+
+  function rowHtml(b, sub, opts) {
+    opts = opts || {};
+    var c = calc(b), r = range(b), t = today(), chips = '';
+    if (opts.chips !== false) {
+      if (b.cancelled) chips += '<span class="chip muted">Otkazano</span>';
+      else {
+        if (incomplete(b)) chips += '<span class="chip wait">Za dopunu</span>';
+        if (b.review) chips += '<span class="chip kat">Proveri</span>';
+        if (b.checkIn > t) chips += '<span class="chip soon">' + icon('clock') + 'Predstoji</span>';
+        if (valid(b) && b.status === 'ceka') chips += '<span class="chip wait">Čeka naplatu</span>';
+        if (valid(b) && !b.katPaid && b.checkOut <= t) chips += '<span class="chip kat">' + esc(partner()) + ': nije isplaćeno</span>';
+      }
+    }
+    var amt;
+    if (b.cancelled) amt = '<small>otkazano</small>';
+    else if (opts.todo || incomplete(b)) amt = b.gross != null ? '<b class="num">' + eur(c.G) + '</b><small>bruto</small>' : '<small>' + (state.canWrite ? 'dodirni za unos' : 'bez iznosa') + '</small>';
+    else if (opts.kat) amt = '<b class="katc num">' + eur(c.katTotal) + '</b><small>' + noci(c.n) + '</small>';
+    else amt = '<b class="you num">' + eur(c.mine) + '</b><small class="num">' + eur(c.G) + '</small>';
+    var defSub = (c.n ? noci(c.n) + ', ' : '') + (CH[b.channel] || 'Booking');
+    return '<li><button type="button" class="row press' + (b.cancelled ? ' is-cancelled' : '') + '" data-id="' + esc(b.id) + '"' + (opts.todo ? ' data-todo="1"' : '') + '>' +
+      '<span class="bk-date"><b>' + r.top + '</b><small>' + r.bot + '</small></span>' +
+      '<span class="rx"><span class="rt">' + esc(guestName(b)) + '</span><span class="rs">' + esc(sub || defSub) + '</span>' +
+      (chips ? '<span class="chips">' + chips + '</span>' : '') + (opts.kat || opts.todo || !valid(b) ? '' : splitHtml(c, 'mini')) + '</span>' +
+      '<span class="ra">' + amt + '</span></button></li>';
+  }
+  function bindRows(el) {
+    $$('[data-id]', el).forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var b = findB(btn.dataset.id);
+        if (b && btn.dataset.todo && state.canWrite) openForm(b); else openDetail(btn.dataset.id);
+      });
+    });
+  }
+
+  function renderList() {
+    var el = $('#v-rezervacije');
+    if (!state.loaded) { el.innerHTML = loadingHtml(); return; }
+    var t = today();
+    var list = B.filter(inYear);
+    if (state.month) list = list.filter(function (b) { return ym(b.checkIn) === state.month; });
+    if (state.filter === 'predstoje') list = list.filter(function (b) { return !b.cancelled && (!validDate(b.checkOut) || b.checkOut > t); });
+    if (state.filter === 'ceka') list = list.filter(function (b) { return !b.cancelled && (b.status === 'ceka' || incomplete(b)); });
+    var html = '<div class="seg" role="group" aria-label="Filter">' + ['sve', 'predstoje', 'ceka'].map(function (f) {
+      return '<button type="button" data-filter="' + f + '" aria-pressed="' + (state.filter === f) + '">' + { sve: 'Sve', predstoje: 'Predstoje', ceka: 'Čeka naplatu' }[f] + '</button>';
+    }).join('') + '</div>';
+    if (state.month) { var mm = +state.month.slice(5) - 1; html += '<button type="button" class="filter-chip press" id="clearMonth" aria-label="Prikaži sve mesece">' + cap(MONF[mm]) + ' ' + state.month.slice(0, 4) + '.' + icon('x') + '</button>'; }
+    if (!list.length) html += '<div class="panel empty"><b>Nema rezervacija za ovaj prikaz</b>' + (state.filter !== 'sve' || state.month ? 'Promeni filter da vidiš ostale.' : (state.canWrite ? 'Dodaj prvu dugmetom „Nova“.' : '')) + '</div>';
+    else {
+      var groups = {};
+      sorted(list, 'desc').forEach(function (b) { var k = ym(b.checkIn); (groups[k] = groups[k] || []).push(b); });
+      Object.keys(groups).sort().reverse().forEach(function (k) {
+        var g = groups[k], m = +k.slice(5) - 1, ok = g.filter(valid);
+        html += '<div class="group-h"><h3>' + cap(MONF[m]) + '</h3><span>' + rez(g.filter(function (b) { return !b.cancelled; }).length) + ', tvoje <b class="num">' + eur(sum(ok, 'mine')) + '</b></span></div>';
+        html += '<ul class="panel rows">' + g.map(function (b) { return rowHtml(b); }).join('') + '</ul>';
+      });
+    }
+    el.innerHTML = html;
+    $$('[data-filter]', el).forEach(function (b) { b.addEventListener('click', function () { state.filter = b.dataset.filter; renderList(); }); });
+    var cm = $('#clearMonth', el); if (cm) cm.addEventListener('click', function () { state.month = null; renderList(); });
+    bindRows(el);
+  }
+
+  function renderPartner() {
+    var el = $('#v-katarina');
+    if (!state.loaded) { el.innerHTML = loadingHtml(); return; }
+    var t = today(), P = esc(partner());
+    var due = sorted(B.filter(function (b) { return valid(b) && !b.katPaid && b.checkOut <= t; }), 'asc');
+    var soon = sorted(B.filter(function (b) { return valid(b) && !b.katPaid && b.checkOut > t; }), 'asc');
+    var dueSum = sum(due, 'katTotal');
+    var html = '<div class="panel k-hero"><p class="hero-l">Za isplatu ' + esc(partnerGen()) + '</p><p class="hero-n num">' + eur(dueSum) + '</p>' +
+      '<p class="hero-s">' + (due.length ? 'za ' + boravak(due.length) + ' koji su završeni' : 'Sve završene isplate su izmirene.') + '</p>';
+    if (due.length && state.canWrite) {
+      html += state.confirmPay
+        ? '<p class="hint" style="margin-bottom:10px">Označiti ' + boravak(due.length) + ' kao isplaćene danas, ukupno <b class="num">' + eur(dueSum) + '</b>?</p><div class="k-actions"><button type="button" class="btn kat press" id="payYes">' + icon('check') + 'Potvrdi isplatu</button><button type="button" class="btn press" id="payNo">Odustani</button></div>'
+        : '<div class="k-actions"><button type="button" class="btn kat press" id="payAll">' + icon('hand-coins') + 'Označi kao isplaćeno</button></div>';
+    }
+    html += '</div>';
+    var todo = B.filter(incomplete).length;
+    if (todo) html += '<p class="hint" style="padding:0 4px">' + rez(todo) + ' čeka dopunu iznosa ili datuma, pa još nije uračunato.</p>';
+    if (due.length) html += '<h2 class="h2">Neisplaćeno</h2><ul class="panel rows">' + due.map(function (b) { return rowHtml(b, null, { kat: true, chips: false }); }).join('') + '</ul>';
+    if (soon.length) html += '<h2 class="h2">Predstoji (posle odlaska gosta)</h2><ul class="panel rows">' + soon.map(function (b) { return rowHtml(b, null, { kat: true, chips: false }); }).join('') + '</ul>';
+    var paid = B.filter(function (b) { return valid(b) && b.katPaid; });
+    var yearPaid = sum(paid.filter(inYear), 'katTotal'), byDate = {};
+    paid.forEach(function (b) { var k = b.katPaidAt || ''; (byDate[k] = byDate[k] || []).push(b); });
+    var keys = Object.keys(byDate).sort(function (a, b) { if (!a) return 1; if (!b) return -1; return a < b ? 1 : -1; });
+    html += '<div class="group-h"><h3>Isplaćeno</h3><span>u ' + state.year + '. <b class="num" style="color:var(--kat-ink)">' + eur(yearPaid) + '</b></span></div>';
+    html += keys.length ? '<ul class="panel rows">' + keys.map(function (k) {
+      var g = byDate[k];
+      return '<li><div class="row"><span class="rx"><span class="rt">' + (k ? longDate(k) : 'Pre aplikacije') + '</span><span class="rs">' + boravak(g.length) + '</span></span><span class="ra"><b class="katc num">' + eur(sum(g, 'katTotal')) + '</b></span></div></li>';
+    }).join('') + '</ul>' : '<div class="panel empty">Još nema evidentiranih isplata.</div>';
+    html += '<p class="hint" style="padding:0 4px">' + P + ' dobija čišćenje i ' + pctTxt(S.katPct) + ' od neta umanjenog za čišćenje.</p>';
+    el.innerHTML = html;
+    bindRows(el);
+    var pa = $('#payAll', el); if (pa) pa.addEventListener('click', function () { state.confirmPay = true; renderPartner(); });
+    var pn = $('#payNo', el); if (pn) pn.addEventListener('click', function () { state.confirmPay = false; renderPartner(); });
+    var py = $('#payYes', el); if (py) py.addEventListener('click', function () { payAll(due, py); });
+  }
+
+  /* ───── navigation ───── */
+  var VIEWS = ['pregled', 'rezervacije', 'katarina'];
+  function go(v) { state.view = v; state.confirmPay = false; try { history.replaceState(null, '', '#' + v); } catch (e) {} render(); }
+  $$('.tab').forEach(function (t) { t.addEventListener('click', function () { if (t.dataset.go === 'rezervacije' && state.view !== 'rezervacije') state.month = null; go(t.dataset.go); window.scrollTo(0, 0); }); });
+  $('#yPrev').addEventListener('click', function () { state.year--; state.month = null; render(); });
+  $('#yNext').addEventListener('click', function () { state.year++; state.month = null; render(); });
+
+  /* ───── sheets ───── */
+  var scrim = $('#scrim'), openSheetEl = null, lastFocus = null;
+  function openSheet(id) {
+    var s = document.getElementById(id);
+    if (openSheetEl && openSheetEl !== s) closeSheet(true);
+    lastFocus = document.activeElement;
+    s.hidden = false; void s.offsetWidth;
+    s.classList.add('on'); scrim.classList.add('on'); openSheetEl = s;
+    document.documentElement.style.overflow = 'hidden';
+  }
+  function closeSheet(instant) {
+    var s = openSheetEl; if (!s) return;
+    openSheetEl = null; s.classList.remove('on'); scrim.classList.remove('on');
+    document.documentElement.style.overflow = '';
+    setTimeout(function () { if (!s.classList.contains('on')) s.hidden = true; }, instant ? 0 : 420);
+    if (lastFocus && lastFocus.focus && document.contains(lastFocus)) lastFocus.focus({ preventScroll: true });
+  }
+  scrim.addEventListener('click', function () { closeSheet(); });
+  $$('[data-close]').forEach(function (b) { b.addEventListener('click', function () { closeSheet(); }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSheet(); });
+
+  var toastT;
+  function toast(msg, ok) {
+    var t = $('#toast'); $('span', t).textContent = msg;
+    $('use', t).setAttribute('href', ok === false ? '#i-x' : '#i-check');
+    t.classList.add('on'); clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove('on'); }, 2400);
+  }
+
+  /* ───── detail ───── */
+  var detailId = null, confirmDel = false;
+  function findB(id) { return B.find(function (b) { return b.id === id; }); }
+  function openDetail(id) { detailId = id; confirmDel = false; renderDetail(); openSheet('sh-detail'); }
+  function calcTable(c, b) {
+    var P = esc(partner());
+    return '<table><tr><td>Bruto</td><td class="num">' + eur(c.G) + '</td></tr>' +
+      '<tr class="sub"><td><span class="dot" style="background:var(--fee)"></span>Provizija ' + esc(CH[b.channel] || 'Booking') + ' ' + pctTxt(+b.commissionPct || 0) + '</td><td class="num">−' + eur(c.fee) + '</td></tr>' +
+      '<tr><td>Neto</td><td class="num">' + eur(c.net) + '</td></tr>' +
+      '<tr class="k"><td><span class="dot" style="background:var(--kat)"></span>' + P + ': čišćenje</td><td class="num">−' + eur(c.C) + '</td></tr>' +
+      '<tr class="k"><td><span class="dot" style="background:var(--kat)"></span>' + P + ': ' + pctTxt(+b.katPct || 0) + '</td><td class="num">−' + eur(c.kat) + '</td></tr>' +
+      '<tr class="tot"><td><span class="dot" style="background:var(--you)"></span>Tvoje</td><td class="num">' + eur(c.mine) + '</td></tr></table>';
+  }
+  function renderDetail() {
+    var b = findB(detailId); if (!b) { closeSheet(); return; }
+    var c = calc(b), P = esc(partner()), dis = state.canWrite ? '' : ' disabled';
+    $('#detT').textContent = guestName(b);
+    var sub = [];
+    if (c.n) sub.push(noci(c.n));
+    if (b.guests) sub.push(b.guests + (b.guests === 1 ? ' gost' : ' gosta'));
+    sub.push(CH[b.channel] || 'Booking');
+    if (b.resNumber) sub.push('br. ' + b.resNumber);
+    if (b.payment === 'online') sub.push('plaćeno online'); else if (b.payment === 'property') sub.push('plaća se na licu mesta');
+    var html = '<div class="d-head"><p class="d-dates">' + dayLbl(b.checkIn) + ' – ' + (validDate(b.checkOut) ? dayLbl(b.checkOut) + ' ' + b.checkOut.slice(0, 4) + '.' : '?') + '</p><p class="d-sub">' + esc(sub.join(', ')) + '</p></div>';
+    if (b.cancelled) html += '<p class="notice">Ova rezervacija je otkazana i ne ulazi u obračun.</p>';
+    else if (incomplete(b)) html += '<p class="notice">Nedostaje: ' + esc(missing(b).join(', ')) + '. ' + (state.canWrite ? 'Dodirni „Dopuni“ i unesi podatke iz Booking-a.' : '') + '</p>';
+    else html += '<div class="calc">' + splitHtml(c) + calcTable(c, b) + '<p class="hint" style="margin-top:8px">' + P + ' ukupno: <b class="num" style="color:var(--kat-ink)">' + eur(c.katTotal) + '</b></p></div>';
+    if (b.note) html += '<p class="d-note">' + esc(b.note) + '</p>';
+    if (!b.cancelled && valid(b)) {
+      html += '<button type="button" class="switch-row" role="switch" id="d-status" aria-checked="' + (b.status === 'naplaceno') + '"' + dis + '><span class="rx"><span class="rt">Naplaćeno</span><span class="rs">' + (b.status === 'naplaceno' ? 'Novac je stigao' : 'Čeka se isplata sa platforme') + '</span></span><span class="sw"></span></button>';
+      html += '<button type="button" class="switch-row k" role="switch" id="d-kat" aria-checked="' + !!b.katPaid + '"' + dis + '><span class="rx"><span class="rt">Isplaćeno ' + esc(partnerGen()) + '</span><span class="rs">' + (b.katPaid ? (b.katPaidAt ? longDate(b.katPaidAt) : 'Pre aplikacije') : eur(c.katTotal) + ' za isplatu') + '</span></span><span class="sw"></span></button>';
+    }
+    if (state.canWrite) {
+      if (confirmDel) html += '<p class="warn">Obrisati ovu rezervaciju? Ovo ne može da se vrati.</p><div class="d-actions"><button type="button" class="btn danger press" id="d-delYes">' + icon('trash-2') + 'Obriši</button><button type="button" class="btn press" id="d-delNo">Odustani</button></div>';
+      else if (b.cancelled) html += '<div class="d-actions"><button type="button" class="btn press" id="d-restore">' + icon('rotate-ccw') + 'Vrati</button><button type="button" class="btn danger press" id="d-del">' + icon('trash-2') + 'Obriši</button></div>';
+      else html += '<div class="d-actions"><button type="button" class="btn ' + (incomplete(b) || b.review ? 'primary ' : '') + 'press" id="d-edit">' + icon('pencil') + (incomplete(b) ? 'Dopuni' : 'Izmeni') + '</button><button type="button" class="btn danger press" id="d-del">' + icon('trash-2') + 'Obriši</button></div>';
+    }
+    var el = $('#det'); el.innerHTML = html;
+    if (!state.canWrite) return;
+    var st = $('#d-status', el), kt = $('#d-kat', el);
+    if (st) st.addEventListener('click', function () { patch(b.id, { status: b.status === 'naplaceno' ? 'ceka' : 'naplaceno' }); });
+    if (kt) kt.addEventListener('click', function () { patch(b.id, b.katPaid ? { kat_paid: false, kat_paid_at: null } : { kat_paid: true, kat_paid_at: today() }); });
+    var e1 = $('#d-edit', el); if (e1) e1.addEventListener('click', function () { openForm(b); });
+    var rs = $('#d-restore', el); if (rs) rs.addEventListener('click', function () { patch(b.id, { cancelled: false }); });
+    var d1 = $('#d-del', el); if (d1) d1.addEventListener('click', function () { confirmDel = true; renderDetail(); });
+    var d2 = $('#d-delNo', el); if (d2) d2.addEventListener('click', function () { confirmDel = false; renderDetail(); });
+    var d3 = $('#d-delYes', el); if (d3) d3.addEventListener('click', function () { remove(b.id); });
+  }
+
+  /* ───── form ───── */
+  var editing = null, fGuests = null, fChannel = 'booking', fStatus = 'ceka', pctTouched = false;
+  function setOpt(groupId, v) { $$('#' + groupId + ' .opt').forEach(function (o) { o.setAttribute('aria-pressed', o.dataset.v === v ? 'true' : 'false'); }); }
+  function openForm(b) {
+    editing = b || null; pctTouched = !!b;
+    $('#formT').textContent = b ? (incomplete(b) ? 'Dopuni rezervaciju' : 'Izmeni rezervaciju') : 'Nova rezervacija';
+    $('#f-save').textContent = b ? 'Sačuvaj izmene' : 'Sačuvaj rezervaciju';
+    $('#f-guest').value = b ? (b.guest || '') : '';
+    $('#f-in').value = b ? b.checkIn : '';
+    $('#f-out').value = b && b.checkOut ? b.checkOut : '';
+    $('#f-gross').value = b && b.gross != null ? String(b.gross).replace('.', ',') : '';
+    $('#f-res').value = b ? (b.resNumber || '') : '';
+    fGuests = b && b.guests ? b.guests : null;
+    fChannel = b ? (b.channel || 'booking') : 'booking';
+    fStatus = b ? (b.status || 'ceka') : 'ceka';
+    $('#f-pct').value = String(b ? b.commissionPct : S.commission[fChannel]).replace('.', ',');
+    $('#f-note').value = b ? (b.note || '') : '';
+    setOpt('f-channel', fChannel); setOpt('f-status', fStatus);
+    $$('.field.err').forEach(function (f) { f.classList.remove('err'); });
+    updateForm();
+    openSheet('sh-form');
+    var focusId = !b ? 'f-guest' : (b.gross == null ? 'f-gross' : (!b.checkOut ? 'f-out' : null));
+    if (focusId) setTimeout(function () { $('#' + focusId).focus({ preventScroll: true }); }, 380);
+  }
+  function formDraft() {
+    return {
+      guest: $('#f-guest').value.trim(), checkIn: $('#f-in').value, checkOut: $('#f-out').value,
+      gross: parseNum($('#f-gross').value), guests: fGuests, channel: fChannel, resNumber: $('#f-res').value.replace(/\D/g, ''),
+      commissionPct: parseNum($('#f-pct').value), status: fStatus, note: $('#f-note').value.trim(),
+      katPct: editing ? editing.katPct : S.katPct, cleaning: editing ? editing.cleaning : S.cleaning
+    };
+  }
+  function updateForm() {
+    var d = formDraft();
+    $('#f-guests').textContent = fGuests ? fGuests : '–';
+    var nEl = $('#f-nights'), ov = $('#f-overlap');
+    if (validDate(d.checkIn) && validDate(d.checkOut)) {
+      var n = dn(d.checkOut) - dn(d.checkIn);
+      nEl.textContent = n > 0 ? noci(n) : 'Check-out mora biti posle check-in datuma.';
+      nEl.className = n > 0 ? 'hint' : 'warn';
+      var clash = n > 0 && B.find(function (b) { return !b.cancelled && (!editing || b.id !== editing.id) && validDate(b.checkOut) && b.checkIn < d.checkOut && b.checkOut > d.checkIn; });
+      ov.hidden = !clash; if (clash) ov.textContent = 'Preklapa se sa rezervacijom: ' + guestName(clash) + ', ' + dayLbl(clash.checkIn) + ' – ' + dayLbl(clash.checkOut) + '.';
+    } else { nEl.textContent = 'Izaberi datume dolaska i odlaska.'; nEl.className = 'hint'; ov.hidden = true; }
+    var box = $('#f-calc');
+    if (d.gross > 0 && isFinite(d.commissionPct)) {
+      var c = calc({ gross: d.gross, commissionPct: d.commissionPct, katPct: d.katPct, cleaning: d.cleaning, checkIn: d.checkIn, checkOut: d.checkOut });
+      box.innerHTML = splitHtml(c) + calcTable(c, d);
+    } else box.innerHTML = '<p class="hint">Unesi bruto iznos i ovde vidiš podelu: provizija, ' + esc(partner()) + ' i tvoj deo.</p>';
+  }
+  ['f-guest', 'f-in', 'f-out', 'f-gross', 'f-note', 'f-res'].forEach(function (id) { $('#' + id).addEventListener('input', updateForm); });
+  $('#f-pct').addEventListener('input', function () { pctTouched = true; updateForm(); });
+  $('#f-in').addEventListener('change', function () {
+    var a = $('#f-in').value, o = $('#f-out');
+    if (validDate(a) && (!validDate(o.value) || o.value <= a)) o.value = fromDn(dn(a) + 1);
+    updateForm();
+  });
+  $('#g-minus').addEventListener('click', function () { fGuests = fGuests && fGuests > 1 ? fGuests - 1 : null; updateForm(); });
+  $('#g-plus').addEventListener('click', function () { fGuests = Math.min(12, (fGuests || 0) + 1); updateForm(); });
+  $$('#f-channel .opt').forEach(function (o) {
+    o.addEventListener('click', function () {
+      fChannel = o.dataset.v; setOpt('f-channel', fChannel);
+      if (!pctTouched || !editing) $('#f-pct').value = String(S.commission[fChannel]).replace('.', ',');
+      updateForm();
+    });
+  });
+  $$('#f-status .opt').forEach(function (o) { o.addEventListener('click', function () { fStatus = o.dataset.v; setOpt('f-status', fStatus); }); });
+
+  $('#form').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var d = formDraft(), bad = false;
+    $$('.field.err').forEach(function (f) { f.classList.remove('err'); });
+    if (!validDate(d.checkIn)) { $('#w-in').classList.add('err'); bad = true; }
+    if (!validDate(d.checkOut) || (validDate(d.checkIn) && d.checkOut <= d.checkIn)) { $('#w-out').classList.add('err'); bad = true; }
+    if (!(d.gross > 0)) { $('#w-gross').classList.add('err'); bad = true; }
+    if (!isFinite(d.commissionPct) || d.commissionPct < 0 || d.commissionPct > 100) { bad = true; toast('Provizija mora biti između 0 i 100%', false); return; }
+    if (bad) { toast('Popuni označena polja', false); return; }
+    var row = {
+      guest: d.guest, check_in: d.checkIn, check_out: d.checkOut, guests: d.guests || null,
+      gross: Math.round(d.gross * 100) / 100, channel: d.channel, commission_pct: d.commissionPct,
+      kat_pct: +d.katPct, cleaning: +d.cleaning, status: d.status, res_number: d.resNumber || null,
+      note: d.note, review: false
+    };
+    if (!editing) { row.n = B.reduce(function (m, b) { return Math.max(m, +b.n || 0); }, 0) + 1; row.source = 'app'; }
+    saveBooking(editing ? editing.id : null, row);
+  });
+
+  /* ───── settings & access ───── */
+  $('#openSet').addEventListener('click', function () {
+    $('#s-booking').value = String(S.commission.booking).replace('.', ',');
+    $('#s-airbnb').value = String(S.commission.airbnb).replace('.', ',');
+    $('#s-kat').value = String(S.katPct).replace('.', ',');
+    $('#s-clean').value = String(S.cleaning).replace('.', ',');
+    $('#s-partner').value = partner();
+    $('#s-save').hidden = !state.canWrite;
+    $$('#setForm input').forEach(function (i) { i.disabled = !state.canWrite; });
+    $('#accessBox').hidden = !state.canWrite;
+    $('#acctLine').textContent = 'Prijavljen si kao ' + state.email + (state.role === 'owner' ? ' (vlasnik).' : ' (samo pregled).');
+    if (state.canWrite) loadMembers();
+    openSheet('sh-set');
+  });
+  $('#setForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var nb = parseNum($('#s-booking').value), na = parseNum($('#s-airbnb').value), nk = parseNum($('#s-kat').value), nc = parseNum($('#s-clean').value);
+    if (![nb, na, nk, nc].every(function (v) { return isFinite(v) && v >= 0; }) || nb > 100 || na > 100 || nk > 100) { toast('Proveri unete brojeve', false); return; }
+    var row = { commission: { booking: nb, airbnb: na, direct: 0 }, kat_pct: nk, cleaning: nc, partner: $('#s-partner').value.trim() || 'Katarina' };
+    write(sb.from('settings').update(row).eq('id', 1), 'Podešavanja sačuvana', function () { closeSheet(); });
+  });
+  function loadMembers() {
+    sb.from('members').select('email, role').order('role').then(function (r) {
+      var box = $('#memberList');
+      if (r.error) { box.innerHTML = '<p class="hint">Spisak nije učitan.</p>'; return; }
+      box.innerHTML = r.data.map(function (m) {
+        return '<div class="member"><span>' + esc(m.email) + ' <small>' + (m.role === 'owner' ? 'vlasnik' : 'samo pregled') + '</small></span>' +
+          (m.role === 'partner' ? '<button type="button" data-rm="' + esc(m.email) + '" aria-label="Ukloni pristup">' + icon('x') + '</button>' : '') + '</div>';
+      }).join('');
+      $$('[data-rm]', box).forEach(function (btn) {
+        btn.addEventListener('click', function () { write(sb.from('members').delete().eq('email', btn.dataset.rm), 'Pristup uklonjen', loadMembers); });
+      });
+    });
+  }
+  $('#memberForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = $('#m-email').value.trim().toLowerCase();
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { toast('Upiši ispravan mejl', false); return; }
+    write(sb.from('members').insert({ email: email, role: 'partner' }), 'Pristup dodat', function () { $('#m-email').value = ''; loadMembers(); });
+  });
+  $('#s-export').addEventListener('click', exportCsv);
+  $('#s-logout').addEventListener('click', function () { closeSheet(true); sb.auth.signOut(); });
+
+  /* ───── data ───── */
+  function errText(err) {
+    var m = (err && err.message) || '';
+    if (/row-level security|permission/i.test(m)) return 'Nemaš dozvolu za ovu izmenu';
+    if (/duplicate key.*res_number/i.test(m)) return 'Taj broj rezervacije već postoji';
+    if (/duplicate key.*members/i.test(m)) return 'Taj mejl već ima pristup';
+    if (/dates_ok/i.test(m)) return 'Check-out mora biti posle check-in datuma';
+    if (/fetch|network/i.test(m)) return 'Nema veze sa internetom. Pokušaj ponovo.';
+    return 'Nije sačuvano. Pokušaj ponovo.';
+  }
+  function write(query, okMsg, after) {
+    if (!state.canWrite) { toast('Izmene nisu dozvoljene', false); return Promise.resolve(false); }
+    return query.then(function (r) {
+      if (r.error) { toast(errText(r.error), false); return false; }
+      if (okMsg) toast(okMsg);
+      if (after) after();
+      loadAll();
+      return true;
+    }, function (err) { toast(errText(err), false); return false; });
+  }
+  function saveBooking(id, row) {
+    var btn = $('#f-save'); btn.disabled = true;
+    var q = id ? sb.from('bookings').update(row).eq('id', id) : sb.from('bookings').insert(row);
+    write(q, id ? 'Izmene sačuvane' : 'Rezervacija sačuvana', function () { closeSheet(); if (!id) state.year = +row.check_in.slice(0, 4); })
+      .then(function () { btn.disabled = false; });
+  }
+  function patch(id, fields) { write(sb.from('bookings').update(fields).eq('id', id), null, null); }
+  function remove(id) { write(sb.from('bookings').delete().eq('id', id), 'Rezervacija obrisana', function () { closeSheet(); }); }
+  function payAll(list, btn) {
+    btn.disabled = true;
+    var ids = list.map(function (b) { return b.id; });
+    write(sb.from('bookings').update({ kat_paid: true, kat_paid_at: today() }).in('id', ids), 'Označeno kao isplaćeno', function () { state.confirmPay = false; })
+      .then(function () { state.confirmPay = false; renderPartner(); });
+  }
+
+  var loading = null, reloadT = null;
+  function loadAll() {
+    if (loading) return loading;
+    loading = Promise.all([
+      sb.from('bookings').select('*').order('check_in', { ascending: true }),
+      sb.from('settings').select('*').eq('id', 1).maybeSingle()
+    ]).then(function (res) {
+      loading = null;
+      if (res[0].error) { toast('Podaci nisu učitani. Proveri internet.', false); return; }
+      B = res[0].data.filter(function (r) { return validDate(r.check_in); }).map(fromRow);
+      var s = res[1].data;
+      if (s) S = { commission: Object.assign({}, DEF.commission, s.commission || {}), katPct: Number(s.kat_pct), cleaning: Number(s.cleaning), partner: s.partner || DEF.partner };
+      state.loaded = true;
+      render();
+      if (openSheetEl && openSheetEl.id === 'sh-detail') renderDetail();
+    }, function () { loading = null; toast('Podaci nisu učitani. Proveri internet.', false); });
+    return loading;
+  }
+  function scheduleReload() { clearTimeout(reloadT); reloadT = setTimeout(loadAll, 400); }
+
+  /* ───── CSV ───── */
+  function exportCsv() {
+    var head = ['Br.', 'Br. rezervacije', 'Gost', 'Check-in', 'Check-out', 'Noći', 'Gostiju', 'Kanal', 'Bruto (€)', 'Provizija (€)', 'Neto (€)', partner() + ' ' + pctTxt(S.katPct), 'Čišćenje (€)', 'Tvoje (€)', partner() + ' ukupno (€)', 'Status', 'Isplaćeno ' + partnerGen(), 'Datum isplate', 'Napomena'];
+    var money = function (c) { return (c / 100).toFixed(2).replace('.', ','); };
+    var cell = function (v) { v = String(v == null ? '' : v); return /[;"\n]/.test(v) ? '"' + v.replace(/"/g, '""') + '"' : v; };
+    var lines = [head.map(cell).join(';')];
+    sorted(B.filter(function (b) { return inYear(b) && !b.cancelled; }), 'asc').forEach(function (b) {
+      var c = calc(b), ok = valid(b);
+      lines.push([b.n || '', b.resNumber, guestName(b), b.checkIn, b.checkOut || '', c.n || '', b.guests || '', CH[b.channel] || 'Booking',
+        ok ? money(c.G) : '', ok ? money(c.fee) : '', ok ? money(c.net) : '', ok ? money(c.kat) : '', ok ? money(c.C) : '', ok ? money(c.mine) : '', ok ? money(c.katTotal) : '',
+        !ok ? 'Za dopunu' : (b.status === 'naplaceno' ? 'Naplaćeno' : 'Čeka naplatu'), b.katPaid ? 'Da' : 'Ne', b.katPaidAt || '', b.note || ''].map(cell).join(';'));
+    });
+    var blob = new Blob([String.fromCharCode(0xfeff) + lines.join('\r\n')], { type: 'text/csv;charset=utf-8' });
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob); a.download = 'rezervacije-' + state.year + '.csv';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 2000);
+  }
+
+  $('#addBtn').addEventListener('click', function () { openForm(null); });
+
+  /* ───── sign-in ───── */
+  var mode = 'login';
+  function setMode(m) {
+    mode = m;
+    $$('#gateForm [data-mode]').forEach(function (b) { b.setAttribute('aria-pressed', b.dataset.mode === m ? 'true' : 'false'); });
+    $('#gateBtn').textContent = m === 'login' ? 'Prijavi se' : 'Napravi nalog';
+    $('#g-pass').setAttribute('autocomplete', m === 'login' ? 'current-password' : 'new-password');
+    $('#gateLead').textContent = m === 'login' ? 'Prijavi se da vidiš rezervacije i podelu zarade.' : 'Napravi nalog sa mejlom koji je vlasnik dodao i izaberi lozinku (bar 8 znakova).';
+    gateMsg('');
+  }
+  function gateMsg(text, isErr) { var m = $('#gateMsg'); m.hidden = !text; m.textContent = text; m.className = 'msg' + (isErr ? ' err' : ''); }
+  $$('#gateForm [data-mode]').forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
+  function authErr(e) {
+    var m = (e && e.message) || '';
+    if (/invalid login/i.test(m)) return 'Pogrešan mejl ili lozinka.';
+    if (/not confirmed/i.test(m)) return 'Ovaj mejl još nema pristup aplikaciji. Zamoli vlasnika da ga doda, pa pokušaj ponovo.';
+    if (/already registered|already been registered/i.test(m)) return 'Nalog sa ovim mejlom već postoji. Izaberi „Prijava“.';
+    if (/password/i.test(m) && /6|8|short|weak/i.test(m)) return 'Lozinka je prekratka ili preslaba. Izaberi bar 8 znakova.';
+    if (/rate limit|too many/i.test(m)) return 'Previše pokušaja. Sačekaj par minuta.';
+    if (/fetch|network/i.test(m)) return 'Nema veze sa internetom.';
+    return 'Prijava nije uspela. Pokušaj ponovo.';
+  }
+  $('#gateForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    var email = $('#g-email').value.trim().toLowerCase(), pass = $('#g-pass').value, btn = $('#gateBtn');
+    if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { gateMsg('Upiši ispravan mejl.', true); return; }
+    if (pass.length < 8) { gateMsg('Lozinka mora imati bar 8 znakova.', true); return; }
+    btn.disabled = true; gateMsg('');
+    var signIn = function () { return sb.auth.signInWithPassword({ email: email, password: pass }); };
+    var p = mode === 'login' ? signIn() : sb.auth.signUp({ email: email, password: pass, options: { emailRedirectTo: location.origin + location.pathname } })
+      .then(function (r) { if (r.error) return r; if (r.data && r.data.session) return r; return signIn(); });
+    p.then(function (r) {
+      btn.disabled = false;
+      if (r.error) { gateMsg(authErr(r.error), true); return; }
+      afterLogin(r.data.session);
+    }, function (err) { btn.disabled = false; gateMsg(authErr(err), true); });
+  });
+  $('#deniedOut').addEventListener('click', function () { sb.auth.signOut(); });
+
+  function show(which) {
+    $('#gate').hidden = which !== 'gate';
+    $('#denied').hidden = which !== 'denied';
+    $('#appShell').hidden = which !== 'app';
+  }
+
+  var channel = null;
+  function afterLogin(session) {
+    if (!session) { show('gate'); return; }
+    state.email = (session.user && session.user.email) || '';
+    sb.rpc('member_role').then(function (r) {
+      var role = r && !r.error ? r.data : null;
+      if (!role) { $('#deniedEmail').textContent = state.email; show('denied'); return; }
+      state.role = role; state.canWrite = role === 'owner';
+      $('#whoami').textContent = role === 'owner' ? 'Rezervacije i podela zarade' : 'Pregled za ' + state.email;
+      show('app');
+      render();
+      loadAll();
+      if (!channel) {
+        channel = sb.channel('knjiga')
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'bookings' }, scheduleReload)
+          .on('postgres_changes', { event: '*', schema: 'public', table: 'settings' }, scheduleReload)
+          .subscribe();
+      }
+    }, function () { toast('Nema veze sa internetom.', false); show('gate'); });
+  }
+
+  /* ───── start ───── */
+  var h = (location.hash || '').slice(1);
+  if (VIEWS.indexOf(h) > -1) state.view = h;
+  var rT; window.addEventListener('resize', function () { clearTimeout(rT); rT = setTimeout(function () { if (state.view === 'pregled' && state.loaded) renderOverview(); }, 150); });
+  document.addEventListener('visibilitychange', function () { if (!document.hidden && state.role) loadAll(); });
+
+  if (!window.supabase || !window.supabase.createClient) {
+    show('gate'); gateMsg('Aplikacija nije učitana. Proveri internet i osveži stranicu.', true); return;
+  }
+  sb = window.supabase.createClient(SUPA_URL, SUPA_KEY, { auth: { persistSession: true, autoRefreshToken: true, storageKey: 'visnjicka-knjiga' } });
+  sb.auth.onAuthStateChange(function (event) {
+    if (event === 'SIGNED_OUT') {
+      state.role = null; state.loaded = false; B = [];
+      if (channel) { sb.removeChannel(channel); channel = null; }
+      setMode('login'); show('gate');
+    }
+  });
+  sb.auth.getSession().then(function (r) {
+    var s = r && r.data && r.data.session;
+    if (s) afterLogin(s); else { setMode('login'); show('gate'); }
+  }, function () { setMode('login'); show('gate'); });
+})();
+</script>
+</body>
+</html>
