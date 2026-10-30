@@ -211,8 +211,9 @@ button.row:active { background: var(--surface-2); }
   box-shadow: 0 -1px 0 var(--line);
 }
 .tabs-in { max-width: 560px; margin: 0 auto; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: center; }
-.tabs.solo .tabs-in { grid-template-columns: repeat(2, minmax(0, 1fr)); max-width: 360px; }
-.tabs.solo .tab[data-go=katarina] { order: -1; }
+.tabs.solo .tabs-in { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.split .s-due { background: color-mix(in srgb, var(--kat) 45%, var(--surface-2)); }
+.stats dd.st-kat, .hero.own .hero-n { color: var(--kat-ink); }
 .tab { height: 52px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 11.5px; font-weight: 500; color: var(--muted); }
 .tab svg.i { width: 23px; height: 23px; stroke-width: 1.8; }
 .tab[aria-current="page"] { color: var(--you); }
@@ -674,10 +675,8 @@ html, body { margin: 0; }
   function render() {
     $('#yLbl').textContent = state.year;
     var solo = state.role === 'partner';
-    if (solo && (state.view === 'pregled' || state.view === 'rezervacije')) state.view = 'katarina';
     $('#tabPartner').textContent = solo ? 'Moj deo' : partner();
     $('.tabs').classList.toggle('solo', solo);
-    $$('.tab').forEach(function (t) { t.hidden = solo && (t.dataset.go === 'pregled' || t.dataset.go === 'rezervacije'); });
     $('#addBtn').hidden = !state.canWrite;
     $$('.tab').forEach(function (t) { if (t.dataset.go === state.view) t.setAttribute('aria-current', 'page'); else t.removeAttribute('aria-current'); });
     $$('.view').forEach(function (v) { v.hidden = v.id !== 'v-' + state.view; });
@@ -702,6 +701,7 @@ html, body { margin: 0; }
   function renderOverview() {
     var el = $('#v-pregled');
     if (!state.loaded) { el.innerHTML = loadingHtml(); return; }
+    if (state.role === 'partner') { renderOwnOverview(el); return; }
     var list = B.filter(function (b) { return inYear(b) && valid(b); });
     if (!list.length) {
       el.innerHTML = todoHtml() + '<div class="panel empty"><b>Nema rezervacija u ' + state.year + '.</b>' + (state.canWrite ? 'Dodaj prvu dugmetom „Nova“ ispod.' : '') + '</div>' + upcomingHtml();
@@ -766,6 +766,57 @@ html, body { margin: 0; }
     bindRows(el);
   }
 
+  /* ───── početna za partnera: samo njena zarada ───── */
+  function renderOwnOverview(el) {
+    var t = today();
+    var list = B.filter(function (b) { return inYear(b) && valid(b) && !noShare(b); });
+    if (!list.length) {
+      el.innerHTML = '<div class="panel empty"><b>Nema boravaka u ' + state.year + '.</b>Kad stignu rezervacije, ovde vidiš svoju zaradu.</div>' + upcomingHtml();
+      bindRows(el); return;
+    }
+    var kat = sum(list, 'katTotal'), nights = list.reduce(function (s, b) { return s + nightsOf(b); }, 0);
+    var paid = sum(list.filter(function (b) { return b.katPaid; }), 'katTotal');
+    var due = sum(list.filter(function (b) { return !b.katPaid && b.checkOut <= t; }), 'katTotal');
+    var soon = Math.max(0, kat - paid - due);
+    var months = [];
+    for (var m = 0; m < 12; m++) {
+      var key = state.year + '-' + String(m + 1).padStart(2, '0');
+      var ml = list.filter(function (b) { return ym(b.checkIn) === key; });
+      var mk = sum(ml, 'katTotal');
+      months.push({ m: m, key: key, list: ml, G: mk, fee: 0, kat: mk, mine: 0, nights: ml.reduce(function (s, b) { return s + nightsOf(b); }, 0),
+        open: ml.filter(function (b) { return !b.katPaid; }).length });
+    }
+    var booked = months.filter(function (x) { return x.list.length; });
+    var fm = booked[0].m, lm = booked[booked.length - 1].m, nowY = new Date().getFullYear(), nowM = new Date().getMonth();
+    if (state.year === nowY) lm = Math.max(fm, nowM);
+    var span = lm - fm + 1, inSpan = 0;
+    for (var j = fm; j <= lm; j++) inSpan += months[j].kat;
+    var tot = Math.max(1, kat);
+    var html = '<div class="panel hero own"><p class="hero-l">Tvoja zarada u ' + state.year + '.</p>' +
+      '<p class="hero-n num">' + eur(kat) + '</p>' +
+      '<p class="hero-s">' + boravak(list.length) + ', ' + noci(nights) + '</p>' +
+      '<span class="split" aria-hidden="true"><i class="s-kat" style="flex:' + paid / tot + '"></i><i class="s-due" style="flex:' + due / tot + '"></i><i class="s-fee" style="flex:' + soon / tot + '"></i></span>' +
+      '<dl class="legend"><div style="--c:var(--kat)"><dt>Isplaćeno</dt><dd class="num">' + eur0(paid) + '</dd></div>' +
+      '<div style="--c:color-mix(in srgb, var(--kat) 45%, var(--surface-2))"><dt>Za isplatu</dt><dd class="num">' + eur0(due) + '</dd></div>' +
+      '<div style="--c:var(--fee)"><dt>Predstoji</dt><dd class="num">' + eur0(soon) + '</dd></div></dl></div>';
+    html += '<dl class="panel stats">' +
+      '<div><dt>Noćenja</dt><dd class="num">' + nights + '</dd><dd class="st-sub">' + boravak(list.length) + '</dd></div>' +
+      '<div><dt>Po boravku</dt><dd class="num">' + eur0(kat / list.length) + '</dd><dd class="st-sub">prosek</dd></div>' +
+      '<div><dt>Mesečna zarada</dt><dd class="num st-kat">' + eur0(inSpan / span) + '</dd><dd class="st-sub">' + esc('prosek ' + (span === 1 ? MON[fm] : MON[fm] + '–' + MON[lm]) + ' (' + plural(span, 'mesec', 'meseca', 'meseci') + ')') + '</dd></div>' +
+      '<div><dt>Za isplatu</dt><dd class="num">' + eur0(due) + '</dd><dd class="st-sub">' + (due ? 'završeni boravci' : 'sve je izmireno') + '</dd></div></dl>';
+    html += '<div class="panel chart"><div class="chart-h"><h3>Po mesecima</h3><span>tvoja zarada po mesecu dolaska</span></div><div id="chartBox"></div></div>';
+    html += '<ul class="panel rows">' + booked.slice().reverse().map(function (x) {
+      return '<li><button type="button" class="row press" data-month="' + x.key + '"><span class="rx"><span class="rt">' + cap(MONF[x.m]) + '</span>' +
+        '<span class="rs">' + boravak(x.list.length) + ', ' + noci(x.nights) + (x.open ? ', ' + x.open + ' neisplaćeno' : ', isplaćeno') + '</span></span>' +
+        '<span class="ra"><b class="katc num">' + eur(x.kat) + '</b></span>' + icon('chevron-right', 'chev') + '</button></li>';
+    }).join('') + '</ul>';
+    html += upcomingHtml();
+    el.innerHTML = html;
+    drawChart(months, true);
+    $$('[data-month]', el).forEach(function (b) { b.addEventListener('click', function () { openMonth(b.dataset.month); }); });
+    bindRows(el);
+  }
+
   function upcomingHtml() {
     var t = today();
     var live = B.filter(function (b) { return !b.cancelled; });
@@ -777,7 +828,7 @@ html, body { margin: 0; }
     return '<h2 class="h2">Sledeći gosti</h2><ul class="panel rows">' + items.join('') + '</ul>';
   }
 
-  function drawChart(months) {
+  function drawChart(months, own) {
     var box = $('#chartBox'); if (!box) return;
     var W = Math.max(280, box.clientWidth || 320), H = 176, L = 34, R = 4, T = 8, Bm = 22;
     var max = Math.max.apply(null, months.map(function (x) { return x.G; }).concat([1]));
@@ -786,7 +837,7 @@ html, body { margin: 0; }
     var top = Math.ceil(max / step) * step;
     var y = function (v) { return T + (H - T - Bm) * (1 - v / top); };
     var slot = (W - L - R) / 12, bw = Math.min(18, slot * .58), curKey = iso(new Date()).slice(0, 7);
-    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="Bruto po mesecima za ' + state.year + '.">';
+    var s = '<svg viewBox="0 0 ' + W + ' ' + H + '" role="img" aria-label="' + (own ? 'Tvoja zarada' : 'Bruto') + ' po mesecima za ' + state.year + '.">';
     for (var v = 0; v <= top; v += step) {
       s += '<line class="grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v).toFixed(1) + '" y2="' + y(v).toFixed(1) + '"/>';
       s += '<text class="ylab" x="' + (L - 6) + '" y="' + (y(v) + 3.5).toFixed(1) + '" text-anchor="end">' + grp(v / 100) + '</text>';
@@ -795,7 +846,8 @@ html, body { margin: 0; }
       var cx = L + slot * x.m + slot / 2, x0 = cx - bw / 2, you = Math.max(0, x.mine), kat = Math.max(0, x.kat), fee = Math.max(0, x.fee);
       s += '<text class="' + (x.key === curKey ? 'xlab cur' : 'xlab') + '" x="' + cx.toFixed(1) + '" y="' + (H - 6) + '" text-anchor="middle">' + MON[x.m] + '</text>';
       if (!x.G) return;
-      s += '<rect class="hit" x="' + (L + slot * x.m).toFixed(1) + '" y="' + T + '" width="' + slot.toFixed(1) + '" height="' + (H - T - Bm) + '" data-key="' + x.key + '" tabindex="0" role="button" aria-label="' + MONF[x.m] + ': ' + eur(x.G) + ' bruto, tvoje ' + eur(x.mine) + '"/>';
+      s += '<rect class="hit" x="' + (L + slot * x.m).toFixed(1) + '" y="' + T + '" width="' + slot.toFixed(1) + '" height="' + (H - T - Bm) + '" data-key="' + x.key + '" tabindex="0" role="button" aria-label="' + MONF[x.m] + ': ' + (own ? 'tvoje ' + eur(x.kat) : eur(x.G) + ' bruto, tvoje ' + eur(x.mine)) + '"/>';
+      if (own) { s += '<rect class="b-kat" pointer-events="none" x="' + x0.toFixed(1) + '" y="' + y(kat).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (y(0) - y(kat)).toFixed(1) + '" rx="3"/>'; return; }
       s += '<g pointer-events="none"><rect class="b-fee" x="' + x0.toFixed(1) + '" y="' + y(you + kat + fee).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (y(0) - y(you + kat + fee)).toFixed(1) + '" rx="3"/>' +
         '<rect class="b-kat" x="' + x0.toFixed(1) + '" y="' + y(you + kat).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (y(0) - y(you + kat)).toFixed(1) + '"/>' +
         '<rect class="b-you" x="' + x0.toFixed(1) + '" y="' + y(you).toFixed(1) + '" width="' + bw.toFixed(1) + '" height="' + (y(0) - y(you)).toFixed(1) + '"/></g>';
@@ -819,19 +871,19 @@ html, body { margin: 0; }
         if (b.review) chips += '<span class="chip kat">Proveri</span>';
         if (b.checkIn > t) chips += '<span class="chip soon">' + icon('clock') + 'Predstoji</span>';
         if (valid(b) && b.status === 'ceka') chips += '<span class="chip wait">Čeka naplatu</span>';
-        if (valid(b) && !b.katPaid && !noShare(b) && b.checkOut <= t) chips += '<span class="chip kat">' + esc(partner()) + ': nije isplaćeno</span>';
+        if (valid(b) && !b.katPaid && !noShare(b) && b.checkOut <= t) chips += '<span class="chip kat">' + (b.own ? 'Nije isplaćeno' : esc(partner()) + ': nije isplaćeno') + '</span>';
       }
     }
     var amt;
     if (b.cancelled) amt = '<small>otkazano</small>';
     else if (opts.todo || incomplete(b)) amt = b.gross != null ? '<b class="num">' + eur(c.G) + '</b><small>bruto</small>' : '<small>' + (state.canWrite ? 'dodirni za unos' : 'bez iznosa') + '</small>';
-    else if (opts.kat) amt = '<b class="katc num">' + eur(c.katTotal) + '</b><small>' + noci(c.n) + '</small>';
+    else if (opts.kat || b.own) amt = '<b class="katc num">' + eur(c.katTotal) + '</b><small>' + noci(c.n) + '</small>';
     else amt = '<b class="you num">' + eur(c.mine) + '</b><small class="num">' + eur(c.G) + '</small>';
     var defSub = (c.n ? noci(c.n) + ', ' : '') + (CH[b.channel] || 'Booking');
     return '<li><button type="button" class="row press' + (b.cancelled ? ' is-cancelled' : '') + '" data-id="' + esc(b.id) + '"' + (opts.todo ? ' data-todo="1"' : '') + '>' +
       '<span class="bk-date"><b>' + r.top + '</b><small>' + r.bot + '</small></span>' +
       '<span class="rx"><span class="rt">' + esc(guestName(b)) + '</span><span class="rs">' + esc(sub || defSub) + '</span>' +
-      (chips ? '<span class="chips">' + chips + '</span>' : '') + (opts.kat || opts.todo || !valid(b) ? '' : splitHtml(c, 'mini')) + '</span>' +
+      (chips ? '<span class="chips">' + chips + '</span>' : '') + (opts.kat || b.own || opts.todo || !valid(b) ? '' : splitHtml(c, 'mini')) + '</span>' +
       '<span class="ra">' + amt + '</span></button></li>';
   }
   function bindRows(el) {
@@ -850,9 +902,11 @@ html, body { margin: 0; }
     var list = B.filter(inYear);
     if (state.month) list = list.filter(function (b) { return ym(b.checkIn) === state.month; });
     if (state.filter === 'predstoje') list = list.filter(function (b) { return !b.cancelled && (!validDate(b.checkOut) || b.checkOut > t); });
-    if (state.filter === 'ceka') list = list.filter(function (b) { return !b.cancelled && (b.status === 'ceka' || incomplete(b)); });
-    var html = '<div class="seg" role="group" aria-label="Filter">' + ['sve', 'predstoje', 'ceka'].map(function (f) {
-      return '<button type="button" data-filter="' + f + '" aria-pressed="' + (state.filter === f) + '">' + { sve: 'Sve', predstoje: 'Predstoje', ceka: 'Čeka naplatu' }[f] + '</button>';
+    var mine = state.role === 'partner', last = mine ? 'neisplaceno' : 'ceka';
+    if (state.filter === 'ceka' && !mine) list = list.filter(function (b) { return !b.cancelled && (b.status === 'ceka' || incomplete(b)); });
+    if (state.filter === 'neisplaceno' && mine) list = list.filter(function (b) { return !b.cancelled && !b.katPaid; });
+    var html = '<div class="seg" role="group" aria-label="Filter">' + ['sve', 'predstoje', last].map(function (f) {
+      return '<button type="button" data-filter="' + f + '" aria-pressed="' + (state.filter === f) + '">' + { sve: 'Sve', predstoje: 'Predstoje', ceka: 'Čeka naplatu', neisplaceno: 'Neisplaćeno' }[f] + '</button>';
     }).join('') + '</div>';
     if (state.month) { var mm = +state.month.slice(5) - 1; html += '<button type="button" class="filter-chip press" id="clearMonth" aria-label="Prikaži sve mesece">' + cap(MONF[mm]) + ' ' + state.month.slice(0, 4) + '.' + icon('x') + '</button>'; }
     if (!list.length) html += '<div class="panel empty"><b>Nema rezervacija za ovaj prikaz</b>' + (state.filter !== 'sve' || state.month ? 'Promeni filter da vidiš ostale.' : (state.canWrite ? 'Dodaj prvu dugmetom „Nova“.' : '')) + '</div>';
@@ -861,7 +915,7 @@ html, body { margin: 0; }
       sorted(list, 'desc').forEach(function (b) { var k = ym(b.checkIn); (groups[k] = groups[k] || []).push(b); });
       Object.keys(groups).sort().reverse().forEach(function (k) {
         var g = groups[k], m = +k.slice(5) - 1, ok = g.filter(valid);
-        html += '<div class="group-h"><h3>' + cap(MONF[m]) + '</h3><span>' + rez(g.filter(function (b) { return !b.cancelled; }).length) + ', tvoje <b class="num">' + eur(sum(ok, 'mine')) + '</b></span></div>';
+        html += '<div class="group-h"><h3>' + cap(MONF[m]) + '</h3><span>' + rez(g.filter(function (b) { return !b.cancelled; }).length) + ', tvoje <b class="num"' + (mine ? ' style="color:var(--kat-ink)"' : '') + '>' + eur(sum(ok, mine ? 'katTotal' : 'mine')) + '</b></span></div>';
         html += '<ul class="panel rows">' + g.map(function (b) { return rowHtml(b); }).join('') + '</ul>';
       });
     }
@@ -887,7 +941,7 @@ html, body { margin: 0; }
         : '<div class="k-actions"><button type="button" class="btn kat press" id="payAll">' + icon('hand-coins') + (state.role === 'partner' ? 'Označi da sam uzela' : 'Označi kao isplaćeno') + '</button></div>';
     }
     html += '</div>';
-    html += partnerMonthsHtml(me);
+    if (!me) html += partnerMonthsHtml(me);
     var todo = B.filter(function (b) { return incomplete(b) && !noShare(b); }).length;
     if (todo) html += '<p class="hint" style="padding:0 4px">' + rez(todo) + ' čeka dopunu iznosa ili datuma, pa još nije uračunato.</p>';
     if (due.length) html += '<h2 class="h2">Neisplaćeno</h2><ul class="panel rows">' + due.map(function (b) { return rowHtml(b, null, { kat: true, chips: false }); }).join('') + '</ul>';
@@ -1147,7 +1201,7 @@ html, body { margin: 0; }
     $('#accessBox').hidden = !state.canWrite;
     $('#setForm').hidden = !state.canWrite;
     $('#s-export').hidden = !state.canWrite;
-    $('#acctLine').textContent = 'Prijavljen si kao ' + state.email + (state.role === 'owner' ? ' (vlasnik).' : state.role === 'partner' ? '. Vidiš svoj deo i kovertu.' : ' (samo pregled).');
+    $('#acctLine').textContent = 'Prijavljen si kao ' + state.email + (state.role === 'owner' ? ' (vlasnik).' : state.role === 'partner' ? '. Vidiš svoju zaradu, boravke i kovertu.' : ' (samo pregled).');
     if (state.canWrite) loadMembers();
     openSheet('sh-set');
   });
@@ -1678,7 +1732,7 @@ html, body { margin: 0; }
       var role = r && !r.error ? r.data : null;
       if (!role) { $('#deniedEmail').textContent = state.email; show('denied'); return; }
       state.role = role; state.canWrite = role === 'owner'; state.canCash = role === 'owner' || role === 'partner';
-      $('#whoami').textContent = role === 'owner' ? 'Rezervacije i podela zarade' : role === 'partner' ? 'Tvoj deo i koverta' : 'Pregled za ' + state.email;
+      $('#whoami').textContent = role === 'owner' ? 'Rezervacije i podela zarade' : role === 'partner' ? 'Tvoja zarada i boravci' : 'Pregled za ' + state.email;
       show('app');
       $('#refreshBtn').hidden = !REFRESH_URL;
       render();
