@@ -437,7 +437,7 @@ html, body { margin: 0; }
     </div>
     <div class="two">
       <label class="field"><span>Provizija kanala (%)</span><input id="f-pct" inputmode="decimal" autocomplete="off"></label>
-      <label class="field"><span>Broj rezervacije</span><input id="f-res" inputmode="numeric" autocomplete="off" placeholder="Nije obavezno"></label>
+      <label class="field"><span>Broj rezervacije</span><input id="f-res" autocomplete="off" autocapitalize="characters" placeholder="Nije obavezno"></label>
     </div>
     <div class="field"><span>Naplata</span>
       <div class="opts" id="f-status">
@@ -591,7 +591,9 @@ html, body { margin: 0; }
   var NB = String.fromCharCode(160);
   function eur(c) { c = Math.round(c || 0); var neg = c < 0; c = Math.abs(c); return (neg ? '−' : '') + grp(Math.floor(c / 100)) + ',' + String(c % 100).padStart(2, '0') + NB + '€'; }
   function eur0(c) { var v = Math.round((c || 0) / 100); return (v < 0 ? '−' : '') + grp(Math.abs(v)) + NB + '€'; }
-  function pctTxt(p) { return String(p).replace('.', ',') + '%'; }
+  function pctTxt(p) { return String(Math.round(p * 100) / 100).replace('.', ',') + '%'; }
+  function noShare(b) { return !(+b.katPct) && !(+b.cleaning); }
+  function viaAirbnb(b) { return b.channel === 'airbnb'; }
   function parseNum(s) { if (s == null) return NaN; s = String(s).trim().replace(/\s/g, ''); if (/,\d{1,2}$/.test(s)) s = s.replace(/\./g, '').replace(',', '.'); else s = s.replace(/,/g, ''); return s === '' ? NaN : Number(s); }
   function iso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   function today() { return iso(new Date()); }
@@ -800,7 +802,7 @@ html, body { margin: 0; }
         if (b.review) chips += '<span class="chip kat">Proveri</span>';
         if (b.checkIn > t) chips += '<span class="chip soon">' + icon('clock') + 'Predstoji</span>';
         if (valid(b) && b.status === 'ceka') chips += '<span class="chip wait">Čeka naplatu</span>';
-        if (valid(b) && !b.katPaid && b.checkOut <= t) chips += '<span class="chip kat">' + esc(partner()) + ': nije isplaćeno</span>';
+        if (valid(b) && !b.katPaid && !noShare(b) && b.checkOut <= t) chips += '<span class="chip kat">' + esc(partner()) + ': nije isplaćeno</span>';
       }
     }
     var amt;
@@ -856,8 +858,8 @@ html, body { margin: 0; }
     var el = $('#v-katarina');
     if (!state.loaded) { el.innerHTML = loadingHtml(); return; }
     var t = today(), P = esc(partner());
-    var due = sorted(B.filter(function (b) { return valid(b) && !b.katPaid && b.checkOut <= t; }), 'asc');
-    var soon = sorted(B.filter(function (b) { return valid(b) && !b.katPaid && b.checkOut > t; }), 'asc');
+    var due = sorted(B.filter(function (b) { return valid(b) && !b.katPaid && !noShare(b) && b.checkOut <= t; }), 'asc');
+    var soon = sorted(B.filter(function (b) { return valid(b) && !b.katPaid && !noShare(b) && b.checkOut > t; }), 'asc');
     var dueSum = sum(due, 'katTotal');
     var html = '<div class="panel k-hero"><p class="hero-l">Za isplatu ' + esc(partnerGen()) + '</p><p class="hero-n num">' + eur(dueSum) + '</p>' +
       '<p class="hero-s">' + (due.length ? 'za ' + boravak(due.length) + ' koji su završeni' : 'Sve završene isplate su izmirene.') + '</p>';
@@ -932,8 +934,9 @@ html, body { margin: 0; }
     return '<table><tr><td>Bruto</td><td class="num">' + eur(c.G) + '</td></tr>' +
       '<tr class="sub"><td><span class="dot" style="background:var(--fee)"></span>Provizija ' + esc(CH[b.channel] || 'Booking') + ' ' + pctTxt(+b.commissionPct || 0) + '</td><td class="num">−' + eur(c.fee) + '</td></tr>' +
       '<tr><td>Neto</td><td class="num">' + eur(c.net) + '</td></tr>' +
+      (noShare(b) ? '<tr class="sub"><td>Bez podele sa ' + esc(partnerIns()) + '</td><td class="num">–</td></tr>' :
       '<tr class="k"><td><span class="dot" style="background:var(--kat)"></span>' + P + ': čišćenje</td><td class="num">−' + eur(c.C) + '</td></tr>' +
-      '<tr class="k"><td><span class="dot" style="background:var(--kat)"></span>' + P + ': ' + pctTxt(+b.katPct || 0) + '</td><td class="num">−' + eur(c.kat) + '</td></tr>' +
+      '<tr class="k"><td><span class="dot" style="background:var(--kat)"></span>' + P + ': ' + pctTxt(+b.katPct || 0) + '</td><td class="num">−' + eur(c.kat) + '</td></tr>') +
       '<tr class="tot"><td><span class="dot" style="background:var(--you)"></span>Tvoje</td><td class="num">' + eur(c.mine) + '</td></tr></table>';
   }
   function renderDetail() {
@@ -949,13 +952,14 @@ html, body { margin: 0; }
     var html = '<div class="d-head"><p class="d-dates">' + dayLbl(b.checkIn) + ' – ' + (validDate(b.checkOut) ? dayLbl(b.checkOut) + ' ' + b.checkOut.slice(0, 4) + '.' : '?') + '</p><p class="d-sub">' + esc(sub.join(', ')) + '</p></div>';
     if (b.cancelled) html += '<p class="notice">Ova rezervacija je otkazana i ne ulazi u obračun.</p>';
     else if (incomplete(b)) html += '<p class="notice">Nedostaje: ' + esc(missing(b).join(', ')) + '. ' + (state.canWrite ? 'Dodirni „Dopuni“ i unesi podatke iz Booking-a.' : '') + '</p>';
-    else html += '<div class="calc">' + splitHtml(c) + calcTable(c, b) + '<p class="hint" style="margin-top:8px">' + P + ' ukupno: <b class="num" style="color:var(--kat-ink)">' + eur(c.katTotal) + '</b></p>' +
+    else html += '<div class="calc">' + splitHtml(c) + calcTable(c, b) + (noShare(b) ? '' : '<p class="hint" style="margin-top:8px">' + P + ' ukupno: <b class="num" style="color:var(--kat-ink)">' + eur(c.katTotal) + '</b></p>') +
       (b.cityTax > 0 ? '<p class="hint">Gradska taksa: <b class="num" style="color:var(--you)">' + money(b.cityTax, b.cityTaxCur) + '</b>, samo tvoja</p>' : '') + '</div>';
     if (b.note) html += '<p class="d-note">' + esc(b.note) + '</p>';
     if (!b.cancelled && valid(b)) {
-      html += '<button type="button" class="switch-row" role="switch" id="d-status" aria-checked="' + (b.status === 'naplaceno') + '"' + dis + '><span class="rx"><span class="rt">Naplaćeno</span><span class="rs">' + (b.status === 'naplaceno' ? esc(paidLine(b)) : 'Kad gost plati, uključi pa izaberi evre ili dinare i upiši gradsku taksu') + '</span></span><span class="sw"></span></button>';
-      if (b.status === 'naplaceno' && state.canWrite) html += '<button type="button" class="link d-more" id="d-collect">Izmeni naplatu ili gradsku taksu</button>';
-      html += '<button type="button" class="switch-row k" role="switch" id="d-kat" aria-checked="' + !!b.katPaid + '"' + disK + '><span class="rx"><span class="rt">Isplaćeno ' + esc(partnerGen()) + '</span><span class="rs">' + (b.katPaid ? (b.katPaidAt ? longDate(b.katPaidAt) + (b.katPaidCur === 'RSD' ? ', u dinarima' : ', u evrima') + ', iz koverte' : 'Pre aplikacije') : eur(c.katTotal) + ' za isplatu iz koverte') + '</span></span><span class="sw"></span></button>';
+      html += '<button type="button" class="switch-row" role="switch" id="d-status" aria-checked="' + (b.status === 'naplaceno') + '"' + dis + '><span class="rx"><span class="rt">Naplaćeno</span><span class="rs">' + (viaAirbnb(b) ? (b.status === 'naplaceno' ? 'Isplatio Airbnb, na račun. Ne ulazi u kovertu.' : 'Kad Airbnb isplati, uključi. Ne ulazi u kovertu.')
+        : b.status === 'naplaceno' ? esc(paidLine(b)) : 'Kad gost plati, uključi pa izaberi evre ili dinare i upiši gradsku taksu') + '</span></span><span class="sw"></span></button>';
+      if (b.status === 'naplaceno' && state.canWrite && !viaAirbnb(b)) html += '<button type="button" class="link d-more" id="d-collect">Izmeni naplatu ili gradsku taksu</button>';
+      if (!noShare(b)) html += '<button type="button" class="switch-row k" role="switch" id="d-kat" aria-checked="' + !!b.katPaid + '"' + disK + '><span class="rx"><span class="rt">Isplaćeno ' + esc(partnerGen()) + '</span><span class="rs">' + (b.katPaid ? (b.katPaidAt ? longDate(b.katPaidAt) + (b.katPaidCur === 'RSD' ? ', u dinarima' : ', u evrima') + ', iz koverte' : 'Pre aplikacije') : eur(c.katTotal) + ' za isplatu iz koverte') + '</span></span><span class="sw"></span></button>';
     }
     if (state.canWrite) {
       if (confirmDel) html += '<p class="warn">Obrisati ovu rezervaciju? Ovo ne može da se vrati.</p><div class="d-actions"><button type="button" class="btn danger press" id="d-delYes">' + icon('trash-2') + 'Obriši</button><button type="button" class="btn press" id="d-delNo">Odustani</button></div>';
@@ -970,7 +974,7 @@ html, body { margin: 0; }
     });
     if (!state.canWrite) return;
     var st = $('#d-status', el);
-    if (st) st.addEventListener('click', function () { if (b.status === 'naplaceno') patch(b.id, { status: 'ceka' }); else openCollect(b); });
+    if (st) st.addEventListener('click', function () { if (b.status === 'naplaceno') patch(b.id, { status: 'ceka' }); else if (viaAirbnb(b)) patch(b.id, { status: 'naplaceno' }); else openCollect(b); });
     var dc = $('#d-collect', el); if (dc) dc.addEventListener('click', function () { openCollect(b); });
     var e1 = $('#d-edit', el); if (e1) e1.addEventListener('click', function () { openForm(b); });
     var rs = $('#d-restore', el); if (rs) rs.addEventListener('click', function () { patch(b.id, { cancelled: false }); });
@@ -980,7 +984,7 @@ html, body { margin: 0; }
   }
 
   /* ───── form ───── */
-  var editing = null, fGuests = null, fChannel = 'booking', fStatus = 'ceka', pctTouched = false;
+  var editing = null, fGuests = null, fChannel = 'booking', fStatus = 'ceka', pctTouched = false, fPctShown = '';
   function setOpt(groupId, v) { $$('#' + groupId + ' .opt').forEach(function (o) { o.setAttribute('aria-pressed', o.dataset.v === v ? 'true' : 'false'); }); }
   function openForm(b) {
     editing = b || null; pctTouched = !!b;
@@ -994,7 +998,7 @@ html, body { margin: 0; }
     fGuests = b && b.guests ? b.guests : null;
     fChannel = b ? (b.channel || 'booking') : 'booking';
     fStatus = b ? (b.status || 'ceka') : 'ceka';
-    $('#f-pct').value = String(b ? b.commissionPct : S.commission[fChannel]).replace('.', ',');
+    $('#f-pct').value = fPctShown = String(Math.round((b ? b.commissionPct : S.commission[fChannel]) * 100) / 100).replace('.', ',');
     $('#f-note').value = b ? (b.note || '') : '';
     setOpt('f-channel', fChannel); setOpt('f-status', fStatus);
     $$('.field.err').forEach(function (f) { f.classList.remove('err'); });
@@ -1006,8 +1010,8 @@ html, body { margin: 0; }
   function formDraft() {
     return {
       guest: $('#f-guest').value.trim(), checkIn: $('#f-in').value, checkOut: $('#f-out').value,
-      gross: parseNum($('#f-gross').value), guests: fGuests, channel: fChannel, resNumber: $('#f-res').value.replace(/\D/g, ''),
-      commissionPct: parseNum($('#f-pct').value), status: fStatus, note: $('#f-note').value.trim(),
+      gross: parseNum($('#f-gross').value), guests: fGuests, channel: fChannel, resNumber: $('#f-res').value.replace(/[^0-9A-Za-z]/g, '').toUpperCase(),
+      commissionPct: editing && $('#f-pct').value === fPctShown ? editing.commissionPct : parseNum($('#f-pct').value), status: fStatus, note: $('#f-note').value.trim(),
       katPct: editing ? editing.katPct : S.katPct, cleaning: editing ? editing.cleaning : S.cleaning
     };
   }
@@ -1062,7 +1066,7 @@ html, body { margin: 0; }
       note: d.note, review: false
     };
     if (!editing) { row.n = B.reduce(function (m, b) { return Math.max(m, +b.n || 0); }, 0) + 1; row.source = 'app'; }
-    var wantPaid = d.status === 'naplaceno' && !(editing && editing.status === 'naplaceno');
+    var wantPaid = d.status === 'naplaceno' && !(editing && editing.status === 'naplaceno') && d.channel !== 'airbnb';
     if (wantPaid) row.status = 'ceka';
     // ako je plaćeno u evrima tačno bruto, ispravljen bruto menja i iznos u koverti
     if (editing && editing.status === 'naplaceno' && d.status === 'naplaceno' && editing.paidCur === 'EUR' && editing.paidAmount != null &&
