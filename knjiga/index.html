@@ -93,7 +93,13 @@ svg.i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor;
 .year button:disabled { opacity: .3; cursor: default; }
 .year span { min-width: 44px; text-align: center; font-weight: 600; font-size: 15px; }
 .year svg.i { width: 18px; height: 18px; }
-.icon-btn { width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); }
+.icon-btn { width: 38px; height: 38px; border-radius: 999px; display: grid; place-items: center; background: var(--surface); box-shadow: inset 0 0 0 1px var(--line); color: var(--muted); flex-shrink: 0; }
+.icon-btn[hidden] { display: none; }
+.icon-btn:disabled { cursor: progress; }
+.icon-btn.spin svg { animation: spin .9s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.brand small { overflow: hidden; text-overflow: ellipsis; }
+@media (max-width: 420px) { .bar .wrap { gap: 6px; } .year button { width: 30px; } .year span { min-width: 42px; } }
 
 main { padding-bottom: calc(96px + env(safe-area-inset-bottom, 0px)); }
 .view { padding-block: 6px 12px; display: flex; flex-direction: column; gap: 12px; }
@@ -284,7 +290,7 @@ button.row:active { background: var(--surface-2); }
 .toast svg.i { width: 18px; height: 18px; }
 
 @media (min-width: 600px) { .sheet { bottom: 24px; border-radius: 24px; max-height: calc(100% - 48px); } }
-@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } .icon-btn.spin { opacity: .5; } }
 
 :root { padding-top: env(safe-area-inset-top, 0px); }
 [hidden] { display: none !important; }
@@ -339,11 +345,12 @@ html, body { margin: 0; }
 .cash-amt .seg .opt { height: 44px; }
 #sh-ex .money input { padding-right: 56px; font-size: 18px; }
 .link { color: var(--you); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
+.link.d-more { align-self: flex-start; margin: -4px 0 2px 14px; font-size: 14px; padding: 6px 0; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 </style>
 </head>
 <body>
-<!-- Icons: Lucide (ISC license) --><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-arrow-left-right" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></symbol><symbol id="i-calendar-days" viewBox="0 0 24 24"><path d="M8 2v3" /><path d="M16 2v3" /><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M8 13h.01" /><path d="M12 13h.01" /><path d="M16 13h.01" /><path d="M8 17h.01" /><path d="M12 17h.01" /><path d="M16 17h.01" /></symbol><symbol id="i-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /></symbol><symbol id="i-hand-coins" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" /><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /><path d="m2 16 6 6" /><circle cx="16" cy="9" r="2.9" /><circle cx="6" cy="5" r="3" /></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="M12 5v14" /></symbol><symbol id="i-rotate-ccw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></symbol><symbol id="i-shopping-bag" viewBox="0 0 24 24"><path d="M16 10a4 4 0 0 1-8 0" /><path d="M3.103 6.034h17.794" /><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" /></symbol><symbol id="i-trash-2" viewBox="0 0 24 24"><path d="M10 11v6" /><path d="M14 11v6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></symbol><symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol></svg>
+<!-- Icons: Lucide (ISC license) --><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-arrow-left-right" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></symbol><symbol id="i-calendar-days" viewBox="0 0 24 24"><path d="M8 2v3" /><path d="M16 2v3" /><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M8 13h.01" /><path d="M12 13h.01" /><path d="M16 13h.01" /><path d="M8 17h.01" /><path d="M12 17h.01" /><path d="M16 17h.01" /></symbol><symbol id="i-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /></symbol><symbol id="i-hand-coins" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" /><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /><path d="m2 16 6 6" /><circle cx="16" cy="9" r="2.9" /><circle cx="6" cy="5" r="3" /></symbol><symbol id="i-landmark" viewBox="0 0 24 24"><path d="M10 18v-7" /><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z" /><path d="M14 18v-7" /><path d="M18 18v-7" /><path d="M3 22h18" /><path d="M6 18v-7" /></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="M12 5v14" /></symbol><symbol id="i-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></symbol><symbol id="i-rotate-ccw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></symbol><symbol id="i-shopping-bag" viewBox="0 0 24 24"><path d="M16 10a4 4 0 0 1-8 0" /><path d="M3.103 6.034h17.794" /><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" /></symbol><symbol id="i-trash-2" viewBox="0 0 24 24"><path d="M10 11v6" /><path d="M14 11v6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></symbol><symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol></svg>
 
 <section class="gate wrap" id="gate" hidden>
   <form class="gate-card" id="gateForm" novalidate>
@@ -379,6 +386,7 @@ html, body { margin: 0; }
       <span id="yLbl">2026</span>
       <button type="button" id="yNext" aria-label="Sledeća godina"><svg class="i"><use href="#i-chevron-right"/></svg></button>
     </div>
+    <button type="button" class="icon-btn press" id="refreshBtn" aria-label="Proveri nove Booking mejlove" title="Proveri nove Booking mejlove" hidden><svg class="i"><use href="#i-refresh-cw"/></svg></button>
     <button type="button" class="icon-btn press" id="openSet" aria-label="Podešavanja"><svg class="i"><use href="#i-settings"/></svg></button>
   </div>
 </header>
@@ -531,11 +539,32 @@ html, body { margin: 0; }
   </form>
 </div>
 
+<div class="sheet" id="sh-collect" role="dialog" aria-modal="true" aria-labelledby="colT" hidden>
+  <div class="sh-head"><h2 id="colT">Naplata</h2><button type="button" class="sh-x" data-close aria-label="Zatvori"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <form class="sh-body" id="colForm" novalidate>
+    <p class="d-sub" id="k-what"></p>
+    <div class="field"><span>Gost je platio u</span>
+      <div class="seg two" id="k-cur" role="group" aria-label="Valuta naplate"><button type="button" class="opt" data-v="EUR">Evrima</button><button type="button" class="opt" data-v="RSD">Dinarima</button></div>
+    </div>
+    <label class="field" id="w-krate"><span>Kurs: 1 € = ? dinara</span><input id="k-rate" inputmode="decimal" autocomplete="off"></label>
+    <p class="hint" id="k-live" hidden></p>
+    <label class="field" id="w-kamt"><span>Primljeno</span><span class="money"><input id="k-amt" inputmode="decimal" autocomplete="off" placeholder="0"><em id="k-amt-u">€</em></span></label>
+    <p class="hint" id="k-calc"></p>
+    <p class="sec-h">Gradska taksa</p>
+    <div class="cash-amt">
+      <label class="field" id="w-ktax"><span>Iznos</span><span class="money"><input id="k-tax" inputmode="decimal" autocomplete="off" placeholder="Nije plaćena"></span></label>
+      <div class="field"><span>Valuta</span><div class="seg two" id="k-taxcur" role="group" aria-label="Valuta takse"><button type="button" class="opt" data-v="EUR">€</button><button type="button" class="opt" data-v="RSD">RSD</button></div></div>
+    </div>
+    <p class="hint" id="k-taxhint"></p>
+    <button type="submit" class="btn primary wide press" id="k-save">Potvrdi naplatu</button>
+  </form>
+</div>
+
 <div class="toast" id="toast" role="status" aria-live="polite"><svg class="i"><use href="#i-check"/></svg><span></span></div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/dist/umd/supabase.js"></script>
 <script>
-/* icons used from script: #i-minus #i-wrench #i-shopping-bag #i-arrow-left-right #i-calendar-days #i-clock #i-trash-2 #i-pencil #i-chevron-right #i-hand-coins #i-x #i-check #i-triangle-alert #i-rotate-ccw */
+/* icons used from script: #i-minus #i-wrench #i-shopping-bag #i-arrow-left-right #i-calendar-days #i-clock #i-trash-2 #i-pencil #i-chevron-right #i-hand-coins #i-x #i-check #i-triangle-alert #i-rotate-ccw #i-landmark */
 (function () {
   'use strict';
   var SUPA_URL = 'https://cegbafuyqsdiltlvwweu.supabase.co';
@@ -620,6 +649,8 @@ html, body { margin: 0; }
       guests: r.guests, gross: r.gross == null ? null : Number(r.gross), channel: r.channel || 'booking',
       commissionPct: Number(r.commission_pct), katPct: Number(r.kat_pct), cleaning: Number(r.cleaning),
       status: r.status, payment: r.payment, cancelled: !!r.cancelled, review: !!r.review,
+      paidCur: r.paid_currency || 'EUR', paidAmount: r.paid_amount == null ? null : Number(r.paid_amount), paidRate: r.paid_rate == null ? null : Number(r.paid_rate),
+      cityTax: r.city_tax == null ? 0 : Number(r.city_tax), cityTaxCur: r.city_tax_currency || 'RSD',
       katPaid: !!r.kat_paid, katPaidAt: r.kat_paid_at, katPaidCur: r.kat_paid_currency || 'EUR', katPaidRate: r.kat_paid_rate == null ? null : Number(r.kat_paid_rate), note: r.note || '', source: r.source
     };
   }
@@ -918,10 +949,12 @@ html, body { margin: 0; }
     var html = '<div class="d-head"><p class="d-dates">' + dayLbl(b.checkIn) + ' – ' + (validDate(b.checkOut) ? dayLbl(b.checkOut) + ' ' + b.checkOut.slice(0, 4) + '.' : '?') + '</p><p class="d-sub">' + esc(sub.join(', ')) + '</p></div>';
     if (b.cancelled) html += '<p class="notice">Ova rezervacija je otkazana i ne ulazi u obračun.</p>';
     else if (incomplete(b)) html += '<p class="notice">Nedostaje: ' + esc(missing(b).join(', ')) + '. ' + (state.canWrite ? 'Dodirni „Dopuni“ i unesi podatke iz Booking-a.' : '') + '</p>';
-    else html += '<div class="calc">' + splitHtml(c) + calcTable(c, b) + '<p class="hint" style="margin-top:8px">' + P + ' ukupno: <b class="num" style="color:var(--kat-ink)">' + eur(c.katTotal) + '</b></p></div>';
+    else html += '<div class="calc">' + splitHtml(c) + calcTable(c, b) + '<p class="hint" style="margin-top:8px">' + P + ' ukupno: <b class="num" style="color:var(--kat-ink)">' + eur(c.katTotal) + '</b></p>' +
+      (b.cityTax > 0 ? '<p class="hint">Gradska taksa: <b class="num" style="color:var(--you)">' + money(b.cityTax, b.cityTaxCur) + '</b>, samo tvoja</p>' : '') + '</div>';
     if (b.note) html += '<p class="d-note">' + esc(b.note) + '</p>';
     if (!b.cancelled && valid(b)) {
-      html += '<button type="button" class="switch-row" role="switch" id="d-status" aria-checked="' + (b.status === 'naplaceno') + '"' + dis + '><span class="rx"><span class="rt">Naplaćeno</span><span class="rs">' + (b.status === 'naplaceno' ? 'Gotovina je u koverti' : 'Kad gost plati, uključi i iznos ulazi u kovertu') + '</span></span><span class="sw"></span></button>';
+      html += '<button type="button" class="switch-row" role="switch" id="d-status" aria-checked="' + (b.status === 'naplaceno') + '"' + dis + '><span class="rx"><span class="rt">Naplaćeno</span><span class="rs">' + (b.status === 'naplaceno' ? esc(paidLine(b)) : 'Kad gost plati, uključi pa izaberi evre ili dinare i upiši gradsku taksu') + '</span></span><span class="sw"></span></button>';
+      if (b.status === 'naplaceno' && state.canWrite) html += '<button type="button" class="link d-more" id="d-collect">Izmeni naplatu ili gradsku taksu</button>';
       html += '<button type="button" class="switch-row k" role="switch" id="d-kat" aria-checked="' + !!b.katPaid + '"' + disK + '><span class="rx"><span class="rt">Isplaćeno ' + esc(partnerGen()) + '</span><span class="rs">' + (b.katPaid ? (b.katPaidAt ? longDate(b.katPaidAt) + (b.katPaidCur === 'RSD' ? ', u dinarima' : ', u evrima') + ', iz koverte' : 'Pre aplikacije') : eur(c.katTotal) + ' za isplatu iz koverte') + '</span></span><span class="sw"></span></button>';
     }
     if (state.canWrite) {
@@ -937,7 +970,8 @@ html, body { margin: 0; }
     });
     if (!state.canWrite) return;
     var st = $('#d-status', el);
-    if (st) st.addEventListener('click', function () { patch(b.id, { status: b.status === 'naplaceno' ? 'ceka' : 'naplaceno' }); });
+    if (st) st.addEventListener('click', function () { if (b.status === 'naplaceno') patch(b.id, { status: 'ceka' }); else openCollect(b); });
+    var dc = $('#d-collect', el); if (dc) dc.addEventListener('click', function () { openCollect(b); });
     var e1 = $('#d-edit', el); if (e1) e1.addEventListener('click', function () { openForm(b); });
     var rs = $('#d-restore', el); if (rs) rs.addEventListener('click', function () { patch(b.id, { cancelled: false }); });
     var d1 = $('#d-del', el); if (d1) d1.addEventListener('click', function () { confirmDel = true; renderDetail(); });
@@ -1028,7 +1062,12 @@ html, body { margin: 0; }
       note: d.note, review: false
     };
     if (!editing) { row.n = B.reduce(function (m, b) { return Math.max(m, +b.n || 0); }, 0) + 1; row.source = 'app'; }
-    saveBooking(editing ? editing.id : null, row);
+    var wantPaid = d.status === 'naplaceno' && !(editing && editing.status === 'naplaceno');
+    if (wantPaid) row.status = 'ceka';
+    // ako je plaćeno u evrima tačno bruto, ispravljen bruto menja i iznos u koverti
+    if (editing && editing.status === 'naplaceno' && d.status === 'naplaceno' && editing.paidCur === 'EUR' && editing.paidAmount != null &&
+        editing.gross != null && Math.abs(editing.paidAmount - editing.gross) < 0.005) row.paid_amount = row.gross;
+    saveBooking(editing ? editing.id : null, row, wantPaid);
   });
 
   /* ───── settings & access ───── */
@@ -1094,11 +1133,16 @@ html, body { margin: 0; }
       return true;
     }, function (err) { toast(errText(err), false); return false; });
   }
-  function saveBooking(id, row) {
+  function saveBooking(id, row, thenCollect) {
     var btn = $('#f-save'); btn.disabled = true;
     var q = id ? sb.from('bookings').update(row).eq('id', id) : sb.from('bookings').insert(row);
-    write(q, id ? 'Izmene sačuvane' : 'Rezervacija sačuvana', function () { closeSheet(); if (!id) state.year = +row.check_in.slice(0, 4); })
-      .then(function () { btn.disabled = false; });
+    write(q, thenCollect ? null : (id ? 'Izmene sačuvane' : 'Rezervacija sačuvana'), function () {
+      closeSheet(true); if (!id) state.year = +row.check_in.slice(0, 4);
+      if (thenCollect) loadAll().then(function () {
+        var nb = id ? findB(id) : B.find(function (x) { return x.n === row.n && x.checkIn === row.check_in; });
+        if (nb) openCollect(nb);
+      });
+    }).then(function () { btn.disabled = false; });
   }
   function patch(id, fields) { write(sb.from('bookings').update(fields).eq('id', id), null, null); }
   function remove(id) { write(sb.from('bookings').delete().eq('id', id), 'Rezervacija obrisana', function () { closeSheet(); }); }
@@ -1131,8 +1175,46 @@ html, body { margin: 0; }
   }
   function scheduleReload() { clearTimeout(reloadT); reloadT = setTimeout(loadAll, 400); }
 
+  /* ───── osvežavanje odmah: pokreće Google skriptu da pročita nove Booking mejlove ───── */
+  // Adresa Apps Script web aplikacije (Deploy → Web app). Sama po sebi ništa ne otključava:
+  // skripta proverava prijavu u Knjigu pre nego što bilo šta pokrene.
+  var REFRESH_URL = '';
+  var refreshing = false;
+  function refreshNow() {
+    if (refreshing || !REFRESH_URL) return;
+    refreshing = true;
+    var btn = $('#refreshBtn');
+    btn.classList.add('spin'); btn.disabled = true; btn.setAttribute('aria-busy', 'true');
+    var timer = null;
+    function done(msg, ok) {
+      clearTimeout(timer);
+      refreshing = false;
+      btn.classList.remove('spin'); btn.disabled = false; btn.removeAttribute('aria-busy');
+      if (msg) toast(msg, ok);
+      loadAll();
+    }
+    sb.auth.getSession().then(function (r) {
+      var tok = r && r.data && r.data.session && r.data.session.access_token;
+      if (!tok) { done('Prijavi se ponovo pa probaj.', false); return; }
+      var ctl = window.AbortController ? new AbortController() : null;
+      timer = setTimeout(function () { if (ctl) ctl.abort(); }, 90000);
+      return fetch(REFRESH_URL, {
+        method: 'POST', redirect: 'follow',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+        body: JSON.stringify({ token: tok }),
+        signal: ctl ? ctl.signal : undefined
+      }).then(function (res) { return res.json(); }).then(function (j) {
+        if (!j || !j.ok) { done(j && j.error === 'unauthorized' ? 'Nemaš pravo da pokreneš osvežavanje.' : 'Osvežavanje nije uspelo. Probaj ponovo za minut.', false); return; }
+        if (j.busy) { done('Provera već traje. Za minut će sve biti tu.', true); return; }
+        var n = j.created || 0, u = j.updated || 0;
+        done(n === 1 ? 'Stigla je nova rezervacija' : n > 1 ? 'Novih rezervacija: ' + n : u ? 'Rezervacije su ažurirane' : 'Nema novih Booking mejlova', true);
+      });
+    }).catch(function () { done('Osvežavanje nije uspelo. Proveri internet.', false); });
+  }
+  $('#refreshBtn').addEventListener('click', refreshNow);
+
   /* ───── koverta ───── */
-  var IN_CATS = ['Rezervacija', 'Početno stanje', 'Ostali prihod'];
+  var IN_CATS = ['Rezervacija', 'Gradska taksa', 'Početno stanje', 'Ostali prihod'];
   var OUT_CATS = ['Kupovina za stan', 'Troškovi održavanja', 'Isplata partneru', 'Booking provizija', 'Računi', 'Uzeto za sebe', 'Ostalo'];
   function catName(c) { return c === 'Isplata partneru' ? 'Isplata ' + partnerGen() : c; }
   function fromCash(r) { return { id: r.id, date: r.entry_date, dir: r.direction, amount: Number(r.amount), cur: r.currency, cat: r.category, note: r.note || '', kind: r.kind, bookingId: r.booking_id, groupId: r.group_id }; }
@@ -1151,6 +1233,7 @@ html, body { margin: 0; }
     if (cat === 'Troškovi održavanja') return 'wrench';
     if (cat === 'Kupovina za stan') return 'shopping-bag';
     if (cat === 'Rezervacija') return 'calendar-days';
+    if (cat === 'Gradska taksa') return 'landmark';
     if (cat === 'Zamena valute') return 'arrow-left-right';
     return dir === 'in' ? 'plus' : 'minus';
   }
@@ -1198,7 +1281,9 @@ html, body { margin: 0; }
           groups[k].map(function (e) {
             var paren = (e.note.match(/\(([^)]*)\)\s*$/) || [])[1];
             var title = e.kind === 'booking' ? (e.note.replace(/\s*\([^)]*\)\s*$/, '') || 'Rezervacija') : catName(e.cat);
-            var sub = dayLbl(e.date) + (e.kind === 'booking' ? ', gotovina' + (paren ? ', dolazak ' + paren : '') : (e.note ? ', ' + e.note : ''));
+            var sub = dayLbl(e.date) + (e.kind === 'booking' ? ', gotovina' + (paren ? ', dolazak ' + paren : '')
+              : e.kind === 'city_tax' ? ', ' + (e.note.replace(/\s*\([^)]*\)\s*$/, '') || 'gost') + (paren ? ', dolazak ' + paren : '')
+              : (e.note ? ', ' + e.note : ''));
             return '<li><button type="button" class="row press" data-cash-id="' + esc(e.id) + '"><span class="ic' + (e.dir === 'in' ? ' in' : '') + '">' + icon(catIcon(e.cat, e.dir)) + '</span>' +
               '<span class="rx"><span class="rt">' + esc(title) + '</span><span class="rs">' + esc(sub) + '</span></span>' +
               '<span class="ra"><b class="num' + (e.dir === 'in' ? ' pos' : '') + '">' + (e.dir === 'in' ? '+' : '−') + money(e.amount, e.cur) + '</b></span></button></li>';
@@ -1233,7 +1318,8 @@ html, body { margin: 0; }
     setOpt('c-dir', cDir); setOpt('c-cur', cCur); renderCatOpts();
     var auto = $('#c-auto');
     auto.hidden = !(e && e.kind !== 'manual');
-    if (e && e.kind === 'booking') auto.textContent = 'Upisano automatski kad je rezervacija označena kao naplaćena. Ako je gost platio u dinarima, promeni iznos i valutu.';
+    if (e && e.kind === 'booking') auto.textContent = 'Upisano automatski kad je rezervacija označena kao naplaćena. Iznos i valutu najlakše menjaš u rezervaciji: „Izmeni naplatu ili gradsku taksu“.';
+    else if (e && e.kind === 'city_tax') auto.textContent = 'Gradska taksa, upisana automatski uz naplatu rezervacije. Samo tvoja, ne deli se.';
     else if (e && e.kind === 'partner') auto.textContent = 'Upisano automatski kad je označena isplata ' + partnerGen() + '.';
     else if (e && e.kind === 'exchange') auto.textContent = 'Deo zamene valute. Brisanje briše obe stavke zamene.';
     renderCashDel();
@@ -1245,7 +1331,7 @@ html, body { margin: 0; }
     var box = $('#c-delbox');
     if (!cashEditing) { box.innerHTML = ''; return; }
     box.innerHTML = cashDel
-      ? '<p class="warn">Obrisati ovaj upis iz koverte?' + (cashEditing.kind === 'booking' || cashEditing.kind === 'partner' ? ' Status rezervacije ostaje isti.' : '') + '</p><div class="d-actions"><button type="button" class="btn danger press" id="c-delYes">' + icon('trash-2') + 'Obriši</button><button type="button" class="btn press" id="c-delNo">Odustani</button></div>'
+      ? '<p class="warn">Obrisati ovaj upis iz koverte?' + (cashEditing.kind === 'booking' || cashEditing.kind === 'partner' || cashEditing.kind === 'city_tax' ? ' Status rezervacije ostaje isti.' : '') + '</p><div class="d-actions"><button type="button" class="btn danger press" id="c-delYes">' + icon('trash-2') + 'Obriši</button><button type="button" class="btn press" id="c-delNo">Odustani</button></div>'
       : '<button type="button" class="btn danger wide press" id="c-del">' + icon('trash-2') + 'Obriši upis</button>';
     var d = $('#c-del', box); if (d) d.addEventListener('click', function () { cashDel = true; renderCashDel(); });
     var n = $('#c-delNo', box); if (n) n.addEventListener('click', function () { cashDel = false; renderCashDel(); });
@@ -1367,6 +1453,90 @@ html, body { margin: 0; }
       .then(function () { btn.disabled = false; });
   });
 
+  /* ───── naplata: evri ili dinari + gradska taksa ───── */
+  var colB = null, colCur = 'EUR', colTaxCur = 'RSD', colAmtTouched = false;
+  function amtTxt(v, cur) { return cur === 'RSD' ? String(Math.round(v)) : String(Math.round(v * 100) / 100).replace('.', ','); }
+  function paidLine(b) {
+    var s = (b.paidAmount != null ? money(b.paidAmount, b.paidCur) : eur(Math.round((b.gross || 0) * 100))) + ' u koverti';
+    if (b.paidAmount != null && b.paidCur === 'RSD' && b.paidRate) s += ', kurs ' + fmtRate(b.paidRate);
+    if (b.cityTax > 0) s += ' + taksa ' + money(b.cityTax, b.cityTaxCur);
+    return s;
+  }
+  function lastTaxCur() {
+    var withTax = B.filter(function (x) { return x.cityTax > 0; }).sort(function (a, z) { return a.checkIn < z.checkIn ? 1 : -1; });
+    return withTax.length ? withTax[0].cityTaxCur : 'RSD';
+  }
+  function colRate() { return parseNum($('#k-rate').value); }
+  function colAuto() {
+    var g = colB.gross || 0, r = colRate();
+    if (colCur === 'EUR') return Math.round(g * 100) / 100;
+    return r > 0 ? Math.round(g * r) : NaN;
+  }
+  function updCollect() {
+    var isRsd = colCur === 'RSD', r = colRate(), due = eur(Math.round((colB.gross || 0) * 100));
+    $('#w-krate').hidden = !isRsd;
+    $('#k-live').hidden = !isRsd || !liveRate;
+    $('#k-amt-u').textContent = isRsd ? 'RSD' : '€';
+    if (!colAmtTouched) { var a = colAuto(); $('#k-amt').value = isFinite(a) ? amtTxt(a, colCur) : ''; }
+    $('#k-calc').textContent = isRsd
+      ? (r > 0 ? 'Bruto ' + due + ' po kursu ' + fmtRate(r) + ' je ' + money(Math.round((colB.gross || 0) * r), 'RSD') + '. Ako je gost dao zaokružen iznos, upiši koliko si stvarno primio.' : 'Upiši kurs i iznos u dinarima se sam izračuna.')
+      : 'Bruto je ' + due + '. Ako je gost dao drugi iznos, upiši koliko si stvarno primio.';
+    $('#k-taxhint').textContent = 'Taksa ide samo tebi i ne deli se sa ' + partnerIns() + '. Ostavi prazno ako je gost nije platio.';
+  }
+  function partnerIns() { var p = partner(); return /a$/i.test(p) ? p.slice(0, -1) + 'om' : p + 'om'; }
+  function showLiveK() {
+    var el = $('#k-live');
+    if (!liveRate) return;
+    el.innerHTML = 'Zvanični kurs danas je oko ' + fmtRate(liveRate) + '. <button type="button" class="link" id="k-uselive">Koristi ga</button>';
+    var b = $('#k-uselive'); if (b) b.addEventListener('click', function () { $('#k-rate').value = fmtRate(liveRate); colAmtTouched = false; updCollect(); });
+  }
+  function openCollect(b) {
+    colB = b;
+    var had = b.status === 'naplaceno' && b.paidAmount != null;
+    colCur = had ? b.paidCur : 'EUR';
+    colAmtTouched = had;
+    $('#k-rate').value = fmtRate(b.paidRate || S.eurRsd || DEF.eurRsd);
+    if (had) $('#k-amt').value = amtTxt(b.paidAmount, colCur);
+    $('#k-tax').value = b.cityTax > 0 ? amtTxt(b.cityTax, b.cityTaxCur) : '';
+    colTaxCur = b.cityTax > 0 ? b.cityTaxCur : lastTaxCur();
+    $('#colT').textContent = b.status === 'naplaceno' ? 'Izmeni naplatu' : 'Naplata';
+    $('#k-save').textContent = b.status === 'naplaceno' ? 'Sačuvaj izmene' : 'Potvrdi naplatu';
+    $('#k-what').textContent = guestName(b) + ', ' + dayLbl(b.checkIn) + (validDate(b.checkOut) ? ' – ' + dayLbl(b.checkOut) : '') + ', bruto ' + eur(Math.round((b.gross || 0) * 100));
+    setOpt('k-cur', colCur); setOpt('k-taxcur', colTaxCur);
+    $$('#colForm .field.err').forEach(function (f) { f.classList.remove('err'); });
+    updCollect();
+    openSheet('sh-collect');
+    if (!liveRate && window.fetch) {
+      fetch('https://open.er-api.com/v6/latest/EUR').then(function (r) { return r.json(); }).then(function (j) {
+        var r = j && j.rates && j.rates.RSD;
+        if (r > 90 && r < 150) { liveRate = r; showLiveK(); updCollect(); }
+      }).catch(function () {});
+    } else showLiveK();
+  }
+  $$('#k-cur .opt').forEach(function (o) { o.addEventListener('click', function () { colCur = o.dataset.v; colAmtTouched = false; setOpt('k-cur', colCur); updCollect(); }); });
+  $$('#k-taxcur .opt').forEach(function (o) { o.addEventListener('click', function () { colTaxCur = o.dataset.v; setOpt('k-taxcur', colTaxCur); }); });
+  $('#k-rate').addEventListener('input', function () { colAmtTouched = false; updCollect(); });
+  $('#k-amt').addEventListener('input', function () { colAmtTouched = true; });
+  $('#colForm').addEventListener('submit', function (ev) {
+    ev.preventDefault();
+    var rate = colRate(), amt = parseNum($('#k-amt').value), taxS = $('#k-tax').value.trim(), tax = taxS === '' ? 0 : parseNum(taxS);
+    $$('#colForm .field.err').forEach(function (f) { f.classList.remove('err'); });
+    if (colCur === 'RSD' && !(rate > 50 && rate < 500)) { $('#w-krate').classList.add('err'); toast('Upiši kurs, npr. 117,20', false); return; }
+    if (!(amt > 0) || amt >= 10000000) { $('#w-kamt').classList.add('err'); toast('Upiši koliko si primio', false); return; }
+    if (!(tax >= 0) || tax >= 1000000) { $('#w-ktax').classList.add('err'); toast('Proveri iznos takse', false); return; }
+    var wasPaid = colB.status === 'naplaceno', id = colB.id;
+    var row = {
+      status: 'naplaceno', paid_currency: colCur, paid_amount: Math.round(amt * 100) / 100,
+      paid_rate: colCur === 'RSD' ? Math.round(rate * 10000) / 10000 : null,
+      city_tax: tax > 0 ? Math.round(tax * 100) / 100 : null, city_tax_currency: colTaxCur
+    };
+    var btn = $('#k-save'); btn.disabled = true;
+    write(sb.from('bookings').update(row).eq('id', id), wasPaid ? 'Naplata izmenjena' : 'Naplaćeno i upisano u kovertu', function () {
+      if (colCur === 'RSD' && Math.abs(rate - S.eurRsd) > 0.0001) sb.from('settings').update({ eur_rsd: row.paid_rate }).eq('id', 1).then(function () {});
+      openDetail(id);
+    }).then(function () { btn.disabled = false; });
+  });
+
   /* ───── CSV ───── */
   function exportCsv() {
     var head = ['Br.', 'Br. rezervacije', 'Gost', 'Check-in', 'Check-out', 'Noći', 'Gostiju', 'Kanal', 'Bruto (€)', 'Provizija (€)', 'Neto (€)', partner() + ' ' + pctTxt(S.katPct), 'Čišćenje (€)', 'Tvoje (€)', partner() + ' ukupno (€)', 'Status', 'Isplaćeno ' + partnerGen(), 'Datum isplate', 'Napomena'];
@@ -1443,6 +1613,7 @@ html, body { margin: 0; }
       state.role = role; state.canWrite = role === 'owner'; state.canCash = role === 'owner' || role === 'partner';
       $('#whoami').textContent = role === 'owner' ? 'Rezervacije i podela zarade' : 'Pregled za ' + state.email;
       show('app');
+      $('#refreshBtn').hidden = !REFRESH_URL;
       render();
       loadAll();
       if (!channel) {
