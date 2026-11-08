@@ -13,7 +13,8 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="Knjiga">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%232e5288'/%3E%3Crect x='14' y='40' width='8' height='12' rx='2' fill='%23fff'/%3E%3Crect x='28' y='28' width='8' height='24' rx='2' fill='%23fff'/%3E%3Crect x='42' y='16' width='8' height='36' rx='2' fill='%23dcab62'/%3E%3C/svg%3E">
-<link rel="apple-touch-icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAALQAAAC0CAIAAACyr5FlAAAB5klEQVR42u3csRGCMBiA0cA5CyXugpWTuAJOQqW72DqNC1gIiSQk7+tD7vzfRWjSjdMcpG/1fgLBITgEh+AQHIJDcAgOwSE4JDgEh+AQHIJDcAgOwSE4BIcEh+AQHIJDcAgOwSE4BIfgkE5+gn16Xt9rl0zL4OQgI+UqOOqXUYIPOMqVkd0HHEXLyOsDDsEhOASH4BAcgkNwCA7BITgkOASH4BAcgkNwCA7BITgEhwSH4BAcgkNwCA7BITgEh+CQWr0T7PW4rV1yvtydHGSkXAVH/TLa9NGTwQccyebajg9fK4JDcAgOwSE4BIfgEByCQ3BIcAgOwSE4BIfgEByCQ3AIDgkOwSE4BIfgEByCQ3AIDsEhlXEnmBu6nBzJZIQmb+hqDocbuuD413T5qBOHG7rgEByCQ3BIcAgOwSE4BIfgEByCQ3AIDsEhwSE4BIfgEByCQ3AIDsEhOCQ4BIfgUHU4Ut2+8vtz9t9xWoYkO6Z6zpFOjvhprX3C/jvGzzWXjPx/KzHT2rZ2/x1jpptRRhHvHEeZccyO22acV0YIoRun2ZuXfK0IDsEhOASH4BAcgkNwCA4JDsEhOASH4BAcgkNwCA7BIcEhOASH4BAcgkNwCA7BITgEhwSH4BAcgkNwCA7BoSr6AAhQVH1zP1rwAAAAAElFTkSuQmCC">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="manifest.webmanifest">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&display=swap">
@@ -333,9 +334,27 @@ button.row:active { background: var(--surface-2); }
 .gif-pop { position: fixed; z-index: 9; left: 0; right: 0; margin: 0 auto; bottom: calc(78px + env(safe-area-inset-bottom, 0px)); width: min(300px, calc(100vw - 48px)); border-radius: 22px; overflow: hidden; background: var(--surface); box-shadow: 0 14px 40px rgba(0, 0, 0, .28), 0 0 0 1px var(--line); animation: gif-life 3s linear both; cursor: pointer; }
 .gif-pop img { display: block; width: 100%; height: auto; }
 
+/* Add to home screen */
+.install { display: flex; align-items: center; gap: 10px; margin-top: 6px; padding: 10px 8px 10px 12px; border-radius: 18px; background: var(--you-tint); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--you) 22%, transparent); animation: field-in .5s var(--ease) both; }
+.install-ic { width: 38px; height: 38px; border-radius: 12px; display: grid; place-items: center; background: var(--you); color: var(--on-you); flex: none; }
+.install-t { flex: 1; min-width: 0; display: flex; flex-direction: column; line-height: 1.25; }
+.install-t b { font-size: 14.5px; font-weight: 600; }
+.install-t small { font-size: 12.5px; color: var(--muted); }
+.install .btn { height: 38px; padding: 0 14px; font-size: 14px; }
+.install-x { width: 34px; height: 34px; border-radius: 999px; display: grid; place-items: center; color: var(--muted); flex: none; }
+.install-x svg.i { width: 18px; height: 18px; }
+.steps { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; counter-reset: st; }
+.steps li { counter-increment: st; display: flex; gap: 12px; align-items: flex-start; }
+.steps li::before { content: counter(st); flex: none; width: 28px; height: 28px; border-radius: 999px; display: grid; place-items: center; background: var(--you-tint); color: var(--you); font-weight: 600; font-size: 14px; }
+.steps li span { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding-top: 3px; }
+.steps li b { font-weight: 600; font-size: 15px; }
+.steps li small { font-size: 13px; color: var(--muted); }
+.steps svg.inl { display: inline-block; width: 18px; height: 18px; vertical-align: -3px; margin-inline: 2px; color: var(--you); }
+.inst-note { padding: 12px 14px; border-radius: 14px; background: var(--wait-tint); font-size: 14px; color: var(--ink); }
+.inst-note.ok { background: var(--ok-tint); }
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { transition-duration: .01ms !important; animation-duration: .01ms !important; } .icon-btn.spin { opacity: .5; }
-  .view.reveal > *, .gate-card.stagger > *, .sheet.sh-in .sh-body > *, .skel-b { animation: none !important; }
+  .view.reveal > *, .gate-card.stagger > *, .sheet.sh-in .sh-body > *, .skel-b, .install { animation: none !important; }
   .ghost, .gif-pop { display: none; }
 }
 
@@ -460,7 +479,7 @@ html, body { margin: 0; }
 </style>
 </head>
 <body>
-<!-- Icons: Lucide (ISC license) --><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-arrow-left-right" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></symbol><symbol id="i-calendar-days" viewBox="0 0 24 24"><path d="M8 2v3" /><path d="M16 2v3" /><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M8 13h.01" /><path d="M12 13h.01" /><path d="M16 13h.01" /><path d="M8 17h.01" /><path d="M12 17h.01" /><path d="M16 17h.01" /></symbol><symbol id="i-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /></symbol><symbol id="i-hand-coins" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" /><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /><path d="m2 16 6 6" /><circle cx="16" cy="9" r="2.9" /><circle cx="6" cy="5" r="3" /></symbol><symbol id="i-landmark" viewBox="0 0 24 24"><path d="M10 18v-7" /><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z" /><path d="M14 18v-7" /><path d="M18 18v-7" /><path d="M3 22h18" /><path d="M6 18v-7" /></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="M12 5v14" /></symbol><symbol id="i-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></symbol><symbol id="i-rotate-ccw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></symbol><symbol id="i-shopping-bag" viewBox="0 0 24 24"><path d="M16 10a4 4 0 0 1-8 0" /><path d="M3.103 6.034h17.794" /><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" /></symbol><symbol id="i-trash-2" viewBox="0 0 24 24"><path d="M10 11v6" /><path d="M14 11v6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></symbol><symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol></svg>
+<!-- Icons: Lucide (ISC license) --><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-arrow-left-right" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></symbol><symbol id="i-calendar-days" viewBox="0 0 24 24"><path d="M8 2v3" /><path d="M16 2v3" /><rect x="3" y="3" width="18" height="18" rx="2" /><path d="M3 9h18" /><path d="M8 13h.01" /><path d="M12 13h.01" /><path d="M16 13h.01" /><path d="M8 17h.01" /><path d="M12 17h.01" /><path d="M16 17h.01" /></symbol><symbol id="i-chart-column" viewBox="0 0 24 24"><path d="M3 3v16a2 2 0 0 0 2 2h16" /><path d="M18 17V9" /><path d="M13 17V5" /><path d="M8 17v-3" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></symbol><symbol id="i-download" viewBox="0 0 24 24"><path d="M12 15V3" /><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><path d="m7 10 5 5 5-5" /></symbol><symbol id="i-hand-coins" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" /><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /><path d="m2 16 6 6" /><circle cx="16" cy="9" r="2.9" /><circle cx="6" cy="5" r="3" /></symbol><symbol id="i-landmark" viewBox="0 0 24 24"><path d="M10 18v-7" /><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z" /><path d="M14 18v-7" /><path d="M18 18v-7" /><path d="M3 22h18" /><path d="M6 18v-7" /></symbol><symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" /></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></symbol><symbol id="i-plus" viewBox="0 0 24 24"><path d="M5 12h14" /><path d="M12 5v14" /></symbol><symbol id="i-refresh-cw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 0 1 9-9 9.75 9.75 0 0 1 6.74 2.74L21 8" /><path d="M21 3v5h-5" /><path d="M21 12a9 9 0 0 1-9 9 9.75 9.75 0 0 1-6.74-2.74L3 16" /><path d="M8 16H3v5" /></symbol><symbol id="i-rotate-ccw" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" /><path d="M3 3v5h5" /></symbol><symbol id="i-settings" viewBox="0 0 24 24"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" /><circle cx="12" cy="12" r="3" /></symbol><symbol id="i-shopping-bag" viewBox="0 0 24 24"><path d="M16 10a4 4 0 0 1-8 0" /><path d="M3.103 6.034h17.794" /><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" /></symbol><symbol id="i-trash-2" viewBox="0 0 24 24"><path d="M10 11v6" /><path d="M14 11v6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></symbol><symbol id="i-wallet" viewBox="0 0 24 24"><path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" /><path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" /></symbol><symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></symbol><symbol id="i-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></symbol><symbol id="i-share" viewBox="0 0 24 24"><path d="M12 2v13" /><path d="m16 6-4-4-4 4" /><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8" /></symbol><symbol id="i-ellipsis-vertical" viewBox="0 0 24 24"><circle cx="12" cy="12" r="1" /><circle cx="12" cy="5" r="1" /><circle cx="12" cy="19" r="1" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol></svg>
 
 <section class="gate wrap" id="gate" hidden>
   <form class="gate-card stagger" id="gateForm" novalidate>
@@ -503,6 +522,12 @@ html, body { margin: 0; }
 
 <main class="wrap">
   <div id="banner" hidden></div>
+  <div class="install" id="installBar" hidden>
+    <span class="install-ic" aria-hidden="true"><svg class="i"><use href="#i-smartphone"/></svg></span>
+    <div class="install-t"><b>Dodaj na početni ekran</b><small>Otvara se kao prava aplikacija.</small></div>
+    <button type="button" class="btn primary press" id="installGo">Kako</button>
+    <button type="button" class="install-x" id="installX" aria-label="Ne prikazuj ovo"><svg class="i"><use href="#i-x"/></svg></button>
+  </div>
   <section class="view" id="v-pregled" aria-label="Pregled"></section>
   <section class="view" id="v-rezervacije" aria-label="Rezervacije" hidden></section>
   <section class="view" id="v-koverta" aria-label="Koverta" hidden></section>
@@ -601,8 +626,38 @@ html, body { margin: 0; }
     </div>
     <p class="sec-h">Nalog</p>
     <p class="hint" id="acctLine"></p>
+    <button type="button" class="btn wide press" id="s-install"><svg class="i"><use href="#i-smartphone"/></svg>Dodaj na početni ekran</button>
     <button type="button" class="btn wide press" id="s-export"><svg class="i"><use href="#i-download"/></svg>Preuzmi tabelu (CSV)</button>
     <button type="button" class="btn wide press" id="s-logout">Odjavi se</button>
+  </div>
+</div>
+
+<div class="sheet" id="sh-install" role="dialog" aria-modal="true" aria-labelledby="instT" hidden>
+  <div class="sh-head"><h2 id="instT">Dodaj na početni ekran</h2><button type="button" class="sh-x" data-close aria-label="Zatvori"><svg class="i"><use href="#i-x"/></svg></button></div>
+  <div class="sh-body">
+    <p class="hint">Knjiga dobije svoju ikonu na telefonu i otvara se preko celog ekrana, kao prava aplikacija.</p>
+    <p class="inst-note ok" id="inst-done" hidden>Ova aplikacija je već na početnom ekranu.</p>
+    <p class="inst-note" id="inst-inapp" hidden>Knjiga je sada otvorena u pregledaču unutar druge aplikacije (Viber, Facebook…). Tu ne može da se doda. Otvori adresu u Safariju ili Chrome-u: dodirni tri tačke ili ikonu kompasa pa „Otvori u pregledaču“.</p>
+    <div class="seg two" id="inst-os" role="group" aria-label="Vrsta telefona"><button type="button" class="opt" data-v="ios">iPhone</button><button type="button" class="opt" data-v="android">Android</button></div>
+    <button type="button" class="btn primary wide press" id="inst-native" hidden><svg class="i"><use href="#i-smartphone"/></svg>Instaliraj aplikaciju</button>
+    <ol class="steps" id="inst-ios">
+      <li><span><b>Otvori knjigu u Safariju.</b><small>Ne iz Vibera, WhatsAppa ili Instagrama, tamo ne može da se doda.</small></span></li>
+      <li><span><b>Dodirni dugme Podeli <svg class="i inl"><use href="#i-share"/></svg></b><small>Kvadrat sa strelicom, dole na sredini ekrana (na iPadu gore desno).</small></span></li>
+      <li><span><b>Izaberi „Dodaj na početni ekran“.</b><small>Ako ga ne vidiš, povuci meni nagore.</small></span></li>
+      <li><span><b>Dodirni „Dodaj“.</b><small>Ikona „Knjiga“ se pojavi na početnom ekranu.</small></span></li>
+    </ol>
+    <ol class="steps" id="inst-android" hidden>
+      <li><span><b>Otvori knjigu u Chrome-u.</b><small>Ne iz Vibera ili Facebooka, tamo ne može da se instalira.</small></span></li>
+      <li><span><b>Dodirni tri tačke <svg class="i inl"><use href="#i-ellipsis-vertical"/></svg> gore desno.</b></span></li>
+      <li><span><b>Izaberi „Instaliraj aplikaciju“.</b><small>Ako je nema, izaberi „Dodaj na početni ekran“.</small></span></li>
+      <li><span><b>Potvrdi sa „Instaliraj“.</b><small>Ikona „Knjiga“ se pojavi na početnom ekranu. Na Samsung Internetu: meni (tri crte) → „Dodaj stranicu na“ → „Početni ekran“.</small></span></li>
+    </ol>
+    <p class="hint">Prvi put kad otvoriš ikonu, prijavi se ponovo mejlom i lozinkom. Posle toga ostaješ prijavljena.</p>
+    <div id="inst-share-box" style="display:flex;flex-direction:column;gap:8px" hidden>
+      <p class="sec-h">Za partnera</p>
+      <button type="button" class="btn wide press" id="inst-share"><svg class="i"><use href="#i-share"/></svg><span>Pošalji uputstvo</span></button>
+      <p class="hint">Gotov tekst sa adresom knjige i istim koracima. Bez lozinke.</p>
+    </div>
   </div>
 </div>
 
@@ -1420,6 +1475,62 @@ html, body { margin: 0; }
     saveBooking(editing ? editing.id : null, row, wantPaid);
   });
 
+  /* ───── add to home screen ───── */
+  // iPhone and Android cannot be installed the same way, so the sheet shows the steps for each. Android Chrome can
+  // also run the install itself (the "Instaliraj" button) when it has offered that. Nothing here touches the data.
+  var UA = navigator.userAgent || '';
+  var isIOS = /iPad|iPhone|iPod/.test(UA) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+  var isAndroid = /Android/i.test(UA);
+  var inApp = /FBAN|FBAV|Instagram|Viber|Line\/|MicroMessenger|Snapchat|; wv\)/i.test(UA);   // browsers inside other apps cannot add to the home screen
+  var DISMISS_KEY = 'knjiga-install-dismissed', DISMISS_DAYS = 14, deferredInstall = null, installOs = isAndroid ? 'android' : 'ios';
+  function isInstalled() { return (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches) || window.navigator.standalone === true; }
+  function installDismissed() { try { var t = Number(localStorage.getItem(DISMISS_KEY)); return !!t && Date.now() - t < DISMISS_DAYS * 864e5; } catch (e) { return false; } }
+  function showInstallBar() {
+    $('#installBar').hidden = isInstalled() || !(isIOS || isAndroid) || installDismissed();
+    $('#installGo').textContent = deferredInstall ? 'Instaliraj' : 'Kako';
+  }
+  function showInstallOs(v) {
+    installOs = v; setOpt('inst-os', v);
+    $('#inst-ios').hidden = v !== 'ios'; $('#inst-android').hidden = v !== 'android';
+    $('#inst-native').hidden = !(deferredInstall && v === 'android');
+  }
+  function openInstall() {
+    showInstallOs(installOs);
+    $('#inst-done').hidden = !isInstalled();
+    $('#inst-inapp').hidden = !inApp || isInstalled();
+    $('#inst-share-box').hidden = !state.canWrite;
+    $('#inst-share span').textContent = navigator.share ? 'Pošalji uputstvo' : 'Kopiraj uputstvo';
+    openSheet('sh-install');
+  }
+  function runInstallPrompt() {
+    var d = deferredInstall; if (!d) { openInstall(); return; }
+    deferredInstall = null;   // Chrome allows one prompt per offer
+    d.prompt();
+    Promise.resolve(d.userChoice).then(function (c) {
+      if (c && c.outcome === 'accepted') { closeSheet(); $('#installBar').hidden = true; toast('Dodato na početni ekran', true); }
+      else showInstallBar();
+    }, function () { showInstallBar(); });
+  }
+  function installText() {
+    var url = location.origin + location.pathname.replace(/index\.html$/, '');
+    return 'Knjiga kao aplikacija na telefonu:\n\n1. Otvori ovu adresu u Safariju (iPhone) ili Chrome-u (Android), ne iz Vibera:\n' + url +
+      '\n\n2. iPhone: dugme Podeli (kvadrat sa strelicom) → „Dodaj na početni ekran“ → „Dodaj“.\nAndroid: tri tačke ⋮ → „Instaliraj aplikaciju“ (ili „Dodaj na početni ekran“).' +
+      '\n\n3. Prvi put kad otvoriš ikonu, prijavi se svojim mejlom i lozinkom. Posle toga ostaješ prijavljena.';
+  }
+  window.addEventListener('beforeinstallprompt', function (e) { e.preventDefault(); deferredInstall = e; if (state.loaded) showInstallBar(); });
+  window.addEventListener('appinstalled', function () { deferredInstall = null; $('#installBar').hidden = true; toast('Dodato na početni ekran', true); });
+  $('#installGo').addEventListener('click', function () { if (deferredInstall) runInstallPrompt(); else openInstall(); });
+  $('#installX').addEventListener('click', function () { try { localStorage.setItem(DISMISS_KEY, String(Date.now())); } catch (e) {} $('#installBar').hidden = true; toast('U Podešavanjima je pod „Dodaj na početni ekran“'); });
+  $('#s-install').addEventListener('click', openInstall);
+  $('#inst-native').addEventListener('click', runInstallPrompt);
+  $$('#inst-os .opt').forEach(function (o) { o.addEventListener('click', function () { showInstallOs(o.dataset.v); }); });
+  $('#inst-share').addEventListener('click', function () {
+    var text = installText();
+    if (navigator.share) { navigator.share({ text: text }).catch(function () {}); return; }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(function () { toast('Uputstvo je kopirano'); }, function () { toast('Kopiranje nije uspelo', false); });
+    else toast('Kopiranje nije uspelo', false);
+  });
+
   /* ───── settings & access ───── */
   $('#openSet').addEventListener('click', function () {
     $('#s-booking').value = String(S.commission.booking).replace('.', ',');
@@ -1432,6 +1543,7 @@ html, body { margin: 0; }
     $('#accessBox').hidden = !state.canWrite;
     $('#setForm').hidden = !state.canWrite;
     $('#s-export').hidden = !state.canWrite;
+    $('#s-install').hidden = isInstalled() && !state.canWrite;
     $('#acctLine').textContent = 'Prijavljen si kao ' + state.email + (state.role === 'owner' ? ' (vlasnik).' : state.role === 'partner' ? '. Vidiš svoju zaradu, boravke i kovertu.' : ' (samo pregled).');
     if (state.canWrite) loadMembers();
     openSheet('sh-set');
@@ -1522,7 +1634,7 @@ html, body { margin: 0; }
       var first = !state.loaded;
       state.loaded = true;
       render();
-      if (first) { reveal(viewEl(state.view)); preloadGif(); }
+      if (first) { reveal(viewEl(state.view)); preloadGif(); showInstallBar(); }
       if (openSheetEl && openSheetEl.id === 'sh-detail') renderDetail();
     }, function () { loading = null; toast('Podaci nisu učitani. Proveri internet.', false); });
     return loading;
@@ -2168,6 +2280,7 @@ html, body { margin: 0; }
   if (VIEWS.indexOf(h) > -1) state.view = h;
   var rT; window.addEventListener('resize', function () { clearTimeout(rT); rT = setTimeout(function () { if (state.view === 'pregled' && state.loaded) renderOverview(); }, 150); });
   document.addEventListener('visibilitychange', function () { if (!document.hidden && state.role) loadAll(); });
+  if ('serviceWorker' in navigator) window.addEventListener('load', function () { navigator.serviceWorker.register('sw.js').catch(function () {}); });   // only so phones can install the app; it caches nothing
 
   if (!window.supabase || !window.supabase.createClient) {
     show('gate'); gateMsg('Aplikacija nije učitana. Proveri internet i osveži stranicu.', true); return;
