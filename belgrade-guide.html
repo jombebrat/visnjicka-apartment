@@ -178,6 +178,14 @@ svg.i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor;
 .tab-title { margin: 0 0 8px -2px; font: 300 52px/.95 var(--serif); letter-spacing: -.02em; }
 .tab-sub { max-width: 26ch; font-size: 15px; line-height: 1.45; color: rgba(255, 255, 255, .82); }
 
+.hero-pill {
+  display: inline-flex; align-items: center; gap: 8px; margin-top: 16px; height: 40px; padding: 0 10px 0 12px; border-radius: 999px; pointer-events: auto;
+  font: 500 14px/1 var(--sans); color: #fff; text-shadow: none; background: rgba(255, 255, 255, .15);
+  -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .24);
+}
+.hero-pill svg.i { width: 18px; height: 18px; color: #f3ddb3; }
+.hero-pill .chev { width: 16px !important; height: 16px !important; color: rgba(255, 255, 255, .7); }
+
 /* ───────── Top bar ───────── */
 .topbar {
   position: fixed; z-index: 30; top: 0; left: 50%; transform: translateX(-50%); width: min(100%, 480px);
@@ -203,10 +211,11 @@ svg.i { width: 20px; height: 20px; flex: none; fill: none; stroke: currentColor;
 .solid .tb-title.on { opacity: 1; transform: none; }
 
 /* ───────── Screens (the sheet over the sky) ───────── */
-.screens { position: relative; z-index: 2; padding-top: calc(var(--stage-h) - 24px); transition: transform .9s var(--ease) .25s, opacity .6s ease .25s; }
+.screens { position: relative; z-index: 2; pointer-events: none; padding-top: calc(var(--stage-h) - 24px); transition: transform .9s var(--ease) .25s, opacity .6s ease .25s; }
 .intro .screens { transform: translateY(46px); opacity: 0; }
 .intro.deep .screens { transform: none; opacity: 1; }
 .screen {
+  pointer-events: auto;
   min-height: calc(100svh - var(--stage-h) + 24px);
   padding: 6px 16px calc(var(--tab-h) + var(--sab) + 40px);
   background: var(--bg); border-radius: 26px 26px 0 0;
@@ -390,6 +399,44 @@ a.row:active, button.row:active { background: var(--surface-2); transform: none;
 .book .btn.ghost { background: rgba(255, 255, 255, .12); color: #fff; box-shadow: inset 0 0 0 1px rgba(255, 255, 255, .28); }
 .foot { margin-top: 26px; text-align: center; font-size: 13px; color: var(--muted); }
 
+/* ───────── Collapsible sections ───────── */
+.sec { margin-top: 10px; scroll-margin-top: calc(var(--sat) + 66px); }
+.screen > .sec:first-child { margin-top: 22px; }
+.stay + .park, .park + .sec { margin-top: 12px; }
+.sec-hd { margin: 0; font: inherit; }
+.sec-h {
+  display: flex; align-items: center; gap: 14px; width: 100%; padding: 12px 14px; text-align: left;
+  background: var(--surface); border-radius: 20px; transition: background-color .25s, box-shadow .25s;
+}
+.sec-h:active { background: var(--surface-2); }
+.sec-h .ic { transition: background-color .3s, color .3s; }
+.sec.open .sec-h .ic { background: var(--blue); color: var(--on-blue); }
+.sec-tx { flex: 1; min-width: 0; display: block; }
+.sec-t { display: block; font: 500 24px/1.1 var(--serif); letter-spacing: -.01em; font-variant-numeric: lining-nums; }
+.sec-s { display: block; margin-top: 3px; font-size: 13.5px; line-height: 1.35; color: var(--muted); }
+.sec-h .chev { color: var(--muted); transition: transform .4s var(--ease); }
+.sec.open .sec-h .chev { transform: rotate(180deg); }
+.sec-b { display: grid; grid-template-rows: 0fr; visibility: hidden; transition: grid-template-rows .45s var(--ease), visibility 0s .45s; }
+.sec.open .sec-b { grid-template-rows: 1fr; visibility: visible; transition: grid-template-rows .45s var(--ease), visibility 0s; }
+.sec-in { min-height: 0; overflow: hidden; margin: 0 -16px; padding: 0 16px; opacity: 0; transition: opacity .3s ease; }
+.sec.open .sec-in { opacity: 1; transition: opacity .45s ease .1s; }
+.sec-in > :first-child { margin-top: 12px; }
+.sec-in > :last-child { margin-bottom: 6px; }
+
+/* Parking card on Home */
+.park { margin-top: 12px; padding: 16px 16px 14px; border-radius: 22px; background: var(--gold-tint); box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--gold) 38%, transparent); scroll-margin-top: calc(var(--sat) + 66px); }
+.park-h { display: flex; align-items: flex-start; gap: 14px; }
+.park-ic { flex: none; width: 46px; height: 46px; border-radius: 14px; display: grid; place-items: center; background: var(--gold); color: var(--on-blue); }
+.park-ic svg.i { width: 25px; height: 25px; }
+.park-t { font: 500 28px/1.05 var(--serif); letter-spacing: -.01em; color: var(--gold-ink); font-variant-numeric: lining-nums; }
+.park-h p { margin-top: 5px; font-size: 15px; line-height: 1.5; }
+.streets { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+.streets a { display: inline-flex; align-items: center; gap: 7px; height: 40px; padding: 0 15px 0 12px; border-radius: 999px; background: var(--surface); box-shadow: 0 0 0 1px var(--line); font-size: 15px; font-weight: 500; }
+.streets svg.i { width: 17px; height: 17px; color: var(--gold-ink); }
+.hint { margin: 10px 2px 0; font-size: 13px; color: var(--muted); }
+.sec-in > .streets { margin: 2px 4px 0; }
+.sec-in > .hint { margin: 10px 4px 14px; }
+
 /* ───────── Tab bar ───────── */
 .tabbar {
   position: fixed; z-index: 30; bottom: 0; left: 50%; transform: translateX(-50%); width: min(100%, 480px);
@@ -490,7 +537,7 @@ body { top: 0 !important; position: static !important; }
   *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; transition-delay: 0s !important; }
 }
 </style>
-<noscript><style>.screen[hidden]{display:block!important}.tabbar{display:none}</style></noscript>
+<noscript><style>.screen[hidden]{display:block!important}.tabbar{display:none}.sec-b{grid-template-rows:1fr!important;visibility:visible!important}.sec-in{opacity:1!important}.sec-h .chev{display:none}</style></noscript>
 </head>
 <body>
 <!-- Icons: Lucide (ISC license) --><svg width="0" height="0" style="position:absolute" aria-hidden="true"><symbol id="i-ambulance" viewBox="0 0 24 24"><path d="M10 10H6" /><path d="M14 18V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v11a1 1 0 0 0 1 1h2" /><path d="M19 18h2a1 1 0 0 0 1-1v-3.28a1 1 0 0 0-.684-.948l-1.923-.641a1 1 0 0 1-.578-.502l-1.539-3.076A1 1 0 0 0 16.382 8H14" /><path d="M8 8v4" /><path d="M9 18h6" /><circle cx="17" cy="18" r="2" /><circle cx="7" cy="18" r="2" /></symbol><symbol id="i-arrow-left" viewBox="0 0 24 24"><path d="m12 19-7-7 7-7" /><path d="M19 12H5" /></symbol><symbol id="i-arrow-left-right" viewBox="0 0 24 24"><path d="M8 3 4 7l4 4" /><path d="M4 7h16" /><path d="m16 21 4-4-4-4" /><path d="M20 17H4" /></symbol><symbol id="i-arrow-up-down" viewBox="0 0 24 24"><path d="m21 16-4 4-4-4" /><path d="M17 20V4" /><path d="m3 8 4-4 4 4" /><path d="M7 4v16" /></symbol><symbol id="i-banknote" viewBox="0 0 24 24"><rect width="20" height="12" x="2" y="6" rx="2" /><circle cx="12" cy="12" r="2" /><path d="M6 12h.01M18 12h.01" /></symbol><symbol id="i-beef" viewBox="0 0 24 24"><path d="M16.4 13.7A6.5 6.5 0 1 0 6.28 6.6c-1.1 3.13-.78 3.9-3.18 6.08A3 3 0 0 0 5 18c4 0 8.4-1.8 11.4-4.3" /><path d="m18.5 6 1.754 3.5a6.48 6.48 0 0 1-1.854 8.2C15.4 20.2 11 22 7 22a3 3 0 0 1-2.68-1.66L2.4 16.5" /><circle cx="12.5" cy="8.5" r="2.5" /></symbol><symbol id="i-bike" viewBox="0 0 24 24"><circle cx="18.5" cy="17.5" r="3.5" /><circle cx="5.5" cy="17.5" r="3.5" /><circle cx="15" cy="5" r="1" /><path d="M12 17.5V14l-3-3 4-3 2 3h2" /></symbol><symbol id="i-bridge" viewBox="0 0 24 24"><path d="M10 9.728V16" /><path d="M14 9.728V16" /><path d="M18 20V4" /><path d="m22 11-4-4A7.5 7.5 0 0 1 6 7l-4 4" /><path d="M22 16H2" /><path d="M6 20V4" /></symbol><symbol id="i-bus" viewBox="0 0 24 24"><path d="M8 6v6" /><path d="M15 6v6" /><path d="M2 12h19.6" /><path d="M18 18h3s.5-1.7.8-2.8c.1-.4.2-.8.2-1.2 0-.4-.1-.8-.2-1.2l-1.4-5C20.1 6.8 19.1 6 18 6H4a2 2 0 0 0-2 2v10h3" /><circle cx="7" cy="18" r="2" /><path d="M9 18h5" /><circle cx="16" cy="18" r="2" /></symbol><symbol id="i-calendar-clock" viewBox="0 0 24 24"><path d="M16 14v2.2l1.6 1" /><path d="M16 2v3" /><path d="M21 7.338V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2h2.338" /><path d="M3 9h5.859" /><path d="M8 2v3" /><circle cx="16" cy="16" r="6" /></symbol><symbol id="i-car" viewBox="0 0 24 24"><path d="M19 17h2c.6 0 1-.4 1-1v-3c0-.9-.7-1.7-1.5-1.9C18.7 10.6 16 10 16 10s-1.3-1.4-2.2-2.3c-.5-.4-1.1-.7-1.8-.7H5c-.6 0-1.1.4-1.4.9l-1.4 2.9A3.7 3.7 0 0 0 2 12v4c0 .6.4 1 1 1h2" /><circle cx="7" cy="17" r="2" /><path d="M9 17h6" /><circle cx="17" cy="17" r="2" /></symbol><symbol id="i-car-taxi-front" viewBox="0 0 24 24"><path d="M10 2h4" /><path d="m21 8-2 2-1.5-3.7A2 2 0 0 0 15.646 5H8.4a2 2 0 0 0-1.903 1.257L5 10 3 8" /><path d="M7 14h.01" /><path d="M17 14h.01" /><rect width="18" height="8" x="3" y="10" rx="2" /><path d="M5 18v2" /><path d="M19 18v2" /></symbol><symbol id="i-card-sim" viewBox="0 0 24 24"><path d="M12 14v4" /><path d="M14.172 2a2 2 0 0 1 1.414.586l3.828 3.828A2 2 0 0 1 20 7.828V20a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" /><path d="M8 14h8" /><rect x="8" y="10" width="8" height="8" rx="2" /></symbol><symbol id="i-castle" viewBox="0 0 24 24"><path d="M10 5V3" /><path d="M14 5V3" /><path d="M15 21v-3a3 3 0 0 0-6 0v3" /><path d="M18 3v8" /><path d="M18 5H6" /><path d="M22 11H2" /><path d="M22 9v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9" /><path d="M6 3v8" /></symbol><symbol id="i-check" viewBox="0 0 24 24"><path d="M20 6 9 17l-5-5" /></symbol><symbol id="i-chevron-down" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-church" viewBox="0 0 24 24"><path d="M10 9h4" /><path d="M12 7v5" /><path d="M14 21v-3a2 2 0 0 0-4 0v3" /><path d="m18 9 3.52 2.147a1 1 0 0 1 .48.854V19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2v-6.999a1 1 0 0 1 .48-.854L6 9" /><path d="M6 21V7a1 1 0 0 1 .376-.782l5-3.999a1 1 0 0 1 1.249.001l5 4A1 1 0 0 1 18 7v14" /></symbol><symbol id="i-cigarette-off" viewBox="0 0 24 24"><path d="M12 12H3a1 1 0 0 0-1 1v2a1 1 0 0 0 1 1h13" /><path d="M18 8c0-2.5-2-2.5-2-5" /><path d="m2 2 20 20" /><path d="M21 12a1 1 0 0 1 1 1v2a1 1 0 0 1-.5.866" /><path d="M22 8c0-2.5-2-2.5-2-5" /><path d="M7 12v4" /></symbol><symbol id="i-clapperboard" viewBox="0 0 24 24"><path d="m12.296 3.464 3.02 3.956" /><path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z" /><path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /><path d="m6.18 5.276 3.1 3.899" /></symbol><symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 6v6l4 2" /></symbol><symbol id="i-cloud-sun" viewBox="0 0 24 24"><path d="M12 2v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="M20 12h2" /><path d="m19.07 4.93-1.41 1.41" /><path d="M15.947 12.65a4 4 0 0 0-5.925-4.128" /><path d="M13 22H7a5 5 0 1 1 4.9-6H13a3 3 0 0 1 0 6Z" /></symbol><symbol id="i-coffee" viewBox="0 0 24 24"><path d="M10 2v2" /><path d="M14 2v2" /><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1" /><path d="M6 2v2" /></symbol><symbol id="i-compass" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="m16.24 7.76-1.804 5.411a2 2 0 0 1-1.265 1.265L7.76 16.24l1.804-5.411a2 2 0 0 1 1.265-1.265z" /></symbol><symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></symbol><symbol id="i-credit-card" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="5" rx="2" /><line x1="2" x2="22" y1="10" y2="10" /><path d="M6 14h2" /></symbol><symbol id="i-croissant" viewBox="0 0 24 24"><path d="M10.2 18H4.774a1.5 1.5 0 0 1-1.352-.97 11 11 0 0 1 .132-6.487" /><path d="M18 10.2V4.774a1.5 1.5 0 0 0-.97-1.352 11 11 0 0 0-6.486.132" /><path d="M18 5a4 3 0 0 1 4 3 2 2 0 0 1-2 2 10 10 0 0 0-5.139 1.42" /><path d="M5 18a3 4 0 0 0 3 4 2 2 0 0 0 2-2 10 10 0 0 1 1.42-5.14" /><path d="M8.709 2.554a10 10 0 0 0-6.155 6.155 1.5 1.5 0 0 0 .676 1.626l9.807 5.42a2 2 0 0 0 2.718-2.718l-5.42-9.807a1.5 1.5 0 0 0-1.626-.676" /></symbol><symbol id="i-external-link" viewBox="0 0 24 24"><path d="M15 3h6v6" /><path d="M10 14 21 3" /><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" /></symbol><symbol id="i-fish" viewBox="0 0 24 24"><path d="M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.47-3.44 6-7 6s-7.56-2.53-8.5-6Z" /><path d="M18 12v.5" /><path d="M16 17.93a9.77 9.77 0 0 1 0-11.86" /><path d="M7 10.67C7 8 5.58 5.97 2.73 5.5c-1 1.5-1 5 .23 6.5-1.24 1.5-1.24 5-.23 6.5C5.58 18.03 7 16 7 13.33" /><path d="M10.46 7.26C10.2 5.88 9.17 4.24 8 3h5.8a2 2 0 0 1 1.98 1.67l.23 1.4" /><path d="m16.01 17.93-.23 1.4A2 2 0 0 1 13.8 21H9.5a5.96 5.96 0 0 0 1.49-3.98" /></symbol><symbol id="i-flame" viewBox="0 0 24 24"><path d="M12 3q1 4 4 6.5t3 5.5a1 1 0 0 1-14 0 5 5 0 0 1 1-3 1 1 0 0 0 5 0c0-2-1.5-3-1.5-5q0-2 2.5-4" /></symbol><symbol id="i-footprints" viewBox="0 0 24 24"><path d="M4 16v-2.38C4 11.5 2.97 10.5 3 8c.03-2.72 1.49-6 4.5-6C9.37 2 10 3.8 10 5.5c0 3.11-2 5.66-2 8.68V16a2 2 0 1 1-4 0Z" /><path d="M20 20v-2.38c0-2.12 1.03-3.12 1-5.62-.03-2.72-1.49-6-4.5-6C14.63 6 14 7.8 14 9.5c0 3.11 2 5.66 2 8.68V20a2 2 0 1 0 4 0Z" /><path d="M16 17h4" /><path d="M4 13h4" /></symbol><symbol id="i-globe" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20" /><path d="M2 12h20" /></symbol><symbol id="i-hand-coins" viewBox="0 0 24 24"><path d="M11 15h2a2 2 0 1 0 0-4h-3c-.6 0-1.1.2-1.4.6L3 17" /><path d="m7 21 1.6-1.4c.3-.4.8-.6 1.4-.6h4c1.1 0 2.1-.4 2.8-1.2l4.6-4.4a2 2 0 0 0-2.75-2.91l-4.2 3.9" /><path d="m2 16 6 6" /><circle cx="16" cy="9" r="2.9" /><circle cx="6" cy="5" r="3" /></symbol><symbol id="i-heart-pulse" viewBox="0 0 24 24"><path d="M2 9.5a5.5 5.5 0 0 1 9.591-3.676.56.56 0 0 0 .818 0A5.49 5.49 0 0 1 22 9.5c0 2.29-1.5 4-3 5.5l-5.492 5.313a2 2 0 0 1-3 .019L5 15c-1.5-1.5-3-3.2-3-5.5" /><path d="M3.22 13H9.5l.5-1 2 4.5 2-7 1.5 3.5h5.27" /></symbol><symbol id="i-house" viewBox="0 0 24 24"><path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8" /><path d="M3 10a2 2 0 0 1 .709-1.528l7-6a2 2 0 0 1 2.582 0l7 6A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" /></symbol><symbol id="i-info" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><path d="M12 16v-4" /><path d="M12 8h.01" /></symbol><symbol id="i-key-round" viewBox="0 0 24 24"><path d="M2.586 17.414A2 2 0 0 0 2 18.828V21a1 1 0 0 0 1 1h3a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h1a1 1 0 0 0 1-1v-1a1 1 0 0 1 1-1h.172a2 2 0 0 0 1.414-.586l.814-.814a6.5 6.5 0 1 0-4-4z" /><circle cx="16.5" cy="7.5" r=".5" fill="currentColor" /></symbol><symbol id="i-landmark" viewBox="0 0 24 24"><path d="M10 18v-7" /><path d="M11.119 2.205a2 2 0 0 1 1.762 0l7.84 3.846A.5.5 0 0 1 20.5 7h-17a.5.5 0 0 1-.22-.949z" /><path d="M14 18v-7" /><path d="M18 18v-7" /><path d="M3 22h18" /><path d="M6 18v-7" /></symbol><symbol id="i-languages" viewBox="0 0 24 24"><path d="m5 8 6 6" /><path d="m4 14 6-6 2-3" /><path d="M2 5h12" /><path d="M7 2h1" /><path d="m22 22-5-10-5 10" /><path d="M14 18h6" /></symbol><symbol id="i-log-out" viewBox="0 0 24 24"><path d="m16 17 5-5-5-5" /><path d="M21 12H9" /><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /></symbol><symbol id="i-map-pin" viewBox="0 0 24 24"><path d="M20 10c0 4.993-5.539 10.193-7.399 11.799a1 1 0 0 1-1.202 0C9.539 20.193 4 14.993 4 10a8 8 0 0 1 16 0" /><circle cx="12" cy="10" r="3" /></symbol><symbol id="i-maximize-2" viewBox="0 0 24 24"><path d="M15 3h6v6" /><path d="m21 3-7 7" /><path d="m3 21 7-7" /><path d="M9 21H3v-6" /></symbol><symbol id="i-navigation" viewBox="0 0 24 24"><polygon points="3 11 22 2 13 21 11 13 3 11" /></symbol><symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" fill="currentColor" /><circle cx="17.5" cy="10.5" r=".5" fill="currentColor" /><circle cx="6.5" cy="12.5" r=".5" fill="currentColor" /><circle cx="8.5" cy="7.5" r=".5" fill="currentColor" /></symbol><symbol id="i-paw-print" viewBox="0 0 24 24"><circle cx="11" cy="4" r="2" /><circle cx="18" cy="8" r="2" /><circle cx="20" cy="16" r="2" /><path d="M9 10a5 5 0 0 1 5 5v3.5a3.5 3.5 0 0 1-6.84 1.045Q6.52 17.48 4.46 16.84A3.5 3.5 0 0 1 5.5 10Z" /></symbol><symbol id="i-plane-landing" viewBox="0 0 24 24"><path d="M2 22h20" /><path d="M3.77 10.77 2 9l2-4.5 1.1.55c.55.28.9.84.9 1.45s.35 1.17.9 1.45L8 8.5l3-6 1.05.53a2 2 0 0 1 1.09 1.52l.72 5.4a2 2 0 0 0 1.09 1.52l4.4 2.2c.42.22.78.55 1.01.96l.6 1.03c.49.88-.06 1.98-1.06 2.1l-1.18.15c-.47.06-.95-.02-1.37-.24L4.29 11.15a2 2 0 0 1-.52-.38Z" /></symbol><symbol id="i-plug-zap" viewBox="0 0 24 24"><path d="M6.3 20.3a2.4 2.4 0 0 0 3.4 0L12 18l-6-6-2.3 2.3a2.4 2.4 0 0 0 0 3.4Z" /><path d="m2 22 3-3" /><path d="M7.5 13.5 10 11" /><path d="M10.5 16.5 13 14" /><path d="m18 3-4 4h6l-4 4" /></symbol><symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="i-shopping-bag" viewBox="0 0 24 24"><path d="M16 10a4 4 0 0 1-8 0" /><path d="M3.103 6.034h17.794" /><path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" /></symbol><symbol id="i-shopping-cart" viewBox="0 0 24 24"><path d="m2.05 2.05 1.099-.028a1 1 0 0 1 1.008.815l2.69 14.347A1 1 0 0 0 7.83 18H18" /><path d="M4.563 5h16.435a1 1 0 0 1 .981 1.204l-1.026 6.226A2 2 0 0 1 18.962 14H6.25" /><circle cx="18" cy="20" r="2" /><circle cx="8" cy="20" r="2" /></symbol><symbol id="i-signal" viewBox="0 0 24 24"><path d="M2 20h.01" /><path d="M7 20v-4" /><path d="M12 20v-8" /><path d="M17 20V8" /><path d="M22 4v16" /></symbol><symbol id="i-smartphone" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2" ry="2" /><path d="M12 18h.01" /></symbol><symbol id="i-snowflake" viewBox="0 0 24 24"><path d="m10 20-1.25-2.5L6 18" /><path d="M10 4 8.75 6.5 6 6" /><path d="m14 20 1.25-2.5L18 18" /><path d="m14 4 1.25 2.5L18 6" /><path d="m17 21-3-6h-4" /><path d="m17 3-3 6 1.5 3" /><path d="M2 12h6.5L10 9" /><path d="m20 10-1.5 2 1.5 2" /><path d="M22 12h-6.5L14 15" /><path d="m4 10 1.5 2L4 14" /><path d="m7 21 3-6-1.5-3" /><path d="m7 3 3 6h4" /></symbol><symbol id="i-square-parking" viewBox="0 0 24 24"><rect width="18" height="18" x="3" y="3" rx="2" /><path d="M9 17V7h4a3 3 0 0 1 0 6H9" /></symbol><symbol id="i-store" viewBox="0 0 24 24"><path d="M15 21v-5a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v5" /><path d="M17.774 10.31a1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.451 0 1.12 1.12 0 0 0-1.548 0 2.5 2.5 0 0 1-3.452 0 1.12 1.12 0 0 0-1.549 0 2.5 2.5 0 0 1-3.77-3.248l2.889-4.184A2 2 0 0 1 7 2h10a2 2 0 0 1 1.653.873l2.895 4.192a2.5 2.5 0 0 1-3.774 3.244" /><path d="M4 10.95V19a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8.05" /></symbol><symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2" /><path d="M12 20v2" /><path d="m4.93 4.93 1.41 1.41" /><path d="m17.66 17.66 1.41 1.41" /><path d="M2 12h2" /><path d="M20 12h2" /><path d="m6.34 17.66-1.41 1.41" /><path d="m19.07 4.93-1.41 1.41" /></symbol><symbol id="i-sunset" viewBox="0 0 24 24"><path d="M12 10V2" /><path d="m4.93 10.93 1.41 1.41" /><path d="M2 18h2" /><path d="M20 18h2" /><path d="m19.07 10.93-1.41 1.41" /><path d="M22 22H2" /><path d="m16 6-4 4-4-4" /><path d="M16 18a4 4 0 0 0-8 0" /></symbol><symbol id="i-theater" viewBox="0 0 24 24"><path d="M2 10s3-3 3-8" /><path d="M22 10s-3-3-3-8" /><path d="M10 2c0 4.4-3.6 8-8 8" /><path d="M14 2c0 4.4 3.6 8 8 8" /><path d="M2 10s2 2 2 5" /><path d="M22 10s-2 2-2 5" /><path d="M8 15h8" /><path d="M2 22v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1" /><path d="M14 22v-1a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v1" /></symbol><symbol id="i-ticket" viewBox="0 0 24 24"><path d="M2 9a3 3 0 0 1 0 6v2a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-2a3 3 0 0 1 0-6V7a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2Z" /><path d="M13 5v2" /><path d="M13 17v2" /><path d="M13 11v2" /></symbol><symbol id="i-trash-2" viewBox="0 0 24 24"><path d="M10 11v6" /><path d="M14 11v6" /><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" /><path d="M3 6h18" /><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></symbol><symbol id="i-trees" viewBox="0 0 24 24"><path d="M10 10v.2A3 3 0 0 1 8.9 16H5a3 3 0 0 1-1-5.8V10a3 3 0 0 1 6 0Z" /><path d="M7 16v6" /><path d="M13 19v3" /><path d="M12 19h8.3a1 1 0 0 0 .7-1.7L18 14h.3a1 1 0 0 0 .7-1.7L16 9h.2a1 1 0 0 0 .8-1.7L13 3l-1.4 1.5" /></symbol><symbol id="i-triangle-alert" viewBox="0 0 24 24"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3" /><path d="M12 9v4" /><path d="M12 17h.01" /></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><path d="M16 3.128a4 4 0 0 1 0 7.744" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><circle cx="9" cy="7" r="4" /></symbol><symbol id="i-utensils" viewBox="0 0 24 24"><path d="M3 2v7c0 1.1.9 2 2 2h4a2 2 0 0 0 2-2V2" /><path d="M7 2v20" /><path d="M21 15V2a5 5 0 0 0-5 5v6c0 1.1.9 2 2 2h3Zm0 0v7" /></symbol><symbol id="i-utensils-crossed" viewBox="0 0 24 24"><path d="m16 2-2.3 2.3a3 3 0 0 0 0 4.2l1.8 1.8a3 3 0 0 0 4.2 0L22 8" /><path d="M15 15 3.3 3.3a4.2 4.2 0 0 0 0 6l7.3 7.3c.7.7 2 .7 2.8 0L15 15Zm0 0 7 7" /><path d="m2.1 21.8 6.4-6.3" /><path d="m19 5-7 7" /></symbol><symbol id="i-volume-x" viewBox="0 0 24 24"><path d="M11 4.702a.7.7 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.7.7 0 0 0 11 19.298z" /><path d="m16.5 14.5 5-5" /><path d="m16.5 9.5 5 5" /></symbol><symbol id="i-waves" viewBox="0 0 24 24"><path d="M2 12q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 19q2.5 2 5 0t5 0 5 0 5 0" /><path d="M2 5q2.5 2 5 0t5 0 5 0 5 0" /></symbol><symbol id="i-wifi" viewBox="0 0 24 24"><path d="M12 20h.01" /><path d="M2 8.82a15 15 0 0 1 20 0" /><path d="M5 12.859a10 10 0 0 1 14 0" /><path d="M8.5 16.429a5 5 0 0 1 7 0" /></symbol><symbol id="i-wine" viewBox="0 0 24 24"><path d="M8 22h8" /><path d="M7 10h10" /><path d="M12 15v7" /><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z" /></symbol><symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18" /><path d="m6 6 12 12" /></symbol></svg>
@@ -578,6 +625,7 @@ body { top: 0 !important; position: static !important; }
         </p>
         <h1 class="hero-title">Belgrade</h1>
         <p class="hero-sub">Your host's guide to the city, from the airport to the river.</p>
+        <a class="hero-pill press" id="parkPill" href="#park"><svg class="i"><use href="#i-square-parking"/></svg><span>Free parking behind the building</span><svg class="i chev"><use href="#i-chevron-right"/></svg></a>
       </div>
       <div class="stage-copy" data-for="arrival">
         <h2 class="tab-title">Arrival</h2>
@@ -635,8 +683,22 @@ body { top: 0 !important; position: static !important; }
         </dl>
       </article>
 
-      <h2 class="h-sec" id="check-in">Self check-in</h2>
-      <p class="lede">Available 24/7, with no need to meet anyone. Two lockboxes hold the entry tag and the key. Your codes arrive <b class="hl">24 hours before arrival</b>.</p>
+      <article class="park" id="park" aria-labelledby="parkT">
+        <div class="park-h">
+          <span class="park-ic"><svg class="i"><use href="#i-square-parking"/></svg></span>
+          <div>
+            <h2 class="park-t" id="parkT">Parking</h2>
+            <p>We don't have a parking space of our own. <b>Parking is free</b> on the streets behind our building:</p>
+          </div>
+        </div>
+        <ul class="streets"><li><a class="press" data-maps="Čiče Romanijskog, Karaburma, Beograd" target="_blank" rel="noopener"><svg class="i"><use href="#i-map-pin"/></svg><span class="notranslate">Čiče Romanijskog</span></a></li><li><a class="press" data-maps="Velje Miljkovića, Karaburma, Beograd" target="_blank" rel="noopener"><svg class="i"><use href="#i-map-pin"/></svg><span class="notranslate">Velje Miljkovića</span></a></li><li><a class="press" data-maps="Danila Ilića, Karaburma, Beograd" target="_blank" rel="noopener"><svg class="i"><use href="#i-map-pin"/></svg><span class="notranslate">Danila Ilića</span></a></li></ul>
+        <p class="hint">Tap a street to see it on the map.</p>
+      </article>
+
+      <div class="sec open" id="check-in">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="true" aria-controls="b-check-in"><span class="ic"><svg class="i"><use href="#i-key-round"/></svg></span><span class="sec-tx"><span class="sec-t">Self check-in</span><span class="sec-s">24/7, codes arrive a day before</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-check-in" role="region" aria-label="Self check-in"><div class="sec-in">
+<p class="lede">Available 24/7, with no need to meet anyone. Two lockboxes hold the entry tag and the key. Your codes arrive <b class="hl">24 hours before arrival</b>.</p>
       <ol class="timeline">
         <li class="tl-step">
           <span class="num">1</span>
@@ -680,42 +742,55 @@ body { top: 0 !important; position: static !important; }
           </div>
         </li>
       </ol>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">Your first hour</h2>
-      <ol class="group">
+<div class="sec" id="first-hour">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-first-hour"><span class="ic"><svg class="i"><use href="#i-clock"/></svg></span><span class="sec-tx"><span class="sec-t">Your first hour</span><span class="sec-s">SIM card, taxi, then let yourself in</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-first-hour" role="region" aria-label="Your first hour"><div class="sec-in">
+<ol class="group">
         <li><a class="row press" href="#sim-card" data-jump="arrival:sim-card"><span class="num">1</span><span class="rx"><span class="rt">Pick up a SIM card</span><span class="rb">Telenor and A1 kiosks, right after baggage claim</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg></a></li>
         <li><a class="row press" href="#getting-here" data-jump="arrival:getting-here"><span class="num">2</span><span class="rx"><span class="rt">Take an official taxi</span><span class="rb">Get a voucher at the desk in the arrivals hall</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg></a></li>
         <li><a class="row press" href="#check-in" data-jump="home:check-in"><span class="num">3</span><span class="rx"><span class="rt">Let yourself in</span><span class="rb">Self check-in 24/7, codes arrive a day before</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg></a></li>
       </ol>
+  </div></div>
+</div>
 
-      <div class="group" style="margin-top:12px">
-        <a class="row press" href="#parking" data-jump="arrival:parking"><span class="ic"><svg class="i"><use href="#i-square-parking"/></svg></span><span class="rx"><span class="rt">Coming by car?</span><span class="rb">No private spot, but parking on the streets behind the building is free</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg></a>
-      </div>
-
-      <h2 class="h-sec">Belgrade basics</h2>
-      <div class="basics">
+<div class="sec" id="basics">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-basics"><span class="ic"><svg class="i"><use href="#i-landmark"/></svg></span><span class="sec-tx"><span class="sec-t">Belgrade basics</span><span class="sec-s">Money, transport, power, language</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-basics" role="region" aria-label="Belgrade basics"><div class="sec-in">
+<div class="basics">
         <div class="tile"><svg class="i"><use href="#i-banknote"/></svg><span class="tl">Serbian dinar</span><span class="tv notranslate" data-rate-short>1 € ≈ 117 RSD</span><span class="tb">Cards widely accepted</span></div>
         <div class="tile"><svg class="i"><use href="#i-bus"/></svg><span class="tl">Public transport</span><span class="tv">Free</span><span class="tb">All lines, since January 2025</span></div>
         <div class="tile"><svg class="i"><use href="#i-plug-zap"/></svg><span class="tl">Power</span><span class="tv">220 V</span><span class="tb">Standard European plugs</span></div>
         <div class="tile"><svg class="i"><use href="#i-languages"/></svg><span class="tl">Language</span><span class="tv">Serbian</span><span class="tb">English widely spoken</span></div>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">In an emergency</h2>
-      <div class="sos">
+<div class="sec" id="emergency">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-emergency"><span class="ic"><svg class="i"><use href="#i-ambulance"/></svg></span><span class="sec-tx"><span class="sec-t">In an emergency</span><span class="sec-s">192 police · 193 fire · 194 ambulance</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-emergency" role="region" aria-label="In an emergency"><div class="sec-in">
+<div class="sos">
         <a class="press" href="tel:192"><span class="sn notranslate">192</span><span class="sl">Police</span></a>
         <a class="press" href="tel:193"><span class="sn notranslate">193</span><span class="sl">Fire</span></a>
         <a class="press" href="tel:194"><span class="sn notranslate">194</span><span class="sl">Ambulance</span></a>
       </div>
+  </div></div>
+</div>
 
       <div class="group" style="margin-top:12px">
         <a class="row press" href="checkout.html"><span class="ic"><svg class="i"><use href="#i-log-out"/></svg></span><span class="rx"><span class="rt">Leaving soon?</span><span class="rb">Check-out by 11:00, here's what to do</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg></a>
       </div>
+
     </section>
 
     <!-- ═════════ ARRIVAL ═════════ -->
     <section class="screen" id="arrival" data-tab="arrival" aria-label="Arrival" hidden>
-      <h2 class="h-sec" id="getting-here">From the airport</h2>
-      <div class="callout gold">
+      <div class="sec open" id="getting-here">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="true" aria-controls="b-getting-here"><span class="ic"><svg class="i"><use href="#i-plane-landing"/></svg></span><span class="sec-tx"><span class="sec-t">From the airport</span><span class="sec-s">Taxi voucher, minibus, rental car</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-getting-here" role="region" aria-label="From the airport"><div class="sec-in">
+<div class="callout gold">
         <div class="co-head"><svg class="i"><use href="#i-ticket"/></svg>Get a taxi voucher first</div>
         <p>After baggage claim, find the <b>official taxi voucher desk</b> in the arrivals hall. The voucher fixes your fare, so you can't be overcharged. Hand it to the driver at the official taxi queue outside.</p>
       </div>
@@ -729,9 +804,13 @@ body { top: 0 !important; position: static !important; }
         <p>Ignore anyone who approaches you inside the terminal offering a ride. Use only the official taxi queue with your voucher, where prices are fixed.</p>
       </div>
       <button class="btn wide press" type="button" data-open="driverSheet"><svg class="i"><use href="#i-car-taxi-front"/></svg>Show the address to your driver</button>
+  </div></div>
+</div>
 
-      <h2 class="h-sec" id="sim-card">SIM card</h2>
-      <p class="lede">Telenor and A1 kiosks are right after baggage claim in the arrivals hall. Both have reliable coverage across Serbia.</p>
+<div class="sec" id="sim-card">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-sim-card"><span class="ic"><svg class="i"><use href="#i-card-sim"/></svg></span><span class="sec-tx"><span class="sec-t">SIM card</span><span class="sec-s">Telenor and A1 kiosks at the airport</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-sim-card" role="region" aria-label="SIM card"><div class="sec-in">
+<p class="lede">Telenor and A1 kiosks are right after baggage claim in the arrivals hall. Both have reliable coverage across Serbia.</p>
       <div class="group">
         <div class="row"><span class="ic"><svg class="i"><use href="#i-banknote"/></svg></span><span class="rx"><span class="rt">About €5–6 for 10 GB</span><span class="rb">A prepaid SIM costs around <b>500–700 RSD</b>. Top up at any kiosk (<span class="notranslate">trafika</span>) in the city.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-card-sim"/></svg></span><span class="rx"><span class="rt">Bring your passport</span><span class="rb">Registration at the counter takes a few minutes.</span></span></div>
@@ -740,27 +819,42 @@ body { top: 0 !important; position: static !important; }
         <div class="row"><span class="ic"><svg class="i"><use href="#i-clock"/></svg></span><span class="rx"><span class="rt">Landing late?</span><span class="rb">If the kiosks are closed, buy a SIM the next morning at any phone shop or large supermarket.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-wifi"/></svg></span><span class="rx"><span class="rt">300 Mbps Wi-Fi at home</span><span class="rb">Fast enough for video calls and streaming, so you may not need much mobile data.</span></span></div>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec" id="parking">Parking</h2>
-      <p class="lede">We don't have a parking space of our own, but <b class="hl">parking is free on the streets behind our building</b>. No permit needed.</p>
+<div class="sec" id="parking">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-parking"><span class="ic"><svg class="i"><use href="#i-square-parking"/></svg></span><span class="sec-tx"><span class="sec-t">Parking</span><span class="sec-s">Free on the streets behind the building</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-parking" role="region" aria-label="Parking"><div class="sec-in">
+<p class="lede">We don't have a parking space of our own, but <b class="hl">parking is free on the streets behind our building</b>.</p>
+      <ul class="streets"><li><a class="press" data-maps="Čiče Romanijskog, Karaburma, Beograd" target="_blank" rel="noopener"><svg class="i"><use href="#i-map-pin"/></svg><span class="notranslate">Čiče Romanijskog</span></a></li><li><a class="press" data-maps="Velje Miljkovića, Karaburma, Beograd" target="_blank" rel="noopener"><svg class="i"><use href="#i-map-pin"/></svg><span class="notranslate">Velje Miljkovića</span></a></li><li><a class="press" data-maps="Danila Ilića, Karaburma, Beograd" target="_blank" rel="noopener"><svg class="i"><use href="#i-map-pin"/></svg><span class="notranslate">Danila Ilića</span></a></li></ul>
+      <p class="hint">Tap a street to open it in Maps.</p>
       <div class="group">
-        <div class="row"><span class="ic"><svg class="i"><use href="#i-square-parking"/></svg></span><span class="rx"><span class="rt">Free street parking</span><span class="rb">On the streets behind the building, for example <span class="notranslate">Pribojska</span>, <span class="notranslate">Velje Miljkovića</span> and the small streets around them.</span></span></div>
+        <div class="row"><span class="ic"><svg class="i"><use href="#i-square-parking"/></svg></span><span class="rx"><span class="rt">Free street parking</span><span class="rb">On the streets behind the building. There is no charge.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-info"/></svg></span><span class="rx"><span class="rt">No reserved spot</span><span class="rb">There is no private parking at the building, so spots are first come, first served.</span></span></div>
       </div>
-      <a class="btn wide press" data-maps="Pribojska, Karaburma, Beograd" target="_blank" rel="noopener" style="margin-top:10px"><svg class="i"><use href="#i-navigation"/></svg>Open the parking area in Maps</a>
+  </div></div>
+</div>
 
-      <h2 class="h-sec" id="around">Around the building</h2>
-      <div class="group">
+<div class="sec" id="around">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-around"><span class="ic"><svg class="i"><use href="#i-map-pin"/></svg></span><span class="sec-tx"><span class="sec-t">Around the building</span><span class="sec-s">Address, bus stop, elevator</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-around" role="region" aria-label="Around the building"><div class="sec-in">
+<div class="group">
         <div class="row"><span class="ic"><svg class="i"><use href="#i-map-pin"/></svg></span><span class="rx"><span class="rt notranslate">Višnjička 30, Karaburma</span><span class="rb">Tell your driver: <b class="notranslate">„Karaburma, Višnjička trideset“</b></span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-bus"/></svg></span><span class="rx"><span class="rt">Bus stop <span class="notranslate">Vuka Vrčevića</span></span><span class="rb">2 min walk. Lines <b>16, 23, 25, 32, 35, 74</b> and the <span class="notranslate">BG:Voz</span> train. Line 16 goes straight to the centre (<span class="notranslate">Zeleni Venac, Terazije</span>) in about 20 min.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-arrow-up-down"/></svg></span><span class="rx"><span class="rt">Elevator available</span><span class="rb">The apartment is on the 2nd floor, nr. 1 on the left side.</span></span></div>
       </div>
+  </div></div>
+</div>
+
+
     </section>
 
     <!-- ═════════ EXPLORE ═════════ -->
     <section class="screen" id="explore" data-tab="explore" aria-label="Explore" hidden>
-      <h2 class="h-sec" id="nearby">Right next door</h2>
-      <article class="feature">
+      <div class="sec open" id="nearby">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="true" aria-controls="b-nearby"><span class="ic"><svg class="i"><use href="#i-shopping-bag"/></svg></span><span class="sec-tx"><span class="sec-t">Right next door</span><span class="sec-s">Big Fashion mall and the Ada Huja riverfront</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-nearby" role="region" aria-label="Right next door"><div class="sec-in">
+<article class="feature">
         <div class="f-head">
           <h3>Big Fashion</h3>
           <p>One of Belgrade's biggest malls, <b>a 10 min walk</b> along <span class="notranslate">Višnjička</span> or one stop on bus 16, 23 or 25.</p>
@@ -782,9 +876,13 @@ body { top: 0 !important; position: static !important; }
         </div>
         <a class="btn wide press" data-maps="Ada Huja, Beograd" target="_blank" rel="noopener"><svg class="i"><use href="#i-navigation"/></svg>Open in Maps</a>
       </article>
+  </div></div>
+</div>
 
-      <h2 class="h-sec" id="see-do">See and do</h2>
-      <div class="group">
+<div class="sec" id="see-do">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-see-do"><span class="ic"><svg class="i"><use href="#i-castle"/></svg></span><span class="sec-tx"><span class="sec-t">See and do</span><span class="sec-s">Ten places worth your time</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-see-do" role="region" aria-label="See and do"><div class="sec-in">
+<div class="group">
         <button class="row place press" type="button" data-q="Kalemegdan Fortress, Belgrade"><span class="ic"><svg class="i"><use href="#i-castle"/></svg></span><span class="rx"><span class="rt">Kalemegdan Fortress</span><span class="rb">The city's landmark above both rivers</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg>
           <span class="more" hidden><p>Belgrade's most iconic landmark. Free entry and stunning views over the Danube and Sava rivers. Best at sunset.</p><span class="chip"><svg class="i"><use href="#i-bus"/></svg>About 20 min by bus</span></span></button>
         <button class="row place press" type="button" data-q="Skadarlija, Belgrade"><span class="ic"><svg class="i"><use href="#i-theater"/></svg></span><span class="rx"><span class="rt">Skadarlija</span><span class="rb">The bohemian quarter</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg>
@@ -806,19 +904,29 @@ body { top: 0 !important; position: static !important; }
         <button class="row place press" type="button" data-q="Zemun, Belgrade"><span class="ic"><svg class="i"><use href="#i-fish"/></svg></span><span class="rx"><span class="rt">Zemun</span><span class="rb">A historic town on the Danube</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg>
           <span class="more" hidden><p>Now part of Belgrade. Austro-Hungarian architecture, a riverside promenade and excellent fish restaurants.</p></span></button>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec" id="transport">Getting around</h2>
-      <div class="group">
+<div class="sec" id="transport">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-transport"><span class="ic"><svg class="i"><use href="#i-bus"/></svg></span><span class="sec-tx"><span class="sec-t">Getting around</span><span class="sec-s">Free public transport, taxi app, bikes</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-transport" role="region" aria-label="Getting around"><div class="sec-in">
+<div class="group">
         <div class="row"><span class="ic"><svg class="i"><use href="#i-bus"/></svg></span><span class="rx"><span class="rt">Public transport is free</span><span class="rb">Since January 2025, all buses, trams, trolleybuses and <span class="notranslate">BG:Voz</span> trains are free for everyone. Just hop on.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-smartphone"/></svg></span><span class="rx"><span class="rt">CarGo taxi app</span><span class="rb">The main local taxi app, with the price shown upfront. Most city rides cost <b>300–600 RSD</b>. Always better than hailing a taxi on the street.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-bike"/></svg></span><span class="rx"><span class="rt">Bikes and scooters</span><span class="rb">NextBike stations around the city, plus Bolt and Lime e-scooters. Great for Kalemegdan and the riverfront.</span></span></div>
       </div>
+  </div></div>
+</div>
+
+
     </section>
 
     <!-- ═════════ FOOD ═════════ -->
     <section class="screen" id="food" data-tab="food" aria-label="Food and drink" hidden>
-      <h2 class="h-sec">Serbian classics</h2>
-      <div class="dishes" tabindex="0" aria-label="Dishes to try">
+      <div class="sec open" id="classics">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="true" aria-controls="b-classics"><span class="ic"><svg class="i"><use href="#i-utensils-crossed"/></svg></span><span class="sec-tx"><span class="sec-t">Serbian classics</span><span class="sec-s">Dishes to try and where to eat them</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-classics" role="region" aria-label="Serbian classics"><div class="sec-in">
+<div class="dishes" tabindex="0" aria-label="Dishes to try">
         <div class="dish"><svg class="i"><use href="#i-flame"/></svg><span class="dn notranslate">Ćevapi</span><span class="dd">Small grilled sausages of minced meat</span></div>
         <div class="dish"><svg class="i"><use href="#i-beef"/></svg><span class="dn notranslate">Pljeskavica</span><span class="dd">The Serbian burger</span></div>
         <div class="dish"><svg class="i"><use href="#i-croissant"/></svg><span class="dn notranslate">Burek</span><span class="dd">Flaky pastry with meat or cheese</span></div>
@@ -828,33 +936,51 @@ body { top: 0 !important; position: static !important; }
         <a class="row press" data-maps="Tri Šešira, Skadarlija, Beograd" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-utensils-crossed"/></svg></span><span class="rx"><span class="rt notranslate">Tri Šešira</span><span class="rb">Traditional kafana in Skadarlija</span></span><svg class="i chev"><use href="#i-external-link"/></svg></a>
         <a class="row press" data-maps="Dva Jelena, Skadarlija, Beograd" target="_blank" rel="noopener"><span class="ic"><svg class="i"><use href="#i-utensils-crossed"/></svg></span><span class="rx"><span class="rt notranslate">Dva Jelena</span><span class="rb">Traditional kafana in Skadarlija</span></span><svg class="i chev"><use href="#i-external-link"/></svg></a>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">Coffee and nights out</h2>
-      <div class="group">
+<div class="sec" id="nightlife">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-nightlife"><span class="ic"><svg class="i"><use href="#i-coffee"/></svg></span><span class="sec-tx"><span class="sec-t">Coffee and nights out</span><span class="sec-s">Cafés, bars and river clubs</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-nightlife" role="region" aria-label="Coffee and nights out"><div class="sec-in">
+<div class="group">
         <div class="row"><span class="ic"><svg class="i"><use href="#i-coffee"/></svg></span><span class="rx"><span class="rt">Coffee culture</span><span class="rb">Belgrade has a vibrant café scene, and <b>Savamala</b> is the creative hub for specialty coffee. Closer to home, try the cafés along the <b>Ada Huja</b> riverbank, 5 min from the apartment.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-wine"/></svg></span><span class="rx"><span class="rt">Nightlife</span><span class="rb">Savamala for bars and clubs, Skadarlija for a bohemian night out. The river clubs (<span class="notranslate">splavovi</span>) on the Sava are uniquely Belgrade. Most places open late and stay open very late.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-sunset"/></svg></span><span class="rx"><span class="rt">Ada Huja, 5 min away</span><span class="rb">Your closest riverside escape: outdoor cafés, a go-kart track, tennis courts and a beach in summer. Locals love it for a morning walk or an afternoon coffee.</span></span></div>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">Groceries nearby</h2>
-      <div class="group">
+<div class="sec" id="groceries">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-groceries"><span class="ic"><svg class="i"><use href="#i-shopping-cart"/></svg></span><span class="sec-tx"><span class="sec-t">Groceries nearby</span><span class="sec-s">Maxi, IDEA, Lidl and the local market</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-groceries" role="region" aria-label="Groceries nearby"><div class="sec-in">
+<div class="group">
         <div class="row"><span class="ic"><svg class="i"><use href="#i-shopping-cart"/></svg></span><span class="rx"><span class="rt">Maxi</span><span class="rb">The closest large supermarket, about a 10 min walk, just behind Big Fashion.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-store"/></svg></span><span class="rx"><span class="rt">IDEA and Lidl</span><span class="rb">IDEA is inside Big Fashion (9:00–22:00) and Lidl is right next door at <span class="notranslate">Višnjička 94</span>.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-sun"/></svg></span><span class="rx"><span class="rt">Karaburma market</span><span class="rb">The local <span class="notranslate">pijaca</span> for fresh produce, and a great local experience.</span></span></div>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">Good to know</h2>
-      <div class="group">
+<div class="sec" id="food-tips">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-food-tips"><span class="ic"><svg class="i"><use href="#i-info"/></svg></span><span class="sec-tx"><span class="sec-t">Good to know</span><span class="sec-s">Tipping, cards and meal times</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-food-tips" role="region" aria-label="Good to know"><div class="sec-in">
+<div class="group">
         <div class="row"><span class="ic"><svg class="i"><use href="#i-hand-coins"/></svg></span><span class="rx"><span class="rt">Tipping</span><span class="rb">Common, and <b>10%</b> is standard.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-credit-card"/></svg></span><span class="rx"><span class="rt">Cards or cash</span><span class="rb">Most places accept cards, but smaller kafanas may be cash only.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-clock"/></svg></span><span class="rx"><span class="rt">Meal times</span><span class="rb">Lunch is usually 12:00–15:00 and dinner from 19:00 onwards. Restaurants stay open late.</span></span></div>
       </div>
+  </div></div>
+</div>
+
+
     </section>
 
     <!-- ═════════ INFO ═════════ -->
     <section class="screen" id="info" data-tab="info" aria-label="Good to know" hidden>
-      <h2 class="h-sec" id="practical">Money</h2>
-      <div class="conv">
+      <div class="sec open" id="practical">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="true" aria-controls="b-practical"><span class="ic"><svg class="i"><use href="#i-banknote"/></svg></span><span class="sec-tx"><span class="sec-t">Money</span><span class="sec-s">Currency converter and exchange tips</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-practical" role="region" aria-label="Money"><div class="sec-in">
+<div class="conv">
         <div class="cv-row">
           <label class="cv"><span class="cv-l">Euro</span><span class="cv-in"><input id="eur" inputmode="decimal" autocomplete="off" value="20" aria-label="Amount in euro"><span class="cv-u">€</span></span></label>
           <span class="cv-mid" aria-hidden="true"><svg class="i"><use href="#i-arrow-left-right"/></svg></span>
@@ -866,9 +992,13 @@ body { top: 0 !important; position: static !important; }
         <div class="row"><span class="ic"><svg class="i"><use href="#i-banknote"/></svg></span><span class="rx"><span class="rt">Exchanging money</span><span class="rb">Use banks or official exchange offices, and avoid hotel exchanges. ATMs are widely available.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-credit-card"/></svg></span><span class="rx"><span class="rt">Paying by card</span><span class="rb">Accepted almost everywhere except small local markets.</span></span></div>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">A few words</h2>
-      <p class="lede">Serbian is the official language, but English is widely spoken in restaurants and shops and by younger people. Locals appreciate these:</p>
+<div class="sec" id="words">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-words"><span class="ic"><svg class="i"><use href="#i-languages"/></svg></span><span class="sec-tx"><span class="sec-t">A few words</span><span class="sec-s">Six phrases locals appreciate</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-words" role="region" aria-label="A few words"><div class="sec-in">
+<p class="lede">Serbian is the official language, but English is widely spoken in restaurants and shops and by younger people. Locals appreciate these:</p>
       <div class="phrases">
         <div class="phrase"><span class="pw notranslate">Hvala</span><span class="pm">Thank you</span></div>
         <div class="phrase"><span class="pw notranslate">Molim</span><span class="pm">Please, you're welcome</span></div>
@@ -878,32 +1008,48 @@ body { top: 0 !important; position: static !important; }
         <div class="phrase"><span class="pw notranslate">Živeli!</span><span class="pm">Cheers!</span></div>
       </div>
       <p class="lede" style="margin-top:12px">Google Translate works well for menus.</p>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">Weather</h2>
-      <div class="group" id="seasons">
+<div class="sec" id="weather">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-weather"><span class="ic"><svg class="i"><use href="#i-cloud-sun"/></svg></span><span class="sec-tx"><span class="sec-t">Weather</span><span class="sec-s">What to expect in each season</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-weather" role="region" aria-label="Weather"><div class="sec-in">
+<div class="group" id="seasons">
         <div class="row season" data-months="4,5"><span class="ic"><svg class="i"><use href="#i-cloud-sun"/></svg></span><span class="rx"><span class="rt">Spring</span><span class="rb">April to May, mild and lovely</span></span><span class="badge" hidden>Now</span><span class="temp notranslate">15–22°</span></div>
         <div class="row season" data-months="6,7,8"><span class="ic"><svg class="i"><use href="#i-sun"/></svg></span><span class="rx"><span class="rt">Summer</span><span class="rb">June to August, hot</span></span><span class="badge" hidden>Now</span><span class="temp notranslate">25–38°</span></div>
         <div class="row season" data-months="9,10"><span class="ic"><svg class="i"><use href="#i-sunset"/></svg></span><span class="rx"><span class="rt">Autumn</span><span class="rb">September to October, golden and pleasant</span></span><span class="badge" hidden>Now</span><span class="temp notranslate">15–25°</span></div>
         <div class="row season" data-months="11,12,1,2,3"><span class="ic"><svg class="i"><use href="#i-snowflake"/></svg></span><span class="rx"><span class="rt">Winter</span><span class="rb">November to March, it can snow</span></span><span class="badge" hidden>Now</span><span class="temp notranslate">0–8°</span></div>
       </div>
       <p class="lede" style="margin-top:12px">The apartment has AC and heating for every season.</p>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">Belgrade timing</h2>
-      <div class="group">
+<div class="sec" id="timing">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-timing"><span class="ic"><svg class="i"><use href="#i-calendar-clock"/></svg></span><span class="sec-tx"><span class="sec-t">Belgrade timing</span><span class="sec-s">Time zone, meals and opening hours</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-timing" role="region" aria-label="Belgrade timing"><div class="sec-in">
+<div class="group">
         <div class="row"><span class="ic"><svg class="i"><use href="#i-globe"/></svg></span><span class="rx"><span class="rt">Central European Time</span><span class="rb">The same as Paris, Berlin and Rome.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-utensils"/></svg></span><span class="rx"><span class="rt">Late meals</span><span class="rb">Lunch is 13:00–15:00 and dinner rarely before 20:00. Nightlife doesn't start until midnight.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-store"/></svg></span><span class="rx"><span class="rt">Shops and banks</span><span class="rb">Shops open around 10:00 and many are open on Sundays. Banks close at 17:00 on weekdays.</span></span></div>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">Health and safety</h2>
-      <div class="group">
+<div class="sec" id="health">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-health"><span class="ic"><svg class="i"><use href="#i-heart-pulse"/></svg></span><span class="sec-tx"><span class="sec-t">Health and safety</span><span class="sec-s">Pharmacy and emergency numbers</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-health" role="region" aria-label="Health and safety"><div class="sec-in">
+<div class="group">
         <div class="row"><span class="ic"><svg class="i"><use href="#i-shield-check"/></svg></span><span class="rx"><span class="rt">Belgrade is very safe</span><span class="rb">Normal city precautions apply.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-heart-pulse"/></svg></span><span class="rx"><span class="rt">Pharmacy</span><span class="rb">The nearest one is within a 5 min walk.</span></span></div>
         <a class="row press" href="tel:194"><span class="ic"><svg class="i"><use href="#i-ambulance"/></svg></span><span class="rx"><span class="rt">Ambulance</span><span class="rb">Police 192, fire 193</span></span><span class="val notranslate">194</span></a>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec" id="house-rules">House rules</h2>
-      <div class="group rules">
+<div class="sec" id="house-rules">
+  <h2 class="sec-hd"><button class="sec-h" type="button" aria-expanded="false" aria-controls="b-house-rules"><span class="ic"><svg class="i"><use href="#i-shield-check"/></svg></span><span class="sec-tx"><span class="sec-t">House rules</span><span class="sec-s">Smoking, waste, noise, pets and guests</span></span><svg class="i chev"><use href="#i-chevron-down"/></svg></button></h2>
+  <div class="sec-b" id="b-house-rules" role="region" aria-label="House rules"><div class="sec-in">
+<div class="group rules">
         <details><summary><span class="ic"><svg class="i"><use href="#i-clock"/></svg></span><span class="rt">Check-in and check-out</span><svg class="i chev"><use href="#i-chevron-down"/></svg></summary>
           <p>Check-in from <b>15:00</b>, check-out by <b>11:00</b>. Early check-in or late check-out may be possible, so please ask the host in advance.</p></details>
         <details class="strict"><summary><span class="ic"><svg class="i"><use href="#i-cigarette-off"/></svg></span><span class="rt">No smoking</span><svg class="i chev"><use href="#i-chevron-down"/></svg></summary>
@@ -917,8 +1063,10 @@ body { top: 0 !important; position: static !important; }
         <details><summary><span class="ic"><svg class="i"><use href="#i-users"/></svg></span><span class="rt">Guests and parties</span><svg class="i chev"><use href="#i-chevron-down"/></svg></summary>
           <p>The apartment is for registered guests only. Unregistered visitors can't stay overnight, and parties or events aren't allowed.</p></details>
       </div>
+  </div></div>
+</div>
 
-      <h2 class="h-sec">This guide</h2>
+<h2 class="h-sec">This guide</h2>
       <div class="group">
         <button class="row press" type="button" data-open="langSheet"><span class="ic"><svg class="i"><use href="#i-languages"/></svg></span><span class="rx"><span class="rt">Language</span></span><span class="val notranslate" id="langName">English</span><svg class="i chev"><use href="#i-chevron-right"/></svg></button>
         <a class="row press" href="index.html"><span class="ic"><svg class="i"><use href="#i-house"/></svg></span><span class="rx"><span class="rt">The apartment</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg></a>
@@ -1205,7 +1353,7 @@ body { top: 0 !important; position: static !important; }
     var hash = opts.anchor || (tab === 'home' ? '' : tab);
     try { history.replaceState(null, '', location.pathname + location.search + (hash ? '#' + hash : '')); } catch (e) {}
     if (opts.anchor) {
-      pending = opts.anchor; toAnchor();
+      pending = opts.anchor; openFor(pending); toAnchor();
       requestAnimationFrame(function () { app.classList.remove('instant'); });
     } else {
       window.scrollTo(0, mem[tab] || 0);
@@ -1214,6 +1362,23 @@ body { top: 0 !important; position: static !important; }
     setTimeout(placeSun, 700);
     onScroll();
   }
+  $('#parkPill').addEventListener('click', function (e) {
+    e.preventDefault();
+    var t = $('#park'); if (t) t.scrollIntoView({ block: 'start', behavior: RM ? 'auto' : 'smooth' });
+  });
+
+  /* Collapsible sections */
+  function setSec(sec, open) {
+    sec.classList.toggle('open', open);
+    var b = $('.sec-h', sec); if (b) b.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  function openFor(id) {
+    var t = id && document.getElementById(id);
+    if (t && t.classList.contains('sec')) setSec(t, true);
+  }
+  $$('.sec-h').forEach(function (b) {
+    b.addEventListener('click', function () { var sec = b.closest('.sec'); setSec(sec, !sec.classList.contains('open')); });
+  });
   var pending = null;
   function toAnchor() { var t = pending && document.getElementById(pending); if (t) t.scrollIntoView({ block: 'start' }); }
   ['touchstart', 'wheel', 'keydown'].forEach(function (ev) { window.addEventListener(ev, function () { pending = null; }, { passive: true, once: true }); });
