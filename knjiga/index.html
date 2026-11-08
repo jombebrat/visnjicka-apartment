@@ -350,6 +350,69 @@ html, body { margin: 0; }
 .link { color: var(--you); font-weight: 600; text-decoration: underline; text-underline-offset: 2px; }
 .link.d-more { align-self: flex-start; margin: -4px 0 2px 14px; font-size: 14px; padding: 6px 0; }
 .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+/* Gradska taksa u formi, isplata, nova koverta */
+.tax-box { display: flex; flex-direction: column; gap: 6px; }
+.money input { color: var(--ink); }
+.cash-amt .seg .opt { height: 46px; }
+.rate-ok { color: var(--ok); font-weight: 600; }
+.hint b.num { color: var(--ink); font-weight: 600; }
+#p-amt { padding-right: 56px; }
+.opts.pay-chips { margin-top: -2px; }
+
+.cv-hero .cv-bal { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin: 8px 0 10px; }
+.cv-b { display: flex; flex-direction: column; gap: 2px; min-width: 0; padding: 12px 14px; border-radius: 16px; background: var(--surface-2); }
+.cv-b small { font-size: 13px; color: var(--muted); }
+.cv-b b { display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 4px; font-size: clamp(19px, 5.8vw, 24px); font-weight: 600; letter-spacing: -.02em; line-height: 1.15; }
+.cv-b b i { font-style: normal; font-size: 13px; font-weight: 600; color: var(--muted); letter-spacing: 0; }
+.cv-hero .hero-s { margin-bottom: 14px; }
+.cv-due { background: var(--kat-tint); border-radius: 20px; box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--kat) 30%, transparent); }
+.cv-due .ic { background: color-mix(in srgb, var(--kat) 22%, transparent); color: var(--kat-ink); }
+.cv-due .ra b { color: var(--kat-ink); }
+.cv-due .rs { color: var(--kat-ink); opacity: .85; }
+.cv-chev { color: var(--muted); flex: none; transition: transform .2s var(--ease); }
+.cv-due .cv-chev { color: var(--kat-ink); }
+.cv-sum table { width: 100%; border-collapse: collapse; font-size: 14.5px; }
+.cv-sum th { text-align: right; font-weight: 500; font-size: 12.5px; color: var(--muted); padding: 12px 16px 6px; }
+.cv-sum th:first-child { text-align: left; }
+.cv-sum td { padding: 8px 16px; border-top: 1px solid var(--line); }
+.cv-sum td:first-child { color: var(--muted); }
+.cv-sum td.num { text-align: right; font-weight: 500; }
+.cv-sum tr.in td.num { color: var(--ok); }
+.cv-sum tr.tot td { font-weight: 600; font-size: 15.5px; color: var(--ink); border-top: 1px solid var(--line-2); padding-top: 12px; padding-bottom: 13px; }
+.cv-sum tr.tot td:first-child { color: var(--ink); }
+.cv-z { color: var(--muted); }
+.cv-det { overflow: hidden; }
+.cv-det summary { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 14px 16px; font-weight: 600; font-size: 15px; cursor: pointer; list-style: none; }
+.cv-det summary::-webkit-details-marker { display: none; }
+.cv-det[open] > summary { border-bottom: 1px solid var(--line); }
+.cv-det[open] .cv-chev { transform: rotate(90deg); }
+.cv-a { display: flex; flex-direction: column; align-items: flex-end; flex: none; gap: 1px; text-align: right; }
+.cv-a b { font-weight: 600; font-size: 15.5px; white-space: nowrap; }
+.cv-a b.sm { font-size: 13px; font-weight: 500; }
+.cv-a b.pos { color: var(--ok); }
+.cv-a small { font-size: 12px; color: var(--muted); white-space: nowrap; }
+.cv-fh { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 14px 0 -4px; }
+.cv-fh .h2 { margin: 0 4px; }
+.cv-seg { grid-template-columns: repeat(3, auto); padding: 3px; border-radius: 12px; }
+.cv-seg button { height: 30px; padding: 0 12px; font-size: 13px; border-radius: 9px; }
+.cv-mh { display: flex; align-items: center; gap: 10px; width: 100%; padding: 12px 6px 2px; margin-top: 6px; }
+.cv-mn { flex: 1; min-width: 0; }
+.cv-mn b { display: block; font-size: 15px; font-weight: 600; }
+.cv-mn small { display: block; font-size: 12.5px; color: var(--muted); }
+.cv-mt { display: flex; flex-direction: column; align-items: flex-end; gap: 0; }
+.cv-mt b { font-size: 13.5px; font-weight: 600; }
+.cv-mt b.pos { color: var(--ok); }
+.cv-mh[aria-expanded="true"] .cv-chev { transform: rotate(90deg); }
+.cv-row { align-items: center; flex-wrap: wrap; gap: 6px 12px; }
+.cv-d { flex: none; width: 36px; text-align: center; line-height: 1.1; }
+.cv-d b { display: block; font-size: 17px; font-weight: 600; }
+.cv-d small { display: block; font-size: 11.5px; color: var(--muted); margin-top: 1px; }
+.row .rs.cv-m { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; line-height: 1.35; margin-top: 3px; }
+.cv-sub { flex: 0 0 100%; display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding-left: 48px; font-size: 13px; color: var(--muted); }
+.cv-sub b { font-weight: 600; white-space: nowrap; }
+.cv-sub b.pos { color: var(--ok); }
+.cv-lh { padding: 12px 16px 4px; font-size: 12.5px; font-weight: 600; color: var(--muted); }
 </style>
 </head>
 <body>
@@ -430,6 +493,13 @@ html, body { margin: 0; }
       <div class="field"><span>Gostiju</span>
         <div class="stepper"><button type="button" id="g-minus" aria-label="Manje gostiju">−</button><output id="f-guests">–</output><button type="button" id="g-plus" aria-label="Više gostiju">+</button></div>
       </div>
+    </div>
+    <div class="tax-box">
+      <div class="cash-amt">
+        <label class="field" id="w-ftax"><span>Gradska taksa</span><span class="money"><input id="f-tax" inputmode="decimal" autocomplete="off" placeholder="0"></span></label>
+        <div class="field"><span>Valuta takse</span><div class="seg two" id="f-taxcur" role="group" aria-label="Valuta takse"><button type="button" class="opt" data-v="EUR">€</button><button type="button" class="opt" data-v="RSD">RSD</button></div></div>
+      </div>
+      <p class="hint" id="f-taxhint"></p>
     </div>
     <div class="field"><span>Kanal</span>
       <div class="opts" id="f-channel">
@@ -528,15 +598,18 @@ html, body { margin: 0; }
   <div class="sh-head"><h2 id="payT">Isplata</h2><button type="button" class="sh-x" data-close aria-label="Zatvori"><svg class="i"><use href="#i-x"/></svg></button></div>
   <form class="sh-body" id="payForm" novalidate>
     <p class="d-sub" id="p-what"></p>
-    <div class="calc"><table>
-      <tr><td>Za isplatu u evrima</td><td class="num" id="p-eur"></td></tr>
-      <tr class="tot" id="p-rsdrow"><td>U dinarima</td><td class="num" id="p-rsd"></td></tr>
-    </table></div>
     <div class="field"><span>Isplaćujem iz koverte u</span>
       <div class="seg two" id="p-cur" role="group" aria-label="Valuta isplate"><button type="button" class="opt" data-v="EUR">Evrima</button><button type="button" class="opt" data-v="RSD">Dinarima</button></div>
     </div>
     <label class="field" id="w-prate"><span>Kurs: 1 € = ? dinara</span><input id="p-rate" inputmode="decimal" autocomplete="off"></label>
-    <p class="hint" id="p-live" hidden></p>
+    <p class="hint" id="p-live"></p>
+    <div class="calc"><table style="margin-top:0">
+      <tr><td>Po obračunu u evrima</td><td class="num" id="p-eur"></td></tr>
+      <tr class="sub" id="p-rsdrow"><td>Po obračunu u dinarima</td><td class="num" id="p-rsd"></td></tr>
+    </table></div>
+    <label class="field" id="w-pamt"><span id="p-amt-l">Iznos koji dajem</span><span class="money"><input id="p-amt" inputmode="decimal" autocomplete="off"><em id="p-amt-u">€</em></span></label>
+    <div class="opts pay-chips" id="p-chips"></div>
+    <p class="hint" id="p-diff"></p>
     <p class="hint" id="p-bal"></p>
     <button type="submit" class="btn kat wide press" id="p-save">Potvrdi isplatu</button>
   </form>
@@ -598,6 +671,15 @@ html, body { margin: 0; }
   function noShare(b) { return !(+b.katPct) && !(+b.cleaning); }
   function viaAirbnb(b) { return b.channel === 'airbnb'; }
   function parseNum(s) { if (s == null) return NaN; s = String(s).trim().replace(/\s/g, ''); if (/,\d{1,2}$/.test(s)) s = s.replace(/\./g, '').replace(',', '.'); else s = s.replace(/,/g, ''); return s === '' ? NaN : Number(s); }
+  function parseRsd(s) {
+    if (s == null) return NaN; s = String(s).trim().replace(/[\s\u00a0]/g, ''); if (s === '') return NaN;
+    if (/^\d{1,3}(\.\d{3})+(,\d{1,2})?$/.test(s)) return Number(s.replace(/\./g, '').replace(',', '.'));
+    if (/^\d+,\d{1,2}$/.test(s)) return Number(s.replace(',', '.'));
+    if (/^\d{1,3}(,\d{3})+$/.test(s)) return Number(s.replace(/,/g, ''));
+    return Number(s);
+  }
+  function parseAmt(s, cur) { return cur === 'RSD' ? parseRsd(s) : parseNum(s); }
+  function parseRate(s) { if (s == null) return NaN; s = String(s).trim().replace(/\s/g, '').replace(',', '.'); return s === '' ? NaN : Number(s); }
   function iso(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
   function today() { return iso(new Date()); }
   function dn(s) { var p = s.split('-'); return Date.UTC(+p[0], +p[1] - 1, +p[2]) / 864e5; }
@@ -1047,7 +1129,7 @@ html, body { margin: 0; }
       html += '<button type="button" class="switch-row" role="switch" id="d-status" aria-checked="' + (b.status === 'naplaceno') + '"' + dis + '><span class="rx"><span class="rt">Naplaćeno</span><span class="rs">' + (viaAirbnb(b) ? (b.status === 'naplaceno' ? 'Isplatio Airbnb, na račun. Ne ulazi u kovertu.' : 'Kad Airbnb isplati, uključi. Ne ulazi u kovertu.')
         : b.status === 'naplaceno' ? esc(paidLine(b)) : 'Kad gost plati, uključi pa izaberi evre ili dinare i upiši gradsku taksu') + '</span></span><span class="sw"></span></button>';
       if (b.status === 'naplaceno' && state.canWrite && !viaAirbnb(b)) html += '<button type="button" class="link d-more" id="d-collect">Izmeni naplatu ili gradsku taksu</button>';
-      if (!noShare(b)) html += '<button type="button" class="switch-row k" role="switch" id="d-kat" aria-checked="' + !!b.katPaid + '"' + disK + '><span class="rx"><span class="rt">Isplaćeno ' + esc(partnerGen()) + '</span><span class="rs">' + (b.katPaid ? (b.katPaidAt ? longDate(b.katPaidAt) + (b.katPaidCur === 'RSD' ? ', u dinarima' : ', u evrima') + ', iz koverte' : 'Pre aplikacije') : eur(c.katTotal) + ' za isplatu iz koverte') + '</span></span><span class="sw"></span></button>';
+      if (!noShare(b)) html += '<button type="button" class="switch-row k" role="switch" id="d-kat" aria-checked="' + !!b.katPaid + '"' + disK + '><span class="rx"><span class="rt">Isplaćeno ' + esc(partnerGen()) + '</span><span class="rs">' + (b.katPaid ? katPaidLine(b) : eur(c.katTotal) + ' za isplatu iz koverte') + '</span></span><span class="sw"></span></button>';
     }
     if (state.canWrite) {
       if (confirmDel) html += '<p class="warn">Obrisati ovu rezervaciju? Ovo ne može da se vrati.</p><div class="d-actions"><button type="button" class="btn danger press" id="d-delYes">' + icon('trash-2') + 'Obriši</button><button type="button" class="btn press" id="d-delNo">Odustani</button></div>';
@@ -1071,6 +1153,11 @@ html, body { margin: 0; }
     var d3 = $('#d-delYes', el); if (d3) d3.addEventListener('click', function () { remove(b.id); });
   }
 
+  function katPaidLine(b) {
+    if (!b.katPaidAt) return 'Pre aplikacije';
+    var e = CASH.find(function (x) { return x.kind === 'partner' && x.bookingId === b.id; });
+    return longDate(b.katPaidAt) + ', ' + (e ? money(e.amount, e.cur) : (b.katPaidCur === 'RSD' ? 'u dinarima' : 'u evrima')) + ', iz koverte';
+  }
   function renderOwnDetail(b) {
     var c = calc(b);
     $('#detT').textContent = guestName(b);
@@ -1087,7 +1174,7 @@ html, body { margin: 0; }
         '<tr class="k"><td><span class="dot" style="background:var(--kat)"></span>Tvoj deo ' + pctTxt(+b.katPct || 0) + '</td><td class="num">' + eur(c.kat) + '</td></tr>' +
         '<tr class="tot"><td>Ukupno tvoje</td><td class="num" style="color:var(--kat-ink)">' + eur(c.katTotal) + '</td></tr></table></div>';
       html += '<button type="button" class="switch-row k" role="switch" id="d-kat" aria-checked="' + !!b.katPaid + '"><span class="rx"><span class="rt">Uzela sam svoj deo</span><span class="rs">' +
-        (b.katPaid ? (b.katPaidAt ? longDate(b.katPaidAt) + (b.katPaidCur === 'RSD' ? ', u dinarima' : ', u evrima') + ', iz koverte' : 'Pre aplikacije') : eur(c.katTotal) + ' iz koverte') +
+        (b.katPaid ? katPaidLine(b) : eur(c.katTotal) + ' iz koverte') +
         '</span></span><span class="sw"></span></button>';
     }
     var el = $('#det'); el.innerHTML = html;
@@ -1099,7 +1186,7 @@ html, body { margin: 0; }
   }
 
   /* ───── form ───── */
-  var editing = null, fGuests = null, fChannel = 'booking', fStatus = 'ceka', pctTouched = false, fPctShown = '';
+  var editing = null, fGuests = null, fChannel = 'booking', fStatus = 'ceka', pctTouched = false, fPctShown = '', fTaxCur = 'RSD';
   function setOpt(groupId, v) { $$('#' + groupId + ' .opt').forEach(function (o) { o.setAttribute('aria-pressed', o.dataset.v === v ? 'true' : 'false'); }); }
   function openForm(b) {
     editing = b || null; pctTouched = !!b;
@@ -1115,6 +1202,8 @@ html, body { margin: 0; }
     fStatus = b ? (b.status || 'ceka') : 'ceka';
     $('#f-pct').value = fPctShown = String(Math.round((b ? b.commissionPct : S.commission[fChannel]) * 100) / 100).replace('.', ',');
     $('#f-note').value = b ? (b.note || '') : '';
+    $('#f-tax').value = b && b.cityTax > 0 ? amtTxt(b.cityTax, b.cityTaxCur) : '';
+    fTaxCur = b && b.cityTax > 0 ? b.cityTaxCur : lastTaxCur(); setOpt('f-taxcur', fTaxCur);
     setOpt('f-channel', fChannel); setOpt('f-status', fStatus);
     $$('.field.err').forEach(function (f) { f.classList.remove('err'); });
     updateForm();
@@ -1127,6 +1216,7 @@ html, body { margin: 0; }
       guest: $('#f-guest').value.trim(), checkIn: $('#f-in').value, checkOut: $('#f-out').value,
       gross: parseNum($('#f-gross').value), guests: fGuests, channel: fChannel, resNumber: $('#f-res').value.replace(/[^0-9A-Za-z]/g, '').toUpperCase(),
       commissionPct: editing && $('#f-pct').value === fPctShown ? editing.commissionPct : parseNum($('#f-pct').value), status: fStatus, note: $('#f-note').value.trim(),
+      cityTaxRaw: $('#f-tax').value.trim(), cityTax: parseAmt($('#f-tax').value, fTaxCur),
       katPct: editing ? editing.katPct : S.katPct, cleaning: editing ? editing.cleaning : S.cleaning
     };
   }
@@ -1146,6 +1236,9 @@ html, body { margin: 0; }
       var c = calc({ gross: d.gross, commissionPct: d.commissionPct, katPct: d.katPct, cleaning: d.cleaning, checkIn: d.checkIn, checkOut: d.checkOut });
       box.innerHTML = splitHtml(c) + calcTable(c, d);
     } else box.innerHTML = '<p class="hint">Unesi bruto iznos i ovde vidiš podelu: provizija, ' + esc(partner()) + ' i tvoj deo.</p>';
+    var th = $('#f-taxhint');
+    th.textContent = 'Ostaje tebi, ne deli se sa ' + partnerIns() + '.' +
+      (d.channel === 'airbnb' ? ' Airbnb ne ulazi u kovertu.' : (editing && editing.status === 'naplaceno' && fStatus === 'naplaceno' ? ' Menja i upis u koverti.' : ' U kovertu ulazi kad naplatiš.'));
   }
   ['f-guest', 'f-in', 'f-out', 'f-gross', 'f-note', 'f-res'].forEach(function (id) { $('#' + id).addEventListener('input', updateForm); });
   $('#f-pct').addEventListener('input', function () { pctTouched = true; updateForm(); });
@@ -1163,6 +1256,8 @@ html, body { margin: 0; }
       updateForm();
     });
   });
+  $$('#f-taxcur .opt').forEach(function (o) { o.addEventListener('click', function () { fTaxCur = o.dataset.v; setOpt('f-taxcur', fTaxCur); updateForm(); }); });
+  $('#f-tax').addEventListener('input', updateForm);
   $$('#f-status .opt').forEach(function (o) { o.addEventListener('click', function () { fStatus = o.dataset.v; setOpt('f-status', fStatus); }); });
 
   $('#form').addEventListener('submit', function (e) {
@@ -1173,12 +1268,15 @@ html, body { margin: 0; }
     if (!validDate(d.checkOut) || (validDate(d.checkIn) && d.checkOut <= d.checkIn)) { $('#w-out').classList.add('err'); bad = true; }
     if (!(d.gross > 0)) { $('#w-gross').classList.add('err'); bad = true; }
     if (!isFinite(d.commissionPct) || d.commissionPct < 0 || d.commissionPct > 100) { bad = true; toast('Provizija mora biti između 0 i 100%', false); return; }
+    var tax = d.cityTaxRaw === '' ? 0 : d.cityTax;
+    if (!(tax >= 0) || tax >= 1000000) { $('#w-ftax').classList.add('err'); toast('Proveri iznos takse', false); return; }
     if (bad) { toast('Popuni označena polja', false); return; }
     var row = {
       guest: d.guest, check_in: d.checkIn, check_out: d.checkOut, guests: d.guests || null,
       gross: Math.round(d.gross * 100) / 100, channel: d.channel, commission_pct: d.commissionPct,
       kat_pct: +d.katPct, cleaning: +d.cleaning, status: d.status, res_number: d.resNumber || null,
-      note: d.note, review: false
+      note: d.note, review: false,
+      city_tax: tax > 0 ? Math.round(tax * 100) / 100 : null, city_tax_currency: fTaxCur
     };
     if (!editing) { row.n = B.reduce(function (m, b) { return Math.max(m, +b.n || 0); }, 0) + 1; row.source = 'app'; }
     var wantPaid = d.status === 'naplaceno' && !(editing && editing.status === 'naplaceno') && d.channel !== 'airbnb';
@@ -1338,7 +1436,7 @@ html, body { margin: 0; }
   var IN_CATS = ['Rezervacija', 'Gradska taksa', 'Početno stanje', 'Ostali prihod'];
   var OUT_CATS = ['Kupovina za stan', 'Troškovi održavanja', 'Isplata partneru', 'Booking provizija', 'Računi', 'Uzeto za sebe', 'Ostalo'];
   function catName(c) { return c === 'Isplata partneru' ? 'Isplata ' + partnerGen() : c; }
-  function fromCash(r) { return { id: r.id, date: r.entry_date, dir: r.direction, amount: Number(r.amount), cur: r.currency, cat: r.category, note: r.note || '', kind: r.kind, bookingId: r.booking_id, groupId: r.group_id }; }
+  function fromCash(r) { return { id: r.id, date: r.entry_date, dir: r.direction, amount: Number(r.amount), cur: r.currency, cat: r.category, note: r.note || '', kind: r.kind, bookingId: r.booking_id, groupId: r.group_id, at: r.created_at || '' }; }
   function money(v, cur) {
     var c = Math.round(v * 100);
     if (cur === 'RSD') { var a = Math.abs(c), d = a % 100; return (c < 0 ? '−' : '') + grp(Math.floor(a / 100)) + (d ? ',' + String(d).padStart(2, '0') : '') + NB + 'RSD'; }
@@ -1360,65 +1458,177 @@ html, body { margin: 0; }
   }
   function both(x) { var p = []; if (x.EUR) p.push(money(x.EUR, 'EUR')); if (x.RSD) p.push(money(x.RSD, 'RSD')); return p.join(' + ') || money(0, 'EUR'); }
 
+  function dueList() {
+    var t = today();
+    return sorted(B.filter(function (b) { return valid(b) && !b.katPaid && !noShare(b) && b.checkOut <= t; }), 'asc');
+  }
+  var cashCur = 'all', cashOpen = {};
+  function plain(v, cur) { return money(v, cur).split(NB + 'RSD').join('').split(NB + '€').join(''); }
+  function cents(v) { return Math.round(v * 100); }
+  function cashRunning() {
+    var asc = CASH.slice().sort(function (a, z) { return a.date < z.date ? -1 : a.date > z.date ? 1 : (a.at || '') < (z.at || '') ? -1 : (a.at || '') > (z.at || '') ? 1 : 0; });
+    var c = { EUR: 0, RSD: 0 };
+    asc.forEach(function (e, i) { c[e.cur] += (e.dir === 'in' ? 1 : -1) * cents(e.amount); e.after = c[e.cur] / 100; e.ix = i; });
+    return asc;
+  }
+  function cashItems(list) {
+    var items = [], byB = {}, byG = {}, used = {};
+    list.forEach(function (e) {
+      if (e.bookingId && (e.kind === 'booking' || e.kind === 'city_tax')) (byB[e.bookingId] = byB[e.bookingId] || {})[e.kind] = e;
+      if (e.groupId && e.kind === 'exchange') (byG[e.groupId] = byG[e.groupId] || []).push(e);
+    });
+    list.forEach(function (e) {
+      if (used[e.id]) return;
+      if (e.bookingId && (e.kind === 'booking' || e.kind === 'city_tax')) {
+        var g = byB[e.bookingId], main = g.booking || g.city_tax;
+        used[main.id] = 1; if (g.booking && g.city_tax) used[g.city_tax.id] = 1;
+        items.push({ t: g.booking ? 'pay' : 'tax', e: main, tax: g.booking ? g.city_tax || null : null, date: main.date, at: main.at });
+        return;
+      }
+      if (e.groupId && e.kind === 'exchange' && byG[e.groupId].length === 2) {
+        var p = byG[e.groupId]; p.forEach(function (x) { used[x.id] = 1; });
+        var o = p[0].dir === 'out' ? p[0] : p[1], n = p[0].dir === 'in' ? p[0] : p[1];
+        items.push({ t: 'ex', e: o, out: o, inn: n, date: e.date, at: e.at });
+        return;
+      }
+      used[e.id] = 1; items.push({ t: 'one', e: e, date: e.date, at: e.at });
+    });
+    items.sort(function (a, z) { return a.date < z.date ? 1 : a.date > z.date ? -1 : (a.at || '') < (z.at || '') ? 1 : (a.at || '') > (z.at || '') ? -1 : 0; });
+    return items;
+  }
+  function amtHtml(e, small, label) {
+    return '<b class="num' + (e.dir === 'in' ? ' pos' : '') + (small ? ' sm' : '') + '">' + (label ? label + ' ' : '') + (e.dir === 'in' ? '+' : '−') + money(e.amount, e.cur) + '</b>';
+  }
+  function cashRowHtml(it, showBal) {
+    var e = it.e, title, meta = '', sub = '', amts, after = e.after;
+    var bk = it.t === 'pay' || it.t === 'tax' || e.kind === 'partner';
+    var m = bk ? e.note.match(/^(.*?)\s*\(([^)]*)\)(?:,\s*(.*))?$/) : null;
+    var nm = m ? m[1] : e.note, arr = m && m[2] ? 'dolazak' + NB + m[2] : '', extra = m && m[3] ? m[3] : '';
+    if (it.t === 'pay' || it.t === 'tax') {
+      title = nm || 'Gost';
+      meta = (it.t === 'pay' ? 'Naplata' : 'Gradska taksa') + (arr ? ', ' + arr : '');
+      amts = amtHtml(e);
+      if (it.tax) sub = '<span class="cv-sub"><span>Gradska taksa, samo tvoja</span><b class="num pos">+' + money(it.tax.amount, it.tax.cur) + '</b></span>';
+      if (it.tax && it.tax.cur === e.cur && it.tax.ix > e.ix) after = it.tax.after;
+    } else if (it.t === 'ex') {
+      var eurE = it.out.cur === 'EUR' ? it.out : it.inn, rsdE = it.out.cur === 'RSD' ? it.out : it.inn;
+      title = 'Zamena valute';
+      meta = (eurE.amount > 0 && rsdE.amount > 0 ? 'po kursu ' + fmtRate(rsdE.amount / eurE.amount) : '') + (e.note ? (eurE.amount > 0 ? ', ' : '') + e.note : '');
+      amts = amtHtml(it.out) + amtHtml(it.inn);
+    } else if (e.kind === 'exchange') {
+      title = 'Zamena valute';
+      var mate = CASH.filter(function (x) { return x.groupId && x.groupId === e.groupId && x.id !== e.id; })[0];
+      meta = mate ? (e.dir === 'out' ? 'za ' : 'iz ') + money(mate.amount, mate.cur) : '';
+      amts = amtHtml(e);
+    } else if (e.kind === 'partner') {
+      title = catName(e.cat);
+      meta = nm + (arr ? ', ' + arr : '');
+      if (extra) sub = '<span class="cv-sub"><span>' + esc(extra) + '</span></span>';
+      amts = amtHtml(e);
+    } else {
+      title = catName(e.cat);
+      meta = e.note;
+      amts = amtHtml(e);
+    }
+    var ds = e.date.split('-');
+    return '<li><button type="button" class="row cv-row press" data-cash-id="' + esc(e.id) + '">' +
+      '<span class="cv-d"><b>' + (+ds[2]) + '</b><small>' + MON[+ds[1] - 1] + '</small></span>' +
+      '<span class="rx"><span class="rt">' + esc(title) + '</span>' + (meta ? '<span class="rs cv-m">' + esc(meta) + '</span>' : '') + '</span>' +
+      '<span class="cv-a">' + amts + (showBal ? '<small class="num">stanje ' + money(after, e.cur) + '</small>' : '') + '</span>' + sub + '</button></li>';
+  }
+  function cashSummary(year) {
+    var from = year + '-01-01', to = year + '-12-31';
+    var Z = function () { return { EUR: 0, RSD: 0 }; };
+    var start = Z(), open = Z(), inc = Z(), out = Z(), exc = Z(), end = Z(), catsIn = {}, catsOut = {};
+    CASH.forEach(function (e) {
+      var v = (e.dir === 'in' ? 1 : -1) * cents(e.amount);
+      if (e.date < from) { start[e.cur] += v; end[e.cur] += v; return; }
+      if (e.date > to) return;
+      end[e.cur] += v;
+      if (e.kind === 'exchange') { exc[e.cur] += v; return; }
+      var bucket = e.dir === 'in' ? catsIn : catsOut, c = bucket[e.cat] || (bucket[e.cat] = { n: 0, EUR: 0, RSD: 0 });
+      c.n++; c[e.cur] += e.amount;
+      if (e.dir === 'in') { if (e.cat === 'Početno stanje') open[e.cur] += v; else inc[e.cur] += v; }
+      else out[e.cur] += -v;
+    });
+    function cell(v, cur, sign) { return v ? (sign && v > 0 ? '+' : '') + plain(v / 100, cur) : '<span class="cv-z">–</span>'; }
+    function row(label, o, cls, sign) {
+      return '<tr' + (cls ? ' class="' + cls + '"' : '') + '><td>' + label + '</td><td class="num">' + cell(o.EUR, 'EUR', sign) + '</td><td class="num">' + cell(o.RSD, 'RSD', sign) + '</td></tr>';
+    }
+    var neg = function (o) { return { EUR: -o.EUR, RSD: -o.RSD }; };
+    var any = function (o) { return o.EUR || o.RSD; };
+    var now = year === new Date().getFullYear();
+    var h = '<div class="panel cv-sum"><table><thead><tr><th></th><th>Evri</th><th>Dinari</th></tr></thead>' +
+      (any(start) ? row('Na početku godine', start) : '') + (any(open) ? row('Početno stanje', open, '', true) : '') +
+      row('Ušlo', inc, 'in', true) + row('Izašlo', neg(out), '', true) + (any(exc) ? row('Zamena valute', exc, '', true) : '') +
+      row(now ? 'Sada u koverti' : 'Na kraju godine', end, 'tot') + '</table></div>';
+    function list(title, cats, order, ico) {
+      var keys = order.filter(function (k) { return cats[k]; }).concat(Object.keys(cats).filter(function (k) { return order.indexOf(k) < 0; }));
+      if (!keys.length) return '';
+      return '<li class="cv-lh">' + title + '</li>' + keys.map(function (k) {
+        var c = cats[k];
+        return '<li><div class="row"><span class="ic' + (ico === 'in' ? ' in' : '') + '">' + icon(catIcon(k, ico)) + '</span><span class="rx"><span class="rt">' + esc(catName(k)) + '</span><span class="rs">' + plural(c.n, 'stavka', 'stavke', 'stavki') + '</span></span><span class="cv-a">' +
+          (c.EUR ? '<b class="num">' + money(c.EUR, 'EUR') + '</b>' : '') + (c.RSD ? '<b class="num">' + money(c.RSD, 'RSD') + '</b>' : '') + '</span></div></li>';
+      }).join('');
+    }
+    delete catsIn['Početno stanje'];
+    var inner = list('Ušlo', catsIn, IN_CATS, 'in') + list('Izašlo', catsOut, OUT_CATS, 'out');
+    return h + (inner ? '<details class="panel cv-det"><summary><span>Po vrstama</span>' + icon('chevron-right', 'cv-chev') + '</summary><ul class="rows">' + inner + '</ul></details>' : '');
+  }
   function renderCash() {
     var el = $('#v-koverta');
     if (!state.loaded) { el.innerHTML = loadingHtml(); return; }
-    var bal = balances(CASH);
+    var asc = cashRunning(), bal = balances(CASH);
     var last = CASH.reduce(function (m, e) { return e.date > m ? e.date : m; }, '');
-    var html = '<div class="panel cash-hero"><p class="hero-l">U koverti</p>' +
-      '<div class="bal"><p class="hero-n num">' + money(bal.EUR, 'EUR') + '</p><p class="bal-2 num">' + money(bal.RSD, 'RSD') + '</p></div>' +
+    var html = '<div class="panel cash-hero cv-hero"><p class="hero-l">U koverti</p><div class="cv-bal">' +
+      '<div class="cv-b"><small>Evri</small><b class="num">' + plain(bal.EUR, 'EUR') + '<i>€</i></b></div>' +
+      '<div class="cv-b"><small>Dinari</small><b class="num">' + plain(bal.RSD, 'RSD') + '<i>RSD</i></b></div></div>' +
       '<p class="hero-s">' + (last ? 'Poslednja promena ' + longDate(last) : 'Još nema upisa.') + '</p>';
     if (state.canCash) html += '<div class="cash-actions"><button type="button" class="btn primary press" data-cash="in">' + icon('plus') + 'Ulaz</button>' +
       '<button type="button" class="btn press" data-cash="out">' + icon('minus') + 'Izlaz</button>' +
       '<button type="button" class="btn press" id="cashEx">' + icon('arrow-left-right') + 'Zamena</button></div>';
     html += '</div>';
+    var due = state.canCash ? dueList() : [];
+    if (due.length) html += '<button type="button" class="row cv-due press" id="cvDue"><span class="ic">' + icon('hand-coins') + '</span><span class="rx"><span class="rt">' +
+      (state.role === 'partner' ? 'Tvoj deo za uzimanje' : 'Za isplatu ' + esc(partnerGen())) + '</span><span class="rs">' + boravak(due.length) + ', iz koverte</span></span><span class="ra"><b class="num">' + eur(sum(due, 'katTotal')) + '</b></span>' + icon('chevron-right', 'cv-chev') + '</button>';
     if (!CASH.length) {
       html += '<div class="panel empty"><b>Koverta je prazna</b>' +
         (state.canCash ? 'Upiši koliko gotovine je sada u koverti. Posle se puni sama: rezervacija koju označiš kao naplaćenu ulazi ovde, a isplate ' + esc(partnerGen()) + ' izlaze.<br><br><button type="button" class="btn primary press" id="cashStart">Upiši početno stanje</button>'
           : 'Ovde će se videti gotovina od gostiju, troškovi i isplate.') + '</div>';
     } else {
-      var yl = CASH.filter(function (e) { return +e.date.slice(0, 4) === state.year; });
-      var inc = { EUR: 0, RSD: 0 }, cats = {};
-      yl.forEach(function (e) {
-        if (e.kind === 'exchange') return;
-        if (e.dir === 'in') { if (e.cat !== 'Početno stanje') inc[e.cur] += e.amount; return; }
-        var c = cats[e.cat] || (cats[e.cat] = { n: 0, EUR: 0, RSD: 0 });
-        c.n++; c[e.cur] += e.amount;
-      });
-      var keys = OUT_CATS.filter(function (k) { return cats[k]; }).concat(Object.keys(cats).filter(function (k) { return OUT_CATS.indexOf(k) < 0; }));
-      html += '<h2 class="h2">U ' + state.year + '.</h2><ul class="panel rows">' +
-        '<li><div class="row"><span class="ic in">' + icon('plus') + '</span><span class="rx"><span class="rt">Ušlo</span><span class="rs">gotovina od gostiju i ostali prihodi</span></span><span class="ra"><b class="num pos">' + both(inc) + '</b></span></div></li>' +
-        keys.map(function (k) {
-          var c = cats[k];
-          return '<li><div class="row"><span class="ic">' + icon(catIcon(k, 'out')) + '</span><span class="rx"><span class="rt">' + esc(catName(k)) + '</span><span class="rs">' + plural(c.n, 'stavka', 'stavke', 'stavki') + '</span></span><span class="ra"><b class="num">' + both(c) + '</b></span></div></li>';
-        }).join('') + '</ul>';
-      var groups = {};
-      yl.forEach(function (e) { var k = e.date.slice(0, 7); (groups[k] = groups[k] || []).push(e); });
-      var gk = Object.keys(groups).sort().reverse();
-      if (!gk.length) html += '<div class="panel empty">Nema upisa u ' + state.year + '.</div>';
-      gk.forEach(function (k) {
-        var m = +k.slice(5) - 1;
-        html += '<div class="group-h"><h3>' + cap(MONF[m]) + '</h3><span>' + plural(groups[k].length, 'upis', 'upisa', 'upisa') + '</span></div><ul class="panel rows">' +
-          groups[k].map(function (e) {
-            var paren = (e.note.match(/\(([^)]*)\)\s*$/) || [])[1];
-            var title = e.kind === 'booking' ? (e.note.replace(/\s*\([^)]*\)\s*$/, '') || 'Rezervacija') : catName(e.cat);
-            var sub = dayLbl(e.date) + (e.kind === 'booking' ? ', gotovina' + (paren ? ', dolazak ' + paren : '')
-              : e.kind === 'city_tax' ? ', ' + (e.note.replace(/\s*\([^)]*\)\s*$/, '') || 'gost') + (paren ? ', dolazak ' + paren : '')
-              : (e.note ? ', ' + e.note : ''));
-            return '<li><button type="button" class="row press" data-cash-id="' + esc(e.id) + '"><span class="ic' + (e.dir === 'in' ? ' in' : '') + '">' + icon(catIcon(e.cat, e.dir)) + '</span>' +
-              '<span class="rx"><span class="rt">' + esc(title) + '</span><span class="rs">' + esc(sub) + '</span></span>' +
-              '<span class="ra"><b class="num' + (e.dir === 'in' ? ' pos' : '') + '">' + (e.dir === 'in' ? '+' : '−') + money(e.amount, e.cur) + '</b></span></button></li>';
-          }).join('') + '</ul>';
+      html += '<h2 class="h2">U ' + state.year + '.</h2>' + cashSummary(state.year);
+      var yl = asc.filter(function (e) { return +e.date.slice(0, 4) === state.year && (cashCur === 'all' || e.cur === cashCur); });
+      html += '<div class="cv-fh"><h2 class="h2">Kretanje</h2><div class="seg cv-seg" id="cvFilter" role="group" aria-label="Valuta">' +
+        [['all', 'Sve'], ['EUR', 'Evri'], ['RSD', 'Dinari']].map(function (o) { return '<button type="button" data-v="' + o[0] + '" aria-pressed="' + (cashCur === o[0]) + '">' + o[1] + '</button>'; }).join('') + '</div></div>';
+      var items = cashItems(yl), months = {}, mk = [];
+      items.forEach(function (it) { var k = it.date.slice(0, 7); if (!months[k]) { months[k] = []; mk.push(k); } months[k].push(it); });
+      if (!mk.length) html += '<div class="panel empty">Nema upisa u ' + state.year + '.' + (cashCur !== 'all' ? ' Probaj „Sve“.' : '') + '</div>';
+      mk.forEach(function (k, i) {
+        var list = months[k], m = +k.slice(5) - 1, net = { EUR: 0, RSD: 0 };
+        yl.forEach(function (e) { if (e.date.slice(0, 7) === k) net[e.cur] += (e.dir === 'in' ? 1 : -1) * cents(e.amount); });
+        var open = cashOpen[k] != null ? cashOpen[k] : i < 2;
+        var tot = ['EUR', 'RSD'].filter(function (c) { return net[c] !== 0 && (cashCur === 'all' || cashCur === c); }).map(function (c) {
+          return '<b class="num' + (net[c] > 0 ? ' pos' : '') + '">' + (net[c] > 0 ? '+' : '') + money(net[c] / 100, c) + '</b>';
+        }).join('');
+        html += '<button type="button" class="cv-mh" data-m="' + k + '" aria-expanded="' + open + '"><span class="cv-mn"><b>' + cap(MONF[m]) + '</b><small>' + plural(list.length, 'upis', 'upisa', 'upisa') + ', promena u mesecu</small></span>' +
+          '<span class="cv-mt">' + tot + '</span>' + icon('chevron-right', 'cv-chev') + '</button>';
+        if (open) html += '<ul class="panel rows">' + list.map(function (it) { return cashRowHtml(it, cashCur !== 'all'); }).join('') + '</ul>';
       });
     }
     el.innerHTML = html;
     $$('[data-cash]', el).forEach(function (b) { b.addEventListener('click', function () { openCash(null, b.dataset.cash); }); });
     var ex = $('#cashEx', el); if (ex) ex.addEventListener('click', openExchange);
     var st = $('#cashStart', el); if (st) st.addEventListener('click', function () { openCash(null, 'in', 'Početno stanje'); });
+    var du = $('#cvDue', el); if (du) du.addEventListener('click', function () { openPay(dueList()); });
+    $$('#cvFilter button', el).forEach(function (b) { b.addEventListener('click', function () { cashCur = b.dataset.v; renderCash(); }); });
+    $$('.cv-mh', el).forEach(function (b) {
+      b.addEventListener('click', function () { cashOpen[b.dataset.m] = b.getAttribute('aria-expanded') !== 'true'; renderCash(); });
+    });
     $$('[data-cash-id]', el).forEach(function (b) {
       b.addEventListener('click', function () { var e = CASH.find(function (x) { return x.id === b.dataset.cashId; }); if (e && state.canCash) openCash(e); });
     });
   }
+
 
   var cashEditing = null, cDir = 'in', cCur = 'EUR', cCat = 'Ostali prihod', cashDel = false;
   function catsFor(dir) { return dir === 'in' ? IN_CATS : OUT_CATS; }
@@ -1471,7 +1681,7 @@ html, body { margin: 0; }
   $$('#c-cur .opt').forEach(function (o) { o.addEventListener('click', function () { cCur = o.dataset.v; setOpt('c-cur', cCur); }); });
   $('#cashForm').addEventListener('submit', function (ev) {
     ev.preventDefault();
-    var amount = parseNum($('#c-amount').value), date = $('#c-date').value, bad = false;
+    var amount = parseAmt($('#c-amount').value, cCur), date = $('#c-date').value, bad = false;
     $$('#cashForm .field.err').forEach(function (f) { f.classList.remove('err'); });
     if (!(amount > 0)) { $('#w-camount').classList.add('err'); bad = true; }
     if (!validDate(date)) { $('#w-cdate').classList.add('err'); bad = true; }
@@ -1485,7 +1695,7 @@ html, body { margin: 0; }
   function updEx() {
     $('#x-give-u').textContent = exFrom === 'EUR' ? '€' : 'RSD';
     $('#x-get-u').textContent = exFrom === 'EUR' ? 'RSD' : '€';
-    var g = parseNum($('#x-give').value), t = parseNum($('#x-get').value);
+    var g = parseAmt($('#x-give').value, exFrom), t = parseAmt($('#x-get').value, exFrom === 'EUR' ? 'RSD' : 'EUR');
     $('#x-rate').textContent = g > 0 && t > 0 ? 'Kurs: 1 € = ' + (exFrom === 'EUR' ? t / g : g / t).toFixed(2).replace('.', ',') + ' RSD' : 'Upiši koliko si dao i koliko si dobio.';
   }
   function openExchange() {
@@ -1499,7 +1709,7 @@ html, body { margin: 0; }
   ['x-give', 'x-get'].forEach(function (id) { $('#' + id).addEventListener('input', updEx); });
   $('#exForm').addEventListener('submit', function (ev) {
     ev.preventDefault();
-    var g = parseNum($('#x-give').value), t = parseNum($('#x-get').value), date = $('#x-date').value, bad = false;
+    var g = parseAmt($('#x-give').value, exFrom), t = parseAmt($('#x-get').value, exFrom === 'EUR' ? 'RSD' : 'EUR'), date = $('#x-date').value, bad = false;
     $$('#exForm .field.err').forEach(function (f) { f.classList.remove('err'); });
     if (!(g > 0)) { $('#w-xgive').classList.add('err'); bad = true; }
     if (!(t > 0)) { $('#w-xget').classList.add('err'); bad = true; }
@@ -1514,63 +1724,138 @@ html, body { margin: 0; }
     write(sb.from('cash_entries').insert(rows), 'Zamena upisana', function () { closeSheet(); }, { cash: true });
   });
 
+  /* ───── kurs: zvanični srednji kurs NBS, a ako ne stigne, tržišni ───── */
+  var liveRate = null, rateState = 'idle', ratePromise = null;
+  function fmtRate(r) {
+    var p = (Math.round(r * 10000) / 10000).toFixed(4).split('.'), d = p[1].replace(/0+$/, '');
+    return p[0] + ',' + (d + '00').slice(0, Math.max(2, d.length));
+  }
+  function getJson(url) {
+    var ctl = window.AbortController ? new AbortController() : null, t = setTimeout(function () { if (ctl) ctl.abort(); }, 7000);
+    return fetch(url, ctl ? { signal: ctl.signal } : {}).then(function (r) { clearTimeout(t); if (!r.ok) throw new Error('rate'); return r.json(); }, function (e) { clearTimeout(t); throw e; });
+  }
+  function loadRate(force) {
+    if (!window.fetch) { rateState = 'fail'; return Promise.resolve(); }
+    if (!force && liveRate && liveRate.day === today()) { rateState = 'ok'; return Promise.resolve(); }
+    if (ratePromise) return ratePromise;
+    rateState = 'loading';
+    ratePromise = getJson('https://kurs.resenje.org/api/v1/currencies/eur/rates/today').then(function (j) {
+      var v = j && +j.exchange_middle;
+      if (!(v > 90 && v < 150)) throw new Error('rate');
+      liveRate = { v: v, src: 'nbs', date: /^\d{4}-\d{2}-\d{2}$/.test(j.date) ? j.date : today(), day: today() };
+    }).catch(function () {
+      return getJson('https://open.er-api.com/v6/latest/EUR').then(function (j) {
+        var v = j && j.rates && +j.rates.RSD;
+        if (v > 90 && v < 150) liveRate = { v: v, src: 'mkt', date: today(), day: today() };
+      });
+    }).catch(function () {}).then(function () {
+      ratePromise = null;
+      rateState = liveRate && liveRate.day === today() ? 'ok' : 'fail';
+    });
+    return ratePromise;
+  }
+  function rateNote(pre, cur) {
+    if (rateState === 'loading') return 'Proveravam današnji kurs…';
+    if (rateState !== 'ok' || !liveRate) return 'Današnji kurs se nije učitao. Upiši ga ručno. <button type="button" class="link" id="' + pre + 'retry">Pokušaj ponovo</button>';
+    var same = cur > 0 && Math.abs(cur - liveRate.v) < 0.00005;
+    var who = liveRate.src === 'nbs' ? 'Srednji kurs NBS za ' + dayLbl(liveRate.date) : 'Tržišni kurs danas (nije NBS)';
+    return who + ': <b class="num">' + fmtRate(liveRate.v) + '</b> ' + (same ? '<span class="rate-ok">primenjen</span>' : '<button type="button" class="link" id="' + pre + 'use">Koristi ga</button>');
+  }
+  function bindRateNote(el, pre, onUse) {
+    var u = $('#' + pre + 'use', el); if (u) u.addEventListener('click', function () { onUse(liveRate.v); });
+    var r = $('#' + pre + 'retry', el); if (r) r.addEventListener('click', function () { loadRate(true).then(function () { onUse(null); }); onUse(null); });
+  }
+
   /* ───── isplata partneru (evri ili dinari) ───── */
-  var payList = [], payCur = 'EUR', liveRate = null;
-  function fmtRate(r) { return (Math.round(r * 100) / 100).toFixed(2).replace('.', ','); }
-  function payRate() { return parseNum($('#p-rate').value); }
-  function payRsd(rate) { return payList.reduce(function (s, b) { return s + Math.round(calc(b).katTotal / 100 * rate); }, 0); }
+  var payList = [], payCur = 'EUR', payRound = null, payRateTouched = false;
+  function payRate() { return parseRate($('#p-rate').value); }
+  // iznosi u najmanjoj jedinici: evro u centima, dinar u dinarima
+  function payDiv() { return payCur === 'RSD' ? 1 : 100; }
+  function payDue() {
+    if (payCur === 'EUR') return sum(payList, 'katTotal');
+    var r4 = Math.round(payRate() * 10000);
+    return r4 > 0 ? payList.reduce(function (s, b) { return s + Math.floor((calc(b).katTotal * r4 + 500000) / 1e6); }, 0) : NaN;
+  }
+  function roundUp(v, step) { return Math.ceil(v / step - 1e-9) * step; }
+  function payChoices(due) {
+    var out = [{ k: 'exact', v: due }];
+    [100, 500, 1000].forEach(function (st) { var v = roundUp(due, st); if (out.every(function (o) { return o.v !== v; })) out.push({ k: st, v: v }); });
+    return out;
+  }
+  function fieldTxt(v, cur) { if (cur === 'RSD') return grp(Math.round(v)); var t = (v / 100).toFixed(2).split('.'); return grp(t[0]) + ',' + t[1]; }
+  function payAmt(due) {
+    if (payRound === 'custom') { var v = parseAmt($('#p-amt').value, payCur); return isFinite(v) ? Math.round(v * payDiv()) : NaN; }
+    return payRound === null || payRound === 'exact' ? due : roundUp(due, payRound);
+  }
   function updPay() {
-    var eurC = sum(payList, 'katTotal'), rate = payRate(), bal = balances(CASH), rsd = rate > 0 ? payRsd(rate) : NaN;
-    $('#p-eur').textContent = eur(eurC);
-    var isRsd = payCur === 'RSD';
+    var isRsd = payCur === 'RSD', me = state.role === 'partner', div = payDiv(), bal = balances(CASH);
+    var due = payDue(), amt = payAmt(due);
+    $('#p-eur').textContent = eur(sum(payList, 'katTotal'));
     $('#p-rsdrow').hidden = !isRsd;
-    $('#w-prate').hidden = !isRsd;
-    $('#p-live').hidden = !isRsd || !liveRate;
-    $('#p-rsd').textContent = isRsd && rsd > 0 ? money(rsd, 'RSD') : '–';
-    var need = isRsd ? rsd : eurC / 100, have = isRsd ? bal.RSD : bal.EUR;
+    $('#p-rsd').textContent = isRsd && due > 0 ? money(due, 'RSD') : '–';
+    $('#w-prate').hidden = !isRsd; $('#p-live').hidden = !isRsd;
+    $('#w-pamt').hidden = me; $('#p-chips').hidden = me; $('#p-diff').hidden = me;
+    $('#p-amt-u').textContent = isRsd ? 'RSD' : '€';
+    $('#p-amt-l').textContent = 'Iznos koji dajem';
+    if (payRound !== 'custom') $('#p-amt').value = amt > 0 ? fieldTxt(amt, payCur) : '';
+    var ch = me || !(due > 0) ? [] : payChoices(due);
+    $('#p-chips').innerHTML = ch.length > 1 ? ch.map(function (c) {
+      return '<button type="button" class="opt" data-k="' + c.k + '" aria-pressed="' + (amt === c.v) + '">' + (c.k === 'exact' ? 'Tačno ' : '') + fieldTxt(c.v, payCur) + '</button>';
+    }).join('') : '';
+    $$('#p-chips .opt').forEach(function (o) {
+      o.addEventListener('click', function () { payRound = o.dataset.k === 'exact' ? null : +o.dataset.k; updPay(); });
+    });
+    var df = $('#p-diff');
+    if (!me && amt > 0 && due > 0) {
+      var d = amt - due;
+      df.textContent = d === 0 ? 'Tačno po obračunu.' : d > 0 ? money(d / div, payCur) + ' više od obračuna.' : 'Manje od obračuna za ' + money(-d / div, payCur) + '. Isplata će se svejedno voditi kao potpuna.';
+      df.className = d < 0 ? 'warn' : 'hint';
+    } else df.textContent = '';
+    var lv = $('#p-live'); lv.innerHTML = rateNote('p-', payRate());
+    bindRateNote(lv, 'p-', function (v) { if (v) { $('#p-rate').value = fmtRate(v); payRateTouched = false; } updPay(); });
+    var need = amt / div, have = isRsd ? bal.RSD : bal.EUR, short = isFinite(need) && need > have + 0.001;
     var bh = $('#p-bal');
-    bh.textContent = 'U koverti: ' + money(have, payCur) + (isFinite(need) && need > have + 0.001 ? '. Nema dovoljno, ali isplata se svejedno može upisati.' : '.');
-    bh.className = isFinite(need) && need > have + 0.001 ? 'warn' : 'hint';
+    bh.textContent = 'U koverti: ' + money(have, payCur) + (short ? '. Nema dovoljno, ali isplata se svejedno može upisati.' : '.');
+    bh.className = short ? 'warn' : 'hint';
+    $('#p-save').textContent = me ? 'Potvrdi da sam uzela' : (amt > 0 ? 'Potvrdi isplatu ' + money(amt / div, payCur) : 'Potvrdi isplatu');
   }
   function openPay(list) {
     payList = list.slice();
     if (!payList.length) return;
     $('#payT').textContent = state.role === 'partner' ? 'Uzimam svoj deo' : 'Isplata ' + partnerGen();
-    $('#p-save').textContent = state.role === 'partner' ? 'Potvrdi da sam uzela' : 'Potvrdi isplatu';
     $('#p-what').textContent = payList.length === 1
       ? guestName(payList[0]) + ', ' + dayLbl(payList[0].checkIn) + (validDate(payList[0].checkOut) ? ' – ' + dayLbl(payList[0].checkOut) : '')
       : boravak(payList.length) + ', od ' + dayLbl(payList[0].checkIn) + ' do ' + dayLbl(payList[payList.length - 1].checkIn);
     var bal = balances(CASH), eurNeed = sum(payList, 'katTotal') / 100;
     payCur = bal.EUR + 0.001 >= eurNeed || bal.RSD <= 0 ? 'EUR' : 'RSD';
+    payRound = null; payRateTouched = false;
     $('#p-rate').value = fmtRate(S.eurRsd || DEF.eurRsd);
     setOpt('p-cur', payCur);
     $$('#payForm .field.err').forEach(function (f) { f.classList.remove('err'); });
+    if (!(liveRate && liveRate.day === today())) rateState = 'loading';
     updPay();
     openSheet('sh-pay');
-    if (!liveRate && window.fetch) {
-      fetch('https://open.er-api.com/v6/latest/EUR').then(function (r) { return r.json(); }).then(function (j) {
-        var r = j && j.rates && j.rates.RSD;
-        if (r > 90 && r < 150) { liveRate = r; showLive(); updPay(); }
-      }).catch(function () {});
-    } else showLive();
+    loadRate().then(function () {
+      if (!openSheetEl || openSheetEl.id !== 'sh-pay') return;
+      if (rateState === 'ok' && !payRateTouched) $('#p-rate').value = fmtRate(liveRate.v);
+      updPay();
+    });
   }
-  function showLive() {
-    var el = $('#p-live');
-    if (!liveRate) return;
-    el.innerHTML = 'Zvanični kurs danas je oko ' + fmtRate(liveRate) + '. <button type="button" class="link" id="p-uselive">Koristi ga</button>';
-    var b = $('#p-uselive'); if (b) b.addEventListener('click', function () { $('#p-rate').value = fmtRate(liveRate); updPay(); });
-  }
-  $$('#p-cur .opt').forEach(function (o) { o.addEventListener('click', function () { payCur = o.dataset.v; setOpt('p-cur', payCur); updPay(); }); });
-  $('#p-rate').addEventListener('input', updPay);
+  $$('#p-cur .opt').forEach(function (o) { o.addEventListener('click', function () { payCur = o.dataset.v; payRound = null; setOpt('p-cur', payCur); updPay(); }); });
+  $('#p-rate').addEventListener('input', function () { payRateTouched = true; updPay(); });
+  $('#p-amt').addEventListener('input', function () { payRound = 'custom'; updPay(); });
   $('#payForm').addEventListener('submit', function (ev) {
     ev.preventDefault();
-    var rate = payRate();
-    $('#w-prate').classList.remove('err');
-    if (payCur === 'RSD' && !(rate > 50 && rate < 500)) { $('#w-prate').classList.add('err'); toast('Upiši kurs, npr. 117,20', false); return; }
+    var isRsd = payCur === 'RSD', rate = payRate(), div = payDiv(), me = state.role === 'partner';
+    $('#w-prate').classList.remove('err'); $('#w-pamt').classList.remove('err');
+    if (isRsd && !(rate > 50 && rate < 500)) { $('#w-prate').classList.add('err'); toast('Upiši kurs, npr. 117,6089', false); return; }
+    var due = payDue(), amt = me ? due : payAmt(due);
+    if (!(amt > 0) || amt >= (isRsd ? 1e7 : 1e9)) { $('#w-pamt').classList.add('err'); toast('Upiši iznos koji daješ', false); return; }
+    var custom = !me && amt !== due;
     var btn = $('#p-save'); btn.disabled = true;
-    var ids = payList.map(function (b) { return b.id; });
-    var args = { p_ids: ids, p_currency: payCur, p_rate: payCur === 'RSD' ? Math.round(rate * 10000) / 10000 : null, p_date: today() };
-    write(sb.rpc('mark_partner_paid', args), 'Isplata upisana i skinuta iz koverte', function () { closeSheet(); }, { cash: true })
+    var args = { p_ids: payList.map(function (b) { return b.id; }), p_currency: payCur, p_rate: isRsd ? Math.round(rate * 10000) / 10000 : null, p_date: today() };
+    if (custom) args.p_total = amt / div;
+    write(sb.rpc(custom ? 'mark_partner_paid_total' : 'mark_partner_paid', args), custom ? 'Isplata upisana: ' + money(amt / div, payCur) : 'Isplata upisana i skinuta iz koverte', function () { closeSheet(); }, { cash: true })
       .then(function () { btn.disabled = false; });
   });
 
@@ -1587,7 +1872,7 @@ html, body { margin: 0; }
     var withTax = B.filter(function (x) { return x.cityTax > 0; }).sort(function (a, z) { return a.checkIn < z.checkIn ? 1 : -1; });
     return withTax.length ? withTax[0].cityTaxCur : 'RSD';
   }
-  function colRate() { return parseNum($('#k-rate').value); }
+  function colRate() { return parseRate($('#k-rate').value); }
   function colAuto() {
     var g = colB.gross || 0, r = colRate();
     if (colCur === 'EUR') return Math.round(g * 100) / 100;
@@ -1596,7 +1881,8 @@ html, body { margin: 0; }
   function updCollect() {
     var isRsd = colCur === 'RSD', r = colRate(), due = eur(Math.round((colB.gross || 0) * 100));
     $('#w-krate').hidden = !isRsd;
-    $('#k-live').hidden = !isRsd || !liveRate;
+    $('#k-live').hidden = !isRsd;
+    if (isRsd) renderLiveK();
     $('#k-amt-u').textContent = isRsd ? 'RSD' : '€';
     if (!colAmtTouched) { var a = colAuto(); $('#k-amt').value = isFinite(a) ? amtTxt(a, colCur) : ''; }
     $('#k-calc').textContent = isRsd
@@ -1605,11 +1891,9 @@ html, body { margin: 0; }
     $('#k-taxhint').textContent = 'Taksa ide samo tebi i ne deli se sa ' + partnerIns() + '. Ostavi prazno ako je gost nije platio.';
   }
   function partnerIns() { var p = partner(); return /a$/i.test(p) ? p.slice(0, -1) + 'om' : p + 'om'; }
-  function showLiveK() {
-    var el = $('#k-live');
-    if (!liveRate) return;
-    el.innerHTML = 'Zvanični kurs danas je oko ' + fmtRate(liveRate) + '. <button type="button" class="link" id="k-uselive">Koristi ga</button>';
-    var b = $('#k-uselive'); if (b) b.addEventListener('click', function () { $('#k-rate').value = fmtRate(liveRate); colAmtTouched = false; updCollect(); });
+  function renderLiveK() {
+    var el = $('#k-live'); el.innerHTML = rateNote('k-', colRate());
+    bindRateNote(el, 'k-', function (v) { if (v) { $('#k-rate').value = fmtRate(v); colAmtTouched = false; } updCollect(); });
   }
   function openCollect(b) {
     colB = b;
@@ -1627,12 +1911,9 @@ html, body { margin: 0; }
     $$('#colForm .field.err').forEach(function (f) { f.classList.remove('err'); });
     updCollect();
     openSheet('sh-collect');
-    if (!liveRate && window.fetch) {
-      fetch('https://open.er-api.com/v6/latest/EUR').then(function (r) { return r.json(); }).then(function (j) {
-        var r = j && j.rates && j.rates.RSD;
-        if (r > 90 && r < 150) { liveRate = r; showLiveK(); updCollect(); }
-      }).catch(function () {});
-    } else showLiveK();
+    if (!(liveRate && liveRate.day === today())) rateState = 'loading';
+    updCollect();
+    loadRate().then(function () { if (openSheetEl && openSheetEl.id === 'sh-collect') updCollect(); });
   }
   $$('#k-cur .opt').forEach(function (o) { o.addEventListener('click', function () { colCur = o.dataset.v; colAmtTouched = false; setOpt('k-cur', colCur); updCollect(); }); });
   $$('#k-taxcur .opt').forEach(function (o) { o.addEventListener('click', function () { colTaxCur = o.dataset.v; setOpt('k-taxcur', colTaxCur); }); });
@@ -1640,7 +1921,7 @@ html, body { margin: 0; }
   $('#k-amt').addEventListener('input', function () { colAmtTouched = true; });
   $('#colForm').addEventListener('submit', function (ev) {
     ev.preventDefault();
-    var rate = colRate(), amt = parseNum($('#k-amt').value), taxS = $('#k-tax').value.trim(), tax = taxS === '' ? 0 : parseNum(taxS);
+    var rate = colRate(), amt = parseAmt($('#k-amt').value, colCur), taxS = $('#k-tax').value.trim(), tax = taxS === '' ? 0 : parseAmt(taxS, colTaxCur);
     $$('#colForm .field.err').forEach(function (f) { f.classList.remove('err'); });
     if (colCur === 'RSD' && !(rate > 50 && rate < 500)) { $('#w-krate').classList.add('err'); toast('Upiši kurs, npr. 117,20', false); return; }
     if (!(amt > 0) || amt >= 10000000) { $('#w-kamt').classList.add('err'); toast('Upiši koliko si primio', false); return; }
