@@ -688,6 +688,10 @@ body { top: 0 !important; position: static !important; }
         <li><a class="row press" href="#check-in" data-jump="home:check-in"><span class="num">3</span><span class="rx"><span class="rt">Let yourself in</span><span class="rb">Self check-in 24/7, codes arrive a day before</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg></a></li>
       </ol>
 
+      <div class="group" style="margin-top:12px">
+        <a class="row press" href="#parking" data-jump="arrival:parking"><span class="ic"><svg class="i"><use href="#i-square-parking"/></svg></span><span class="rx"><span class="rt">Coming by car?</span><span class="rb">No private spot, but parking on the streets behind the building is free</span></span><svg class="i chev"><use href="#i-chevron-right"/></svg></a>
+      </div>
+
       <h2 class="h-sec">Belgrade basics</h2>
       <div class="basics">
         <div class="tile"><svg class="i"><use href="#i-banknote"/></svg><span class="tl">Serbian dinar</span><span class="tv notranslate" data-rate-short>1 € ≈ 117 RSD</span><span class="tb">Cards widely accepted</span></div>
@@ -737,10 +741,17 @@ body { top: 0 !important; position: static !important; }
         <div class="row"><span class="ic"><svg class="i"><use href="#i-wifi"/></svg></span><span class="rx"><span class="rt">300 Mbps Wi-Fi at home</span><span class="rb">Fast enough for video calls and streaming, so you may not need much mobile data.</span></span></div>
       </div>
 
+      <h2 class="h-sec" id="parking">Parking</h2>
+      <p class="lede">We don't have a parking space of our own, but <b class="hl">parking is free on the streets behind our building</b>. No permit needed.</p>
+      <div class="group">
+        <div class="row"><span class="ic"><svg class="i"><use href="#i-square-parking"/></svg></span><span class="rx"><span class="rt">Free street parking</span><span class="rb">On the streets behind the building, for example <span class="notranslate">Pribojska</span>, <span class="notranslate">Velje Miljkovića</span> and the small streets around them.</span></span></div>
+        <div class="row"><span class="ic"><svg class="i"><use href="#i-info"/></svg></span><span class="rx"><span class="rt">No reserved spot</span><span class="rb">There is no private parking at the building, so spots are first come, first served.</span></span></div>
+      </div>
+      <a class="btn wide press" data-maps="Pribojska, Karaburma, Beograd" target="_blank" rel="noopener" style="margin-top:10px"><svg class="i"><use href="#i-navigation"/></svg>Open the parking area in Maps</a>
+
       <h2 class="h-sec" id="around">Around the building</h2>
       <div class="group">
         <div class="row"><span class="ic"><svg class="i"><use href="#i-map-pin"/></svg></span><span class="rx"><span class="rt notranslate">Višnjička 30, Karaburma</span><span class="rb">Tell your driver: <b class="notranslate">„Karaburma, Višnjička trideset“</b></span></span></div>
-        <div class="row"><span class="ic"><svg class="i"><use href="#i-square-parking"/></svg></span><span class="rx"><span class="rt">Free parking</span><span class="rb">Plenty of spots behind the building, on <span class="notranslate">Zdravka Čelara</span> and the small streets around it. No permit needed.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-bus"/></svg></span><span class="rx"><span class="rt">Bus stop <span class="notranslate">Vuka Vrčevića</span></span><span class="rb">2 min walk. Lines <b>16, 23, 25, 32, 35, 74</b> and the <span class="notranslate">BG:Voz</span> train. Line 16 goes straight to the centre (<span class="notranslate">Zeleni Venac, Terazije</span>) in about 20 min.</span></span></div>
         <div class="row"><span class="ic"><svg class="i"><use href="#i-arrow-up-down"/></svg></span><span class="rx"><span class="rt">Elevator available</span><span class="rb">The apartment is on the 2nd floor, nr. 1 on the left side.</span></span></div>
       </div>
@@ -916,7 +927,7 @@ body { top: 0 !important; position: static !important; }
 
       <div class="book">
         <h2>Stay with us in Belgrade</h2>
-        <p>Self check-in, free parking and everything you need for a great Belgrade stay.</p>
+        <p>Self check-in, free street parking and everything you need for a great Belgrade stay.</p>
         <div class="btns">
           <a class="btn press" href="https://www.airbnb.fr/rooms/1637659167841422262" target="_blank" rel="noopener">Book on Airbnb</a>
           <a class="btn ghost press" href="https://www.booking.com/Share-ilXqEk" target="_blank" rel="noopener">Book on Booking.com</a>
@@ -1169,7 +1180,7 @@ body { top: 0 !important; position: static !important; }
 
   /* ───── Tabs ───── */
   var TABS = ['home', 'arrival', 'explore', 'food', 'info'];
-  var LEGACY = { 'getting-here': 'arrival', 'sim-card': 'arrival', 'check-in': 'home', around: 'arrival', nearby: 'explore', 'see-do': 'explore', transport: 'explore', practical: 'info', 'house-rules': 'info' };
+  var LEGACY = { 'getting-here': 'arrival', 'sim-card': 'arrival', 'check-in': 'home', parking: 'arrival', around: 'arrival', nearby: 'explore', 'see-do': 'explore', transport: 'explore', practical: 'info', 'house-rules': 'info' };
   var cur = 'home', mem = {};
   function go(tab, opts) {
     opts = opts || {};
