@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://visnjicka-apartment.com/sitemap.xml
